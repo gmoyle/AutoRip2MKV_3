@@ -1,0 +1,30 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="AutoRip2MKV.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="HandBrakeParameters" Type="System.String" Scope="User">
+      <Value Profile="(Default)">.mkv" --preset "H.265 MKV 1080p30"</Value>
+    </Setting>
+    <Setting Name="TempPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\temp\Movies</Value>
+    </Setting>
+    <Setting Name="FinalPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">D:\Movies</Value>
+    </Setting>
+    <Setting Name="MinTitleLength" Type="System.String" Scope="User">
+      <Value Profile="(Default)">800</Value>
+    </Setting>
+    <Setting Name="KeepMKV" Type="System.String" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="ConvertWithHandbrake" Type="System.String" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="DVDDrive" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="MakeMKVPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+  </Settings>
+</SettingsFile>
