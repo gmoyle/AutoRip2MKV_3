@@ -72,17 +72,16 @@ namespace AutoRip2MKV
             if (File.Exists (tExpand))
             {
                 //code if key Exist
-                Console.WriteLine("MakeMKV Lives!: {0}", tExpand);
+                //Console.WriteLine("MakeMKV Lives!: {0}", tExpand);
                 Properties.Settings.Default.MakeMKVPath = tExpand;
-                Properties.Settings.Default.Upgrade();
                 Properties.Settings.Default.Save(); // Saves settings in application configuration file
-                Console.WriteLine("makeMKVPath: " + Properties.Settings.Default.MakeMKVPath);
+                //Console.WriteLine("makeMKVPath: " + Properties.Settings.Default.MakeMKVPath);
 
                 if (File.Exists("C:\\Program Files (x86)\\MakeMKV\\MakeMKVcon64.exe"))
                 {
-                    string makeMKV64Exists = "C:\\Program Files(x86)\\MakeMKV\\MakeMKVcon64.exe";
+                    string makeMKV64Exists = "C:\\Program Files(x86)\\MakeMKV\\makemkvcon64.exe";
                     Properties.Settings.Default.MakeMKVPath = makeMKV64Exists;
-                    Properties.Settings.Default.Upgrade();
+                    //Properties.Settings.Default.Upgrade();
                     Properties.Settings.Default.Save(); // Saves settings in application configuration file
                     Console.WriteLine("makeMKV_64_Path: " + Properties.Settings.Default.MakeMKVPath);
 
@@ -119,7 +118,7 @@ namespace AutoRip2MKV
         {
             string keyName = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\makemkvcon.exe";
             string tExpand = (string)Registry.GetValue(keyName, null, "Default if MakeMKV does not exist.");
-            Console.WriteLine("tExpand: " + tExpand);
+            //Console.WriteLine("tExpand: " + tExpand);
             return tExpand;
         }
         /// <summary>
@@ -185,7 +184,7 @@ namespace AutoRip2MKV
         static void Rip2Temp()
         {
             string makeMKVPath = Properties.Settings.Default.MakeMKVPath;
-            Console.WriteLine("makeMKVPath: " + makeMKVPath);
+            Console.WriteLine("Rip makeMKVPath: " + makeMKVPath);
             if (File.Exists(makeMKVPath))
             {
 
@@ -200,6 +199,10 @@ namespace AutoRip2MKV
                 string app = makeMKVPath;
                 Console.WriteLine("Rip2temp: " + app + MakeMKVOptions);
                 LaunchCommandLineApp(app, MakeMKVOptions);
+            }
+            else
+            {
+                Console.WriteLine("no mkv found");
             }
 
 
