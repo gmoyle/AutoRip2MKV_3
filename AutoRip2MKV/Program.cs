@@ -8,21 +8,24 @@ using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using Microsoft.Win32;
 using System.Diagnostics;
+using System.Windows.Forms;
 
 namespace AutoRip2MKV
 {
     class Program
     {
         public static bool Is64BitOperatingSystem { get; private set; }
-
+        // Satisfies rule: MarkWindowsFormsEntryPointsWithStaThread.
+        [STAThread]
         static void Main(string[] args)
         {
-            CheckHandBrakeInstall();
-            CheckMakeMKVInstall();
-            MakeTMPDir();
-            GetDriveInfo();
+            Application.Run(new AutoRip2MKV.Form1());
+            //CheckHandBrakeInstall();
+            //CheckMakeMKVInstall();
+            //MakeTMPDir();
+            //GetDriveInfo();
             //Rip2Temp();
-            Properties.Settings.Default.DVDDrive = @"F:\";
+            //Properties.Settings.Default.DVDDrive = @"F:\";
             //Properties.Settings.Default.Upgrade();
             //Properties.Settings.Default.Save(); // Saves settings in application configuration file
         }
@@ -67,7 +70,7 @@ namespace AutoRip2MKV
 
         static void CheckMakeMKVInstall()
         {
-            string tExpand = checkMakeMKVRegistry();
+            string tExpand = CheckMakeMKVRegistry();
 
             if (File.Exists (tExpand))
             {
@@ -118,7 +121,7 @@ namespace AutoRip2MKV
             }
         }
 
-        public static String checkMakeMKVRegistry()
+        public static String CheckMakeMKVRegistry()
         {
             string keyName = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\makemkvcon.exe";
             string tExpand = (string)Registry.GetValue(keyName, null, "Default if MakeMKV does not exist.");

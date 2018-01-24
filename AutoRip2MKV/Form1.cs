@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutoRip2MKV.Properties;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -20,16 +21,61 @@ namespace AutoRip2MKV
 
         private void Form1_Load(object sender, EventArgs e)
         {
-           // AllocConsole();
+
+            // Set window location
+            if (Settings.Default.WindowLocation != null)
+            {
+                this.Location = Settings.Default.WindowLocation;
+            }
+
+            // Set window size
+            if (Settings.Default.WindowSize != null)
+            {
+                this.Size = Settings.Default.WindowSize;
+            }
+        }
+
+        private void FormMain_FormClosing(object sender, EventArgs e)
+        {
+            // Copy window location to app settings
+            Settings.Default.WindowLocation = this.Location;
+
+            // Copy window size to app settings
+            if (this.WindowState == FormWindowState.Normal)
+            {
+                Settings.Default.WindowSize = this.Size;
+            }
+            else
+            {
+                Settings.Default.WindowSize = this.RestoreBounds.Size;
+            }
+
+            // Save settings
+            Settings.Default.Save();
+            Application.Exit();
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            sender = AutoRip2MKV.Properties.Settings.Default.MakeMKVPath;
         }
 
-        //[DllImport("kernel32.dll", SetLastError = true)]
-        //[return: MarshalAs(UnmanagedType.Bool)]
-        // static extern bool AllocConsole();
+        private void Save_Click(object sender, EventArgs e)
+        {
+
+            // Copy window location to app settings
+            Settings.Default.WindowLocation = this.Location;
+
+            // Copy window size to app settings
+            if (this.WindowState == FormWindowState.Normal)
+            {
+                Settings.Default.WindowSize = this.Size;
+            }
+            else
+            {
+                Settings.Default.WindowSize = this.RestoreBounds.Size;
+            }
+
+            Settings.Default.Save();
+        }
     }
 }

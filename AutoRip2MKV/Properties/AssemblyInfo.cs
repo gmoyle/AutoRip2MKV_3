@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("AutoRip2MKV")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("IGT")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("AutoRip2MKV")]
 [assembly: AssemblyCopyright("Copyright © Greg Moyle 2018")]
 [assembly: AssemblyTrademark("")]
