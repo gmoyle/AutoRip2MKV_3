@@ -22,7 +22,7 @@ namespace AutoRip2MKV
             GetDriveInfo();
             Rip2Temp();
             Console.ReadLine();
-            Properties.Settings.Default.DVDDrive = "F:\\";
+            Properties.Settings.Default.DVDDrive = @"F:\";
             //Properties.Settings.Default.Upgrade();
             //Properties.Settings.Default.Save(); // Saves settings in application configuration file
         }
@@ -30,8 +30,8 @@ namespace AutoRip2MKV
         static void CheckHandBrakeInstall()
         {
             string myExecutablePath = AppDomain.CurrentDomain.BaseDirectory;
-            string handbrakePath = myExecutablePath + "\\HandbrakeCLI\\HandbrakeCLI.exe";
-            string handbrakeZip = myExecutablePath + "\\HandbrakeCLI.zip";
+            string handbrakePath = myExecutablePath + @"\HandbrakeCLI\HandbrakeCLI.exe";
+            string handbrakeZip = myExecutablePath + @"\HandbrakeCLI.zip";
 
 
 
@@ -60,8 +60,8 @@ namespace AutoRip2MKV
 
         public static void Decompress()
         {
-            string handbrakeHomePath = AppDomain.CurrentDomain.BaseDirectory + "\\HandbrakeCLI";
-            string handbrakeZip = AppDomain.CurrentDomain.BaseDirectory + "\\HandbrakeCLI.zip";
+            string handbrakeHomePath = AppDomain.CurrentDomain.BaseDirectory + @"\HandbrakeCLI";
+            string handbrakeZip = AppDomain.CurrentDomain.BaseDirectory + @"\HandbrakeCLI.zip";
             ZipFile.ExtractToDirectory(handbrakeZip, handbrakeHomePath);
         }
 
@@ -77,9 +77,9 @@ namespace AutoRip2MKV
                 Properties.Settings.Default.Save(); // Saves settings in application configuration file
                 //Console.WriteLine("makeMKVPath: " + Properties.Settings.Default.MakeMKVPath);
 
-                if (File.Exists("C:\\Program Files (x86)\\MakeMKV\\MakeMKVcon64.exe"))
+                if (File.Exists(@"C:\Program Files (x86)\makemkv\makemkvcon64.exe"))
                 {
-                    string makeMKV64Exists = "C:\\Program Files(x86)\\MakeMKV\\makemkvcon64.exe";
+                    string makeMKV64Exists = @"C:\Program Files (x86)\MakeMKV\makemkvcon64.exe";
                     Properties.Settings.Default.MakeMKVPath = makeMKV64Exists;
                     //Properties.Settings.Default.Upgrade();
                     Properties.Settings.Default.Save(); // Saves settings in application configuration file
