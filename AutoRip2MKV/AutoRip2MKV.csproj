@@ -91,6 +91,9 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="AutoRip2MKV_TemporaryKey.pfx" />
+    <None Include="HandbrakeCLI.zip">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
