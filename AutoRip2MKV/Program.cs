@@ -13,7 +13,7 @@ namespace AutoRip2MKV
 {
     class Program
     {
-        private static string tExpand;
+        public static bool Is64BitOperatingSystem { get; private set; }
 
         static void Main(string[] args)
         {
@@ -79,11 +79,15 @@ namespace AutoRip2MKV
 
                 if (File.Exists(@"C:\Program Files (x86)\makemkv\makemkvcon64.exe"))
                 {
-                    string makeMKV64Exists = @"C:\Program Files (x86)\MakeMKV\makemkvcon64.exe";
-                    Properties.Settings.Default.MakeMKVPath = makeMKV64Exists;
-                    //Properties.Settings.Default.Upgrade();
-                    Properties.Settings.Default.Save(); // Saves settings in application configuration file
-                    Console.WriteLine("makeMKV_64_Path: " + Properties.Settings.Default.MakeMKVPath);
+                    if (Program.Is64BitOperatingSystem)
+                    {
+                        string makeMKV64Exists = @"C:\Program Files (x86)\MakeMKV\makemkvcon64.exe";
+                        Properties.Settings.Default.MakeMKVPath = makeMKV64Exists;
+                        //Properties.Settings.Default.Upgrade();
+                        Properties.Settings.Default.Save(); // Saves settings in application configuration file
+                        //Console.WriteLine("makeMKV_64_Path: " + Properties.Settings.Default.MakeMKVPath);
+                    }
+
 
                 }
 
@@ -212,7 +216,16 @@ namespace AutoRip2MKV
         {
 
         }
+        static void MakeTMPDir()
+        {
+
+        }
+        static void MakeFinalDir()
+        {
+
+        }
+
 
     }
 
- }
+}
