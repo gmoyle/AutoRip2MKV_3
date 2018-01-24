@@ -19,9 +19,9 @@ namespace AutoRip2MKV
         {
             CheckHandBrakeInstall();
             CheckMakeMKVInstall();
+            MakeTMPDir();
             GetDriveInfo();
-            Rip2Temp();
-            Console.ReadLine();
+            //Rip2Temp();
             Properties.Settings.Default.DVDDrive = @"F:\";
             //Properties.Settings.Default.Upgrade();
             //Properties.Settings.Default.Save(); // Saves settings in application configuration file
@@ -218,11 +218,27 @@ namespace AutoRip2MKV
         }
         static void MakeTMPDir()
         {
-
+            try
+            {
+                Directory.CreateDirectory(Properties.Settings.Default.TempPath);
+                MakeFinalDir();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
         }
         static void MakeFinalDir()
         {
+            try
+            {
+                Directory.CreateDirectory(Properties.Settings.Default.FinalPath);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
 
+            }
         }
 
 
