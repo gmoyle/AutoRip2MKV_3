@@ -135,9 +135,9 @@
             this.checkBox2.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::AutoRip2MKV.Properties.Settings.Default, "KeepAfterConv", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.checkBox2.Location = new System.Drawing.Point(133, 160);
             this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(158, 17);
+            this.checkBox2.Size = new System.Drawing.Size(142, 17);
             this.checkBox2.TabIndex = 23;
-            this.checkBox2.Text = global::AutoRip2MKV.Properties.Settings.Default.KeepAfterConvert;
+            this.checkBox2.Text = "Keep MKV After Convert";
             this.checkBox2.UseVisualStyleBackColor = true;
             this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
             // 
@@ -149,9 +149,9 @@
             this.checkBox1.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::AutoRip2MKV.Properties.Settings.Default, "ConvWithHandbrake", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.checkBox1.Location = new System.Drawing.Point(133, 137);
             this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(144, 17);
+            this.checkBox1.Size = new System.Drawing.Size(141, 17);
             this.checkBox1.TabIndex = 22;
-            this.checkBox1.Text = global::AutoRip2MKV.Properties.Settings.Default.ConvertWithHandbrake;
+            this.checkBox1.Text = "Convert with Handbrake";
             this.checkBox1.UseVisualStyleBackColor = true;
             this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 

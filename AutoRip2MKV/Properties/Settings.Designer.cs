@@ -85,18 +85,6 @@ namespace AutoRip2MKV.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Convert With Handbrake")]
-        public string ConvertWithHandbrake {
-            get {
-                return ((string)(this["ConvertWithHandbrake"]));
-            }
-            set {
-                this["ConvertWithHandbrake"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string DVDDrive {
             get {
@@ -152,18 +140,6 @@ namespace AutoRip2MKV.Properties {
             }
             set {
                 this["ConvWithHandbrake"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Keep MKV After Handbrake")]
-        public string KeepAfterConvert {
-            get {
-                return ((string)(this["KeepAfterConvert"]));
-            }
-            set {
-                this["KeepAfterConvert"] = value;
             }
         }
         
