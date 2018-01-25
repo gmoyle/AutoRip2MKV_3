@@ -18,7 +18,7 @@
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="ConvertWithHandbrake" Type="System.String" Scope="User">
-      <Value Profile="(Default)">False</Value>
+      <Value Profile="(Default)">Convert With Handbrake</Value>
     </Setting>
     <Setting Name="DVDDrive" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
@@ -31,6 +31,18 @@
     </Setting>
     <Setting Name="WindowSize" Type="System.Drawing.Size" Scope="User">
       <Value Profile="(Default)">300, 300</Value>
+    </Setting>
+    <Setting Name="ConvWithHandbrake" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="KeepAfterConvert" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Keep MKV After Handbrake</Value>
+    </Setting>
+    <Setting Name="KeepAfterConv" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="Timout" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
     </Setting>
   </Settings>
 </SettingsFile>

@@ -19,11 +19,12 @@ namespace AutoRip2MKV
         [STAThread]
         static void Main(string[] args)
         {
+
+            CheckHandBrakeInstall();
+            CheckMakeMKVInstall();
+            MakeTMPDir();
+            GetDriveInfo();
             Application.Run(new AutoRip2MKV.Form1());
-            //CheckHandBrakeInstall();
-            //CheckMakeMKVInstall();
-            //MakeTMPDir();
-            //GetDriveInfo();
             //Rip2Temp();
             //Properties.Settings.Default.DVDDrive = @"F:\";
             //Properties.Settings.Default.Upgrade();
@@ -70,6 +71,7 @@ namespace AutoRip2MKV
 
         static void CheckMakeMKVInstall()
         {
+
             string tExpand = CheckMakeMKVRegistry();
 
             if (File.Exists (tExpand))
@@ -82,14 +84,13 @@ namespace AutoRip2MKV
 
                 if (File.Exists(@"C:\Program Files (x86)\makemkv\makemkvcon64.exe"))
                 {
-                    if (Program.Is64BitOperatingSystem)
-                    {
+                   // if (Program.Is64BitOperatingSystem)
+                    //{
                         string makeMKV64Exists = @"C:\Program Files (x86)\MakeMKV\makemkvcon64.exe";
                         Properties.Settings.Default.MakeMKVPath = makeMKV64Exists;
-                        //Properties.Settings.Default.Upgrade();
                         Properties.Settings.Default.Save(); // Saves settings in application configuration file
                         //Console.WriteLine("makeMKV_64_Path: " + Properties.Settings.Default.MakeMKVPath);
-                    }
+                    //}
 
 
                 }

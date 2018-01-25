@@ -85,7 +85,7 @@ namespace AutoRip2MKV.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Convert With Handbrake")]
         public string ConvertWithHandbrake {
             get {
                 return ((string)(this["ConvertWithHandbrake"]));
@@ -140,6 +140,54 @@ namespace AutoRip2MKV.Properties {
             }
             set {
                 this["WindowSize"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ConvWithHandbrake {
+            get {
+                return ((bool)(this["ConvWithHandbrake"]));
+            }
+            set {
+                this["ConvWithHandbrake"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Keep MKV After Handbrake")]
+        public string KeepAfterConvert {
+            get {
+                return ((string)(this["KeepAfterConvert"]));
+            }
+            set {
+                this["KeepAfterConvert"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool KeepAfterConv {
+            get {
+                return ((bool)(this["KeepAfterConv"]));
+            }
+            set {
+                this["KeepAfterConv"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool Timout {
+            get {
+                return ((bool)(this["Timout"]));
+            }
+            set {
+                this["Timout"] = value;
             }
         }
     }

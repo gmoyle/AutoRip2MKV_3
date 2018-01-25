@@ -37,21 +37,6 @@ namespace AutoRip2MKV
 
         private void FormMain_FormClosing(object sender, EventArgs e)
         {
-            // Copy window location to app settings
-            Settings.Default.WindowLocation = this.Location;
-
-            // Copy window size to app settings
-            if (this.WindowState == FormWindowState.Normal)
-            {
-                Settings.Default.WindowSize = this.Size;
-            }
-            else
-            {
-                Settings.Default.WindowSize = this.RestoreBounds.Size;
-            }
-
-            // Save settings
-            Settings.Default.Save();
             Application.Exit();
         }
 
@@ -76,6 +61,21 @@ namespace AutoRip2MKV
             }
 
             Settings.Default.Save();
+        }
+
+        private void makeMKVParams_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void keepMKV_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
