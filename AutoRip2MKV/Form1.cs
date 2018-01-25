@@ -77,5 +77,33 @@ namespace AutoRip2MKV
         {
 
         }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+
+        }
+
+        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
+        {
+
+        }
+
+        private void checkBox2_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox2.Checked)
+            {
+                checkBox1.Checked = true;
+                checkBox2.Checked = true;
+            }
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox1.Checked == false)
+            {
+                checkBox1.Checked = false;
+                checkBox2.Checked = false;
+            }
+        }
     }
 }

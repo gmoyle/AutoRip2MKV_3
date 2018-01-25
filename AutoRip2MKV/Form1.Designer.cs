@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.Save = new System.Windows.Forms.Button();
             this.Close = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
@@ -45,11 +46,14 @@
             this.finalPath = new System.Windows.Forms.TextBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.checkBox3 = new System.Windows.Forms.CheckBox();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // Save
             // 
-            this.Save.Location = new System.Drawing.Point(678, 366);
+            this.Save.Location = new System.Drawing.Point(472, 298);
             this.Save.Name = "Save";
             this.Save.Size = new System.Drawing.Size(75, 23);
             this.Save.TabIndex = 1;
@@ -60,7 +64,7 @@
             // 
             // Close
             // 
-            this.Close.Location = new System.Drawing.Point(839, 365);
+            this.Close.Location = new System.Drawing.Point(910, 298);
             this.Close.Name = "Close";
             this.Close.Size = new System.Drawing.Size(75, 23);
             this.Close.TabIndex = 2;
@@ -71,7 +75,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(75, 30);
+            this.label1.Location = new System.Drawing.Point(8, 32);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(116, 13);
             this.label1.TabIndex = 14;
@@ -81,7 +85,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(109, 56);
+            this.label2.Location = new System.Drawing.Point(42, 58);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(78, 13);
             this.label2.TabIndex = 15;
@@ -90,7 +94,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(109, 82);
+            this.label3.Location = new System.Drawing.Point(42, 84);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(73, 13);
             this.label3.TabIndex = 16;
@@ -99,7 +103,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(109, 216);
+            this.label6.Location = new System.Drawing.Point(42, 218);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(82, 13);
             this.label6.TabIndex = 19;
@@ -108,7 +112,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(133, 190);
+            this.label7.Location = new System.Drawing.Point(66, 192);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(58, 13);
             this.label7.TabIndex = 20;
@@ -117,7 +121,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(84, 108);
+            this.label8.Location = new System.Drawing.Point(17, 110);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(107, 13);
             this.label8.TabIndex = 21;
@@ -129,12 +133,13 @@
             this.checkBox2.Checked = global::AutoRip2MKV.Properties.Settings.Default.KeepAfterConv;
             this.checkBox2.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::AutoRip2MKV.Properties.Settings.Default, "KeepAfterConvert", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.checkBox2.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::AutoRip2MKV.Properties.Settings.Default, "KeepAfterConv", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.checkBox2.Location = new System.Drawing.Point(200, 158);
+            this.checkBox2.Location = new System.Drawing.Point(133, 160);
             this.checkBox2.Name = "checkBox2";
             this.checkBox2.Size = new System.Drawing.Size(158, 17);
             this.checkBox2.TabIndex = 23;
             this.checkBox2.Text = global::AutoRip2MKV.Properties.Settings.Default.KeepAfterConvert;
             this.checkBox2.UseVisualStyleBackColor = true;
+            this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
             // 
             // checkBox1
             // 
@@ -142,64 +147,65 @@
             this.checkBox1.Checked = global::AutoRip2MKV.Properties.Settings.Default.ConvWithHandbrake;
             this.checkBox1.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::AutoRip2MKV.Properties.Settings.Default, "ConvertWithHandbrake", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.checkBox1.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::AutoRip2MKV.Properties.Settings.Default, "ConvWithHandbrake", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.checkBox1.Location = new System.Drawing.Point(200, 135);
+            this.checkBox1.Location = new System.Drawing.Point(133, 137);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(144, 17);
             this.checkBox1.TabIndex = 22;
             this.checkBox1.Text = global::AutoRip2MKV.Properties.Settings.Default.ConvertWithHandbrake;
             this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
             // dvdDriveID
             // 
             this.dvdDriveID.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::AutoRip2MKV.Properties.Settings.Default, "DVDDrive", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.dvdDriveID.Location = new System.Drawing.Point(200, 190);
+            this.dvdDriveID.Location = new System.Drawing.Point(133, 192);
             this.dvdDriveID.Name = "dvdDriveID";
-            this.dvdDriveID.Size = new System.Drawing.Size(257, 20);
+            this.dvdDriveID.Size = new System.Drawing.Size(333, 20);
             this.dvdDriveID.TabIndex = 12;
             this.dvdDriveID.Text = global::AutoRip2MKV.Properties.Settings.Default.DVDDrive;
             // 
             // makeMKVPath
             // 
             this.makeMKVPath.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::AutoRip2MKV.Properties.Settings.Default, "MakeMKVPath", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.makeMKVPath.Location = new System.Drawing.Point(200, 216);
+            this.makeMKVPath.Location = new System.Drawing.Point(133, 218);
             this.makeMKVPath.Name = "makeMKVPath";
-            this.makeMKVPath.Size = new System.Drawing.Size(257, 20);
+            this.makeMKVPath.Size = new System.Drawing.Size(333, 20);
             this.makeMKVPath.TabIndex = 11;
             this.makeMKVPath.Text = global::AutoRip2MKV.Properties.Settings.Default.MakeMKVPath;
             // 
             // handbrakeParams
             // 
             this.handbrakeParams.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::AutoRip2MKV.Properties.Settings.Default, "HandBrakeParameters", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.handbrakeParams.Location = new System.Drawing.Point(197, 30);
+            this.handbrakeParams.Location = new System.Drawing.Point(130, 32);
             this.handbrakeParams.Name = "handbrakeParams";
-            this.handbrakeParams.Size = new System.Drawing.Size(257, 20);
+            this.handbrakeParams.Size = new System.Drawing.Size(333, 20);
             this.handbrakeParams.TabIndex = 6;
             this.handbrakeParams.Text = global::AutoRip2MKV.Properties.Settings.Default.HandBrakeParameters;
             // 
             // tempPath
             // 
             this.tempPath.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::AutoRip2MKV.Properties.Settings.Default, "TempPath", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.tempPath.Location = new System.Drawing.Point(197, 56);
+            this.tempPath.Location = new System.Drawing.Point(130, 58);
             this.tempPath.Name = "tempPath";
-            this.tempPath.Size = new System.Drawing.Size(257, 20);
+            this.tempPath.Size = new System.Drawing.Size(333, 20);
             this.tempPath.TabIndex = 5;
             this.tempPath.Text = global::AutoRip2MKV.Properties.Settings.Default.TempPath;
             // 
             // finalPath
             // 
             this.finalPath.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::AutoRip2MKV.Properties.Settings.Default, "FinalPath", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.finalPath.Location = new System.Drawing.Point(197, 82);
+            this.finalPath.Location = new System.Drawing.Point(130, 84);
             this.finalPath.Name = "finalPath";
-            this.finalPath.Size = new System.Drawing.Size(257, 20);
+            this.finalPath.Size = new System.Drawing.Size(333, 20);
             this.finalPath.TabIndex = 4;
             this.finalPath.Text = global::AutoRip2MKV.Properties.Settings.Default.FinalPath;
             // 
             // textBox2
             // 
             this.textBox2.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::AutoRip2MKV.Properties.Settings.Default, "MinTitleLength", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.textBox2.Location = new System.Drawing.Point(197, 108);
+            this.textBox2.Location = new System.Drawing.Point(130, 110);
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(257, 20);
+            this.textBox2.Size = new System.Drawing.Size(333, 20);
             this.textBox2.TabIndex = 3;
             this.textBox2.Text = global::AutoRip2MKV.Properties.Settings.Default.MinTitleLength;
             // 
@@ -216,11 +222,28 @@
             this.checkBox3.Text = "Auto Convert After Timeout";
             this.checkBox3.UseVisualStyleBackColor = true;
             // 
+            // timer1
+            // 
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // backgroundWorker1
+            // 
+            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(472, 30);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(513, 262);
+            this.textBox1.TabIndex = 26;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1014, 453);
+            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.checkBox3);
             this.Controls.Add(this.checkBox2);
             this.Controls.Add(this.checkBox1);
@@ -264,5 +287,8 @@
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.CheckBox checkBox3;
+        private System.Windows.Forms.Timer timer1;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }
