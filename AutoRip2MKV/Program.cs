@@ -24,7 +24,7 @@ namespace AutoRip2MKV
             CheckMakeMKVInstall();
             MakeTMPDir();
             GetDriveInfo();
-            Application.Run(new AutoRip2MKV.Form1());
+            Application.Run(new AutoRip2MKV.Preferences());
             //Rip2Temp();
             //Properties.Settings.Default.DVDDrive = @"F:\";
             //Properties.Settings.Default.Upgrade();
@@ -202,7 +202,7 @@ namespace AutoRip2MKV
                 string driveLabel = Program.GetDriveInfo();
 
                 //string MakeMKVOptions = "bot --directio=true --messages \"" + tempPath + "\\MKVrip.txt \" --decrypt --minlength=" + minTitleLength + " mkv disc:" +  driveID + " " + driveLabel + "/" + tempPath + "/";
-                string MakeMKVOptions = " mkv --decrypt --noscan --minlength=1200 --robot --directio=true disc:0 all " + tempPath;
+                string MakeMKVOptions = " mkv --decrypt --noscan --minlength=1200 --robot --directio=true disc:0 1 " + tempPath;
 
                 string app = makeMKVPath;
                 Console.WriteLine("Rip2temp: " + app + MakeMKVOptions);

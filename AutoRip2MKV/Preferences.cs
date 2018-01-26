@@ -12,14 +12,14 @@ using System.Windows.Forms;
 
 namespace AutoRip2MKV
 {
-    public partial class Form1 : Form
+    public partial class Preferences : Form
     {
 
         // This integer variable keeps track of the 
         // remaining time.
         int timeLeft;
 
-        public Form1()
+        public Preferences()
         {
             InitializeComponent();
             if (Settings.Default.Timout)
@@ -70,7 +70,7 @@ namespace AutoRip2MKV
                 Settings.Default.WindowSize = this.RestoreBounds.Size;
             }
 
-            Settings.Default.Save();
+            Settings.Default.S;
         }
 
         private void makeMKVParams_TextChanged(object sender, EventArgs e)
