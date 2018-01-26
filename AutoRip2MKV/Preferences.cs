@@ -70,7 +70,7 @@ namespace AutoRip2MKV
                 Settings.Default.WindowSize = this.RestoreBounds.Size;
             }
 
-            Settings.Default.S;
+            Settings.Default.Save();
         }
 
         private void makeMKVParams_TextChanged(object sender, EventArgs e)
