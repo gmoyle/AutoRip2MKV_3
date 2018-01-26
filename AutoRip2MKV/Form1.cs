@@ -14,9 +14,19 @@ namespace AutoRip2MKV
 {
     public partial class Form1 : Form
     {
+
+        // This integer variable keeps track of the 
+        // remaining time.
+        int timeLeft;
+
         public Form1()
         {
             InitializeComponent();
+            if (Settings.Default.Timout)
+            {
+                StartTheTimer();
+            }
+
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -37,7 +47,7 @@ namespace AutoRip2MKV
 
         private void FormMain_FormClosing(object sender, EventArgs e)
         {
-            Application.Exit();
+            this.Close();
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -80,7 +90,23 @@ namespace AutoRip2MKV
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-
+            if (timeLeft > 0)
+            {
+                // Display the new time left
+                // by updating the Time Left label.
+                timeLeft = timeLeft - 1;
+                timeLabel.Visible = true;
+                timeLabel.Text = timeLeft + " seconds";
+            }
+            else
+            {
+                // If the user ran out of time, stop the timer, show
+                // a MessageBox, and fill in the answers.
+                timer1.Stop();
+                timeLabel.Text = "AutoRip Executed!";
+                Program.Rip2Temp();
+                this.Hide();
+            }
         }
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
@@ -104,6 +130,35 @@ namespace AutoRip2MKV
                 checkBox1.Checked = false;
                 checkBox2.Checked = false;
             }
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        public void StartTheTimer()
+        {
+
+            // Start the timer.
+            timeLeft = 5;
+            timeLabel.Text = "5 seconds";
+            timer1.Start();
+        }
+
+        private void checkBox3_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox3.Checked == true)
+            {
+                timeLabel.Visible = true;
+                StartTheTimer();
+            }
+            else
+            {
+                timer1.Stop();
+                timeLabel.Visible = false;
+            }
+
         }
     }
 }

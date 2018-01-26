@@ -49,6 +49,7 @@
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.textBox1 = new System.Windows.Forms.TextBox();
+            this.timeLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // Save
@@ -221,9 +222,11 @@
             this.checkBox3.TabIndex = 25;
             this.checkBox3.Text = "Auto Convert After Timeout";
             this.checkBox3.UseVisualStyleBackColor = true;
+            this.checkBox3.CheckedChanged += new System.EventHandler(this.checkBox3_CheckedChanged);
             // 
             // timer1
             // 
+            this.timer1.Interval = 1000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // backgroundWorker1
@@ -238,11 +241,22 @@
             this.textBox1.Size = new System.Drawing.Size(513, 262);
             this.textBox1.TabIndex = 26;
             // 
+            // timeLabel
+            // 
+            this.timeLabel.AutoSize = true;
+            this.timeLabel.Location = new System.Drawing.Point(226, 298);
+            this.timeLabel.Name = "timeLabel";
+            this.timeLabel.Size = new System.Drawing.Size(64, 13);
+            this.timeLabel.TabIndex = 27;
+            this.timeLabel.Text = "30 Seconds";
+            this.timeLabel.Visible = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1014, 453);
+            this.Controls.Add(this.timeLabel);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.checkBox3);
             this.Controls.Add(this.checkBox2);
@@ -290,5 +304,6 @@
         private System.Windows.Forms.Timer timer1;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label timeLabel;
     }
 }

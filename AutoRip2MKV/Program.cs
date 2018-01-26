@@ -189,7 +189,7 @@ namespace AutoRip2MKV
 
         }
 
-        static void Rip2Temp()
+        public static void Rip2Temp()
         {
             string makeMKVPath = Properties.Settings.Default.MakeMKVPath;
             Console.WriteLine("Rip makeMKVPath: " + makeMKVPath);
@@ -213,7 +213,7 @@ namespace AutoRip2MKV
                 Console.WriteLine("no mkv found");
             }
 
-
+            Environment.Exit(0);
         }
 
         static void Rip2Final()
