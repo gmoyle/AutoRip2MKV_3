@@ -37,6 +37,11 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.timeLabel = new System.Windows.Forms.Label();
+            this.checkBox3 = new System.Windows.Forms.CheckBox();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.dvdDriveID = new System.Windows.Forms.TextBox();
@@ -45,11 +50,8 @@
             this.tempPath = new System.Windows.Forms.TextBox();
             this.finalPath = new System.Windows.Forms.TextBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
-            this.checkBox3 = new System.Windows.Forms.CheckBox();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.timeLabel = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.textBox3 = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // Save
@@ -127,6 +129,47 @@
             this.label8.Size = new System.Drawing.Size(107, 13);
             this.label8.TabIndex = 21;
             this.label8.Text = "Minimum Title Length";
+            // 
+            // timer1
+            // 
+            this.timer1.Interval = 1000;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // backgroundWorker1
+            // 
+            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(472, 30);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(513, 262);
+            this.textBox1.TabIndex = 26;
+            // 
+            // timeLabel
+            // 
+            this.timeLabel.AutoSize = true;
+            this.timeLabel.Location = new System.Drawing.Point(226, 298);
+            this.timeLabel.Name = "timeLabel";
+            this.timeLabel.Size = new System.Drawing.Size(64, 13);
+            this.timeLabel.TabIndex = 27;
+            this.timeLabel.Text = "30 Seconds";
+            this.timeLabel.Visible = false;
+            // 
+            // checkBox3
+            // 
+            this.checkBox3.AutoSize = true;
+            this.checkBox3.Checked = global::AutoRip2MKV.Properties.Settings.Default.Timout;
+            this.checkBox3.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox3.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::AutoRip2MKV.Properties.Settings.Default, "Timout", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.checkBox3.Location = new System.Drawing.Point(200, 275);
+            this.checkBox3.Name = "checkBox3";
+            this.checkBox3.Size = new System.Drawing.Size(154, 17);
+            this.checkBox3.TabIndex = 25;
+            this.checkBox3.Text = "Auto Convert After Timeout";
+            this.checkBox3.UseVisualStyleBackColor = true;
+            this.checkBox3.CheckedChanged += new System.EventHandler(this.checkBox3_CheckedChanged);
             // 
             // checkBox2
             // 
@@ -210,52 +253,32 @@
             this.textBox2.TabIndex = 3;
             this.textBox2.Text = global::AutoRip2MKV.Properties.Settings.Default.MinTitleLength;
             // 
-            // checkBox3
+            // label4
             // 
-            this.checkBox3.AutoSize = true;
-            this.checkBox3.Checked = global::AutoRip2MKV.Properties.Settings.Default.Timout;
-            this.checkBox3.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox3.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::AutoRip2MKV.Properties.Settings.Default, "Timout", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.checkBox3.Location = new System.Drawing.Point(200, 275);
-            this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(154, 17);
-            this.checkBox3.TabIndex = 25;
-            this.checkBox3.Text = "Auto Convert After Timeout";
-            this.checkBox3.UseVisualStyleBackColor = true;
-            this.checkBox3.CheckedChanged += new System.EventHandler(this.checkBox3_CheckedChanged);
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(56, 9);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(64, 13);
+            this.label4.TabIndex = 28;
+            this.label4.Text = "Current Title";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
-            // timer1
+            // textBox3
             // 
-            this.timer1.Interval = 1000;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-            // 
-            // backgroundWorker1
-            // 
-            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(472, 30);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(513, 262);
-            this.textBox1.TabIndex = 26;
-            // 
-            // timeLabel
-            // 
-            this.timeLabel.AutoSize = true;
-            this.timeLabel.Location = new System.Drawing.Point(226, 298);
-            this.timeLabel.Name = "timeLabel";
-            this.timeLabel.Size = new System.Drawing.Size(64, 13);
-            this.timeLabel.TabIndex = 27;
-            this.timeLabel.Text = "30 Seconds";
-            this.timeLabel.Visible = false;
+            this.textBox3.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::AutoRip2MKV.Properties.Settings.Default, "CurrentTitle", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.textBox3.Location = new System.Drawing.Point(130, 2);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(333, 20);
+            this.textBox3.TabIndex = 29;
+            this.textBox3.Text = global::AutoRip2MKV.Properties.Settings.Default.CurrentTitle;
             // 
             // Preferences
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1003, 333);
+            this.Controls.Add(this.textBox3);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.timeLabel);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.checkBox3);
@@ -305,5 +328,7 @@
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label timeLabel;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox textBox3;
     }
 }

@@ -166,5 +166,17 @@ namespace AutoRip2MKV.Properties {
                 this["Timout"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string CurrentTitle {
+            get {
+                return ((string)(this["CurrentTitle"]));
+            }
+            set {
+                this["CurrentTitle"] = value;
+            }
+        }
     }
 }

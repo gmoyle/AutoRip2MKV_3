@@ -23,12 +23,15 @@ namespace AutoRip2MKV
             CheckHandBrakeInstall();
             CheckMakeMKVInstall();
             MakeTMPDir();
-            GetDriveInfo();
+            var dvdDriveToUse = GetDriveInfo("drive");
+            var currentTitle = GetDriveInfo("label");
+            Properties.Settings.Default.CurrentTitle = currentTitle;
+            Properties.Settings.Default.DVDDrive = dvdDriveToUse;
+            Properties.Settings.Default.Save(); // Saves settings in application configuration file
+            Properties.Settings.Default.Upgrade();
             Application.Run(new AutoRip2MKV.Preferences());
             //Rip2Temp();
-            //Properties.Settings.Default.DVDDrive = @"F:\";
-            //Properties.Settings.Default.Upgrade();
-            Properties.Settings.Default.Save(); // Saves settings in application configuration file
+
         }
 
         static void CheckHandBrakeInstall()
@@ -161,7 +164,7 @@ namespace AutoRip2MKV
             }
         }
 
-        public static string GetDriveInfo()
+        public static string GetDriveInfo(string results)
         {
             DriveInfo[] allDrives = DriveInfo.GetDrives();
 
@@ -171,8 +174,17 @@ namespace AutoRip2MKV
                 {
                     if (d.DriveFormat == "UDF" || d.DriveFormat == "CDRom" || d.DriveFormat == "M-Disc" || d.DriveFormat == "M2TS")
                     {
-                        string volumeLabel = RemoveSpecialCharacters(d.VolumeLabel);
-                        return volumeLabel;
+                        if (results == "label")
+                        { 
+                            string volumeLabel = GetVolumeLabel(d.VolumeLabel);
+                            return volumeLabel;
+                        }
+                        else if (results == "drive")
+                        {
+                            string drivePath = d.Name;
+                            return drivePath;
+                        }
+
                     }
                 }
                 else
@@ -182,11 +194,22 @@ namespace AutoRip2MKV
             }
             return "Default";
         }
-        public static string RemoveSpecialCharacters(string fileName)
+        public static string GetVolumeLabel(string fileName)
         {
             string driveLabel = Path.GetInvalidFileNameChars().Aggregate(fileName, (current, c) => current.Replace(c.ToString(), string.Empty));
             return driveLabel;
 
+        }
+
+        public static void RenameFiles(string filename)
+        {
+            DirectoryInfo d = new DirectoryInfo(Properties.Settings.Default.TempPath);
+            FileInfo[] files = d.GetFiles();
+
+            foreach (FileInfo f in files)
+            {
+                File.Move(f.FullName, f.FullName.Replace("title", filename));
+            }
         }
 
         public static void Rip2Temp()
@@ -199,9 +222,7 @@ namespace AutoRip2MKV
                 string tempPath = Properties.Settings.Default.TempPath;
                 string minTitleLength = Properties.Settings.Default.MinTitleLength;
                 string driveID = Properties.Settings.Default.DVDDrive;
-                string driveLabel = Program.GetDriveInfo();
 
-                //string MakeMKVOptions = "bot --directio=true --messages \"" + tempPath + "\\MKVrip.txt \" --decrypt --minlength=" + minTitleLength + " mkv disc:" +  driveID + " " + driveLabel + "/" + tempPath + "/";
                 string MakeMKVOptions = " mkv --decrypt --noscan --minlength=1200 --robot --directio=true disc:0 1 " + tempPath;
 
                 string app = makeMKVPath;
@@ -212,6 +233,9 @@ namespace AutoRip2MKV
             {
                 Console.WriteLine("no mkv found");
             }
+
+            RenameFiles(Properties.Settings.Default.CurrentTitle);
+
             Properties.Settings.Default.Save();
             Environment.Exit(0);
         }
