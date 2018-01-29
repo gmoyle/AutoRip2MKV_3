@@ -58,19 +58,20 @@ namespace AutoRip2MKV
         {
 
             // Copy window location to app settings
-            Settings.Default.WindowLocation = this.Location;
+            Properties.Settings.Default.WindowLocation = this.Location;
+            Properties.Settings.Default.WindowSize = this.Size;
 
             // Copy window size to app settings
             if (this.WindowState == FormWindowState.Normal)
             {
-                Settings.Default.WindowSize = this.Size;
+                Properties.Settings.Default.WindowSize = this.Size;
             }
             else
             {
-                Settings.Default.WindowSize = this.RestoreBounds.Size;
+                Properties.Settings.Default.WindowSize = this.RestoreBounds.Size;
             }
 
-            Settings.Default.Save();
+            Properties.Settings.Default.Save();
         }
 
         private void makeMKVParams_TextChanged(object sender, EventArgs e)

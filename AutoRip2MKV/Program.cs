@@ -28,7 +28,7 @@ namespace AutoRip2MKV
             //Rip2Temp();
             //Properties.Settings.Default.DVDDrive = @"F:\";
             //Properties.Settings.Default.Upgrade();
-            //Properties.Settings.Default.Save(); // Saves settings in application configuration file
+            Properties.Settings.Default.Save(); // Saves settings in application configuration file
         }
 
         static void CheckHandBrakeInstall()
@@ -212,7 +212,7 @@ namespace AutoRip2MKV
             {
                 Console.WriteLine("no mkv found");
             }
-
+            Properties.Settings.Default.Save();
             Environment.Exit(0);
         }
 
