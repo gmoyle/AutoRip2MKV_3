@@ -306,7 +306,7 @@
 
         #endregion
         private System.Windows.Forms.Button Save;
-        private System.Windows.Forms.Button Close;
+        private new System.Windows.Forms.Button Close;
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.TextBox finalPath;
         private System.Windows.Forms.TextBox tempPath;

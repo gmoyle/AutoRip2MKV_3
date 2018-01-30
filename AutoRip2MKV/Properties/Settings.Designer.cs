@@ -37,7 +37,7 @@ namespace AutoRip2MKV.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("C:\\temp\\Movies")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string TempPath {
             get {
                 return ((string)(this["TempPath"]));
@@ -49,7 +49,7 @@ namespace AutoRip2MKV.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("D:\\Movies")]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Movies")]
         public string FinalPath {
             get {
                 return ((string)(this["FinalPath"]));
@@ -61,7 +61,7 @@ namespace AutoRip2MKV.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("800")]
+        [global::System.Configuration.DefaultSettingValueAttribute("1200")]
         public string MinTitleLength {
             get {
                 return ((string)(this["MinTitleLength"]));
@@ -157,7 +157,7 @@ namespace AutoRip2MKV.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool Timout {
             get {
                 return ((bool)(this["Timout"]));
