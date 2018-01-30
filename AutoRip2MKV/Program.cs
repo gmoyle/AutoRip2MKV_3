@@ -169,6 +169,7 @@ namespace AutoRip2MKV
                 if (exeProcess.ExitCode == 0)
                 {
                     RenameFiles();
+                    MoveFilesToFinalDestination();
                     return;
                 }
                 else 
@@ -236,6 +237,12 @@ namespace AutoRip2MKV
             {
                 File.Move(f.FullName, f.FullName.Replace("title", CurrentTitle));
             }
+            return;
+        }
+
+        public static void MoveFilesToFinalDestination()
+        {
+            Directory.Move(Properties.Settings.Default.TempPath + "\\" + CurrentTitle, Properties.Settings.Default.FinalPath + "\\" + CurrentTitle);
             return;
         }
 
