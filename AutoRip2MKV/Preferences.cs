@@ -106,6 +106,7 @@ namespace AutoRip2MKV
                 // a MessageBox, and fill in the answers.
                 timer1.Stop();
                 timeLabel.Text = "AutoRip Executed!";
+                this.Hide();
                 if (Properties.Settings.Default.TempPath == null)
                 {
                     Program.Rip2MKV(Properties.Settings.Default.FinalPath);
@@ -114,9 +115,8 @@ namespace AutoRip2MKV
                 {
                     Program.Rip2MKV(Properties.Settings.Default.TempPath);
                 }
-
-                this.Hide();
             }
+            this.Show();
         }
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
@@ -158,7 +158,7 @@ namespace AutoRip2MKV
 
         private void checkBox3_CheckedChanged(object sender, EventArgs e)
         {
-            if (checkBox3.Checked == true)
+            if (AutoConvert.Checked == true)
             {
                 timeLabel.Visible = true;
                 StartTheTimer();

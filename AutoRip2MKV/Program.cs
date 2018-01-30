@@ -29,6 +29,7 @@ namespace AutoRip2MKV
             var CurrentTitle = GetDriveInfo("label");
             Properties.Settings.Default.CurrentTitle = CurrentTitle;
             Properties.Settings.Default.DVDDrive = DVDDriveToUse;
+            Program.CheckVariables();
             Properties.Settings.Default.Save(); // Saves settings in application configuration file
             Properties.Settings.Default.Upgrade();
 
@@ -63,6 +64,7 @@ namespace AutoRip2MKV
                     
             }
             Console.WriteLine(myExecutablePath);
+            return;
 
         }
 
@@ -71,6 +73,7 @@ namespace AutoRip2MKV
             string handbrakeHomePath = AppDomain.CurrentDomain.BaseDirectory + @"\HandbrakeCLI";
             string handbrakeZip = AppDomain.CurrentDomain.BaseDirectory + @"\HandbrakeCLI.zip";
             ZipFile.ExtractToDirectory(handbrakeZip, handbrakeHomePath);
+            return;
         }
 
         static void CheckMakeMKVInstall()
@@ -125,6 +128,7 @@ namespace AutoRip2MKV
                 }
 
             }
+            return;
         }
 
         public static String CheckMakeMKVRegistry()
@@ -162,22 +166,28 @@ namespace AutoRip2MKV
                     // Wait 2 seconds.
                     System.Threading.Thread.Sleep(2000);
                 }
-                if (exeProcess.ExitCode >= 1)
+                if (exeProcess.ExitCode == 0)
                 {
                     RenameFiles();
+                    return;
                 }
                 else 
                 {
                     //Directory.Delete(topPath, true);
                     CleanupFailedRip();
+                    return;
                 }
             }
             catch
             {
+                Console.WriteLine("app execution failed");
+            }
+            finally
+            {
                 Environment.Exit(0);
             }
 
-
+            return;
         }
 
         public static string GetDriveInfo(string results)
@@ -226,10 +236,12 @@ namespace AutoRip2MKV
             {
                 File.Move(f.FullName, f.FullName.Replace("title", CurrentTitle));
             }
+            return;
         }
 
         public static void Rip2MKV(string destination)
         {
+            CurrentTitle = Properties.Settings.Default.CurrentTitle;
             Program.MakeWorkingDirs();
 
             string makeMKVPath = Properties.Settings.Default.MakeMKVPath;
@@ -271,7 +283,36 @@ namespace AutoRip2MKV
             
             Properties.Settings.Default.Save();
             Properties.Settings.Default.Upgrade();
-            Environment.Exit(0);
+            return;
+        }
+
+        static void CheckVariables()
+        {
+            try
+            {
+                Directory.CreateDirectory(Properties.Settings.Default.TempPath);
+            }
+            catch
+            {
+                Properties.Settings.Default.TempPath = null;
+            }
+
+            try
+            {
+                Directory.CreateDirectory(Properties.Settings.Default.FinalPath);
+            }
+            catch
+            {
+                Properties.Settings.Default.FinalPath = null;
+            }
+
+            if (Properties.Settings.Default.FinalPath == null && Properties.Settings.Default.TempPath == null)
+            {
+                Properties.Settings.Default.Timout = false;
+                Properties.Settings.Default.Save(); // Saves settings in application configuration file
+                Properties.Settings.Default.Upgrade();
+            }
+            return;
         }
 
         static void CleanupFailedRip()
@@ -284,6 +325,7 @@ namespace AutoRip2MKV
             {
                 Directory.Delete(Properties.Settings.Default.TempPath + "\\" + CurrentTitle, true);
             }
+            return;
         }
         public static void MakeWorkingDirs()
         {
@@ -303,6 +345,7 @@ namespace AutoRip2MKV
             {
                 Console.WriteLine(ex);
             }
+            return;
         }
     }
 }

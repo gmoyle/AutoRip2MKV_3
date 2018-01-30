@@ -41,7 +41,7 @@
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.timeLabel = new System.Windows.Forms.Label();
-            this.checkBox3 = new System.Windows.Forms.CheckBox();
+            this.AutoConvert = new System.Windows.Forms.CheckBox();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.dvdDriveID = new System.Windows.Forms.TextBox();
@@ -157,19 +157,19 @@
             this.timeLabel.Text = "30 Seconds";
             this.timeLabel.Visible = false;
             // 
-            // checkBox3
+            // AutoConvert
             // 
-            this.checkBox3.AutoSize = true;
-            this.checkBox3.Checked = global::AutoRip2MKV.Properties.Settings.Default.Timout;
-            this.checkBox3.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox3.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::AutoRip2MKV.Properties.Settings.Default, "Timout", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.checkBox3.Location = new System.Drawing.Point(200, 275);
-            this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(154, 17);
-            this.checkBox3.TabIndex = 25;
-            this.checkBox3.Text = "Auto Convert After Timeout";
-            this.checkBox3.UseVisualStyleBackColor = true;
-            this.checkBox3.CheckedChanged += new System.EventHandler(this.checkBox3_CheckedChanged);
+            this.AutoConvert.AutoSize = true;
+            this.AutoConvert.Checked = global::AutoRip2MKV.Properties.Settings.Default.Timout;
+            this.AutoConvert.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.AutoConvert.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::AutoRip2MKV.Properties.Settings.Default, "Timout", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.AutoConvert.Location = new System.Drawing.Point(200, 275);
+            this.AutoConvert.Name = "AutoConvert";
+            this.AutoConvert.Size = new System.Drawing.Size(154, 17);
+            this.AutoConvert.TabIndex = 25;
+            this.AutoConvert.Text = "Auto Convert After Timeout";
+            this.AutoConvert.UseVisualStyleBackColor = true;
+            this.AutoConvert.CheckedChanged += new System.EventHandler(this.checkBox3_CheckedChanged);
             // 
             // checkBox2
             // 
@@ -279,7 +279,7 @@
             this.Controls.Add(this.label4);
             this.Controls.Add(this.timeLabel);
             this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.checkBox3);
+            this.Controls.Add(this.AutoConvert);
             this.Controls.Add(this.checkBox2);
             this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.label8);
@@ -321,7 +321,7 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.CheckBox checkBox2;
-        private System.Windows.Forms.CheckBox checkBox3;
+        private System.Windows.Forms.CheckBox AutoConvert;
         private System.Windows.Forms.Timer timer1;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.TextBox textBox1;
