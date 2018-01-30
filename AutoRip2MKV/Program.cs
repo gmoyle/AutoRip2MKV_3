@@ -242,13 +242,13 @@ namespace AutoRip2MKV
 
         public static void MoveFilesToFinalDestination()
         {
+            CurrentTitle = Properties.Settings.Default.CurrentTitle;
             Directory.Move(Properties.Settings.Default.TempPath + "\\" + CurrentTitle, Properties.Settings.Default.FinalPath + "\\" + CurrentTitle);
             return;
         }
 
         public static void Rip2MKV(string destination)
         {
-            CurrentTitle = Properties.Settings.Default.CurrentTitle;
             Program.MakeWorkingDirs();
 
             string makeMKVPath = Properties.Settings.Default.MakeMKVPath;
