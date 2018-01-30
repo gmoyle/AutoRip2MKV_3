@@ -22,16 +22,14 @@ namespace AutoRip2MKV
 
             CheckHandBrakeInstall();
             CheckMakeMKVInstall();
-            MakeTMPDir();
             var dvdDriveToUse = GetDriveInfo("drive");
             var currentTitle = GetDriveInfo("label");
             Properties.Settings.Default.CurrentTitle = currentTitle;
             Properties.Settings.Default.DVDDrive = dvdDriveToUse;
             Properties.Settings.Default.Save(); // Saves settings in application configuration file
             Properties.Settings.Default.Upgrade();
-            Application.Run(new AutoRip2MKV.Preferences());
-            //Rip2Temp();
 
+            Application.Run(new AutoRip2MKV.Preferences());
         }
 
         static void CheckHandBrakeInstall()
@@ -92,7 +90,8 @@ namespace AutoRip2MKV
                         string makeMKV64Exists = @"C:\Program Files (x86)\MakeMKV\makemkvcon64.exe";
                         Properties.Settings.Default.MakeMKVPath = makeMKV64Exists;
                         Properties.Settings.Default.Save(); // Saves settings in application configuration file
-                        //Console.WriteLine("makeMKV_64_Path: " + Properties.Settings.Default.MakeMKVPath);
+                        Properties.Settings.Default.Upgrade();
+                    //Console.WriteLine("makeMKV_64_Path: " + Properties.Settings.Default.MakeMKVPath);
                     //}
 
 
@@ -151,17 +150,31 @@ namespace AutoRip2MKV
 
             try
             {
-                // Start the process with the info we specified.
-                // Call WaitForExit and then the using statement will close.
-                using (Process exeProcess = Process.Start(startInfo))
+                Process exeProcess = Process.Start(startInfo);
+
+                while (!exeProcess.HasExited)
                 {
-                    exeProcess.WaitForExit();
+                    // Discard cached information about the process.
+                    exeProcess.Refresh();
+                    // Wait 2 seconds.
+                    System.Threading.Thread.Sleep(2000);
+                }
+                if (exeProcess.ExitCode >= 1)
+                {
+                    RenameFiles(Properties.Settings.Default.CurrentTitle);
+                }
+                else 
+                {
+                    //Directory.Delete(topPath, true);
+                    CleanupFailedRip();
                 }
             }
             catch
             {
-                // Log error.
+                Environment.Exit(0);
             }
+
+
         }
 
         public static string GetDriveInfo(string results)
@@ -212,43 +225,66 @@ namespace AutoRip2MKV
             }
         }
 
-        public static void Rip2Temp()
+        public static void Rip2MKV(string destination)
         {
             string makeMKVPath = Properties.Settings.Default.MakeMKVPath;
-            Console.WriteLine("Rip makeMKVPath: " + makeMKVPath);
+            //Console.WriteLine("Rip makeMKVPath: " + makeMKVPath);
             if (File.Exists(makeMKVPath))
             {
 
-                string tempPath = Properties.Settings.Default.TempPath;
+                string ripPath = destination + "\\" + Properties.Settings.Default.CurrentTitle;
                 string minTitleLength = Properties.Settings.Default.MinTitleLength;
                 string driveID = Properties.Settings.Default.DVDDrive;
 
-                string MakeMKVOptions = " mkv --decrypt --noscan --minlength=1200 --robot --directio=true disc:0 1 " + tempPath;
+                string MakeMKVOptions = " mkv --decrypt --noscan --minlength=1200 --robot --directio=true disc:0 1 " + ripPath;
 
                 string app = makeMKVPath;
-                Console.WriteLine("Rip2temp: " + app + MakeMKVOptions);
                 LaunchCommandLineApp(app, MakeMKVOptions);
             }
             else
             {
-                Console.WriteLine("no mkv found");
+                // Initializes the variables to pass to the MessageBox.Show method.
+
+                string message = "MakeMKV not found";
+                string caption = "Error Detected in Input";
+                MessageBoxButtons buttons = MessageBoxButtons.OK;
+                DialogResult result;
+
+                // Displays the MessageBox.
+
+                result = MessageBox.Show(message, caption, buttons);
+
+                if (result == System.Windows.Forms.DialogResult.OK)
+                {
+
+                    // Closes the app .
+
+                    Environment.Exit(0);
+
+                }
             }
-
-            RenameFiles(Properties.Settings.Default.CurrentTitle);
-
+            
             Properties.Settings.Default.Save();
+            Properties.Settings.Default.Upgrade();
             Environment.Exit(0);
         }
 
-        static void Rip2Final()
-        {
-
-        }
-        static void MakeTMPDir()
+        static void CleanupFailedRip()
         {
             try
             {
-                Directory.CreateDirectory(Properties.Settings.Default.TempPath);
+                Directory.Delete(Properties.Settings.Default.FinalPath + "\\" + Properties.Settings.Default.CurrentTitle, true);
+            }
+            catch
+            {
+                Directory.Delete(Properties.Settings.Default.TempPath + "\\" + Properties.Settings.Default.CurrentTitle, true);
+            }
+        }
+        public static void MakeTMPDir()
+        {
+            try
+            {
+                Directory.CreateDirectory(Properties.Settings.Default.TempPath + "\\" + Properties.Settings.Default.CurrentTitle);
                 MakeFinalDir();
             }
             catch (Exception ex)
@@ -256,11 +292,11 @@ namespace AutoRip2MKV
                 Console.WriteLine(ex);
             }
         }
-        static void MakeFinalDir()
+        public static void MakeFinalDir()
         {
             try
             {
-                Directory.CreateDirectory(Properties.Settings.Default.FinalPath);
+                Directory.CreateDirectory(Properties.Settings.Default.FinalPath + "\\" + Properties.Settings.Default.CurrentTitle);
             }
             catch (Exception ex)
             {

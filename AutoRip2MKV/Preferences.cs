@@ -58,20 +58,21 @@ namespace AutoRip2MKV
         {
 
             // Copy window location to app settings
-            Properties.Settings.Default.WindowLocation = this.Location;
-            Properties.Settings.Default.WindowSize = this.Size;
+            Settings.Default.WindowLocation = this.Location;
+            Settings.Default.WindowSize = this.Size;
 
             // Copy window size to app settings
             if (this.WindowState == FormWindowState.Normal)
             {
-                Properties.Settings.Default.WindowSize = this.Size;
+                Settings.Default.WindowSize = this.Size;
             }
             else
             {
-                Properties.Settings.Default.WindowSize = this.RestoreBounds.Size;
+                Settings.Default.WindowSize = this.RestoreBounds.Size;
             }
 
-            Properties.Settings.Default.Save();
+            Settings.Default.Save();
+            Settings.Default.Upgrade();
         }
 
         private void makeMKVParams_TextChanged(object sender, EventArgs e)
@@ -105,7 +106,17 @@ namespace AutoRip2MKV
                 // a MessageBox, and fill in the answers.
                 timer1.Stop();
                 timeLabel.Text = "AutoRip Executed!";
-                Program.Rip2Temp();
+                if (Properties.Settings.Default.TempPath == null)
+                {
+                    Program.MakeFinalDir();
+                    Program.Rip2MKV(Properties.Settings.Default.FinalPath);
+                }
+                else
+                {
+                    Program.MakeTMPDir();
+                    Program.Rip2MKV(Properties.Settings.Default.TempPath);
+                }
+
                 this.Hide();
             }
         }
@@ -142,8 +153,8 @@ namespace AutoRip2MKV
         {
 
             // Start the timer.
-            timeLeft = 5;
-            timeLabel.Text = "5 seconds";
+            timeLeft = 15;
+            timeLabel.Text = "15 seconds";
             timer1.Start();
         }
 
