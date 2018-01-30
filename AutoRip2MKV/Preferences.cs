@@ -108,12 +108,10 @@ namespace AutoRip2MKV
                 timeLabel.Text = "AutoRip Executed!";
                 if (Properties.Settings.Default.TempPath == null)
                 {
-                    Program.MakeFinalDir();
                     Program.Rip2MKV(Properties.Settings.Default.FinalPath);
                 }
                 else
                 {
-                    Program.MakeTMPDir();
                     Program.Rip2MKV(Properties.Settings.Default.TempPath);
                 }
 

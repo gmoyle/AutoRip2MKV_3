@@ -121,7 +121,7 @@ namespace AutoRip2MKV.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("300, 300")]
+        [global::System.Configuration.DefaultSettingValueAttribute("1036, 389")]
         public global::System.Drawing.Size WindowSize {
             get {
                 return ((global::System.Drawing.Size)(this["WindowSize"]));

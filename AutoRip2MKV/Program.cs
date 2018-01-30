@@ -15,6 +15,9 @@ namespace AutoRip2MKV
     class Program
     {
         public static bool Is64BitOperatingSystem { get; private set; }
+        public static string CurrentTitle { get; private set; }
+        public static string DVDDriveToUse { get; private set; }
+
         // Satisfies rule: MarkWindowsFormsEntryPointsWithStaThread.
         [STAThread]
         static void Main(string[] args)
@@ -22,10 +25,10 @@ namespace AutoRip2MKV
 
             CheckHandBrakeInstall();
             CheckMakeMKVInstall();
-            var dvdDriveToUse = GetDriveInfo("drive");
-            var currentTitle = GetDriveInfo("label");
-            Properties.Settings.Default.CurrentTitle = currentTitle;
-            Properties.Settings.Default.DVDDrive = dvdDriveToUse;
+            var DVDDriveToUse = GetDriveInfo("drive");
+            var CurrentTitle = GetDriveInfo("label");
+            Properties.Settings.Default.CurrentTitle = CurrentTitle;
+            Properties.Settings.Default.DVDDrive = DVDDriveToUse;
             Properties.Settings.Default.Save(); // Saves settings in application configuration file
             Properties.Settings.Default.Upgrade();
 
@@ -161,7 +164,7 @@ namespace AutoRip2MKV
                 }
                 if (exeProcess.ExitCode >= 1)
                 {
-                    RenameFiles(Properties.Settings.Default.CurrentTitle);
+                    RenameFiles();
                 }
                 else 
                 {
@@ -214,27 +217,29 @@ namespace AutoRip2MKV
 
         }
 
-        public static void RenameFiles(string filename)
+        public static void RenameFiles()
         {
-            DirectoryInfo d = new DirectoryInfo(Properties.Settings.Default.TempPath);
+            DirectoryInfo d = new DirectoryInfo(Properties.Settings.Default.TempPath + "\\" + CurrentTitle);
             FileInfo[] files = d.GetFiles();
 
             foreach (FileInfo f in files)
             {
-                File.Move(f.FullName, f.FullName.Replace("title", filename));
+                File.Move(f.FullName, f.FullName.Replace("title", CurrentTitle));
             }
         }
 
         public static void Rip2MKV(string destination)
         {
+            Program.MakeWorkingDirs();
+
             string makeMKVPath = Properties.Settings.Default.MakeMKVPath;
             //Console.WriteLine("Rip makeMKVPath: " + makeMKVPath);
             if (File.Exists(makeMKVPath))
             {
 
-                string ripPath = destination + "\\" + Properties.Settings.Default.CurrentTitle;
+                string ripPath = destination + "\\" + CurrentTitle;
                 string minTitleLength = Properties.Settings.Default.MinTitleLength;
-                string driveID = Properties.Settings.Default.DVDDrive;
+                var driveID = DVDDriveToUse;
 
                 string MakeMKVOptions = " mkv --decrypt --noscan --minlength=1200 --robot --directio=true disc:0 1 " + ripPath;
 
@@ -273,39 +278,31 @@ namespace AutoRip2MKV
         {
             try
             {
-                Directory.Delete(Properties.Settings.Default.FinalPath + "\\" + Properties.Settings.Default.CurrentTitle, true);
+                Directory.Delete(Properties.Settings.Default.FinalPath + "\\" + CurrentTitle, true);
             }
             catch
             {
-                Directory.Delete(Properties.Settings.Default.TempPath + "\\" + Properties.Settings.Default.CurrentTitle, true);
+                Directory.Delete(Properties.Settings.Default.TempPath + "\\" + CurrentTitle, true);
             }
         }
-        public static void MakeTMPDir()
+        public static void MakeWorkingDirs()
         {
             try
             {
-                Directory.CreateDirectory(Properties.Settings.Default.TempPath + "\\" + Properties.Settings.Default.CurrentTitle);
-                MakeFinalDir();
+                Directory.CreateDirectory(Properties.Settings.Default.TempPath + "\\" + CurrentTitle);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+            try
+            {
+                Directory.CreateDirectory(Properties.Settings.Default.TempPath + "\\" + CurrentTitle);
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
             }
         }
-        public static void MakeFinalDir()
-        {
-            try
-            {
-                Directory.CreateDirectory(Properties.Settings.Default.FinalPath + "\\" + Properties.Settings.Default.CurrentTitle);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-
-            }
-        }
-
-
     }
-
 }
