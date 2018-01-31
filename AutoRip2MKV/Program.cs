@@ -14,7 +14,6 @@ namespace AutoRip2MKV
 {
     class Program
     {
-        private static object status;
 
         public static bool Is64BitOperatingSystem { get; private set; }
         public static string CurrentTitle { get; private set; }
@@ -183,7 +182,7 @@ namespace AutoRip2MKV
             }
             finally
             {
-                Environment.Exit(0);
+                //Environment.Exit(0);
             }
 
             return;
@@ -282,11 +281,8 @@ namespace AutoRip2MKV
 
                 if (result == System.Windows.Forms.DialogResult.OK)
                 {
-
                     // Closes the app .
-
-                    Environment.Exit(0);
-
+                    //Environment.Exit(0);
                 }
             }
             
@@ -331,9 +327,10 @@ namespace AutoRip2MKV
             {
                 if (Properties.Settings.Default.FinalPath != null)
                 {
-                    //Directory.Delete(Properties.Settings.Default.FinalPath + "\\" + CurrentTitle, true);
-                    var test = Properties.Settings.Default.FinalPath + "\\" + CurrentTitle;
-                    UpdateStatusText("Delete: " + test);
+                    var foldertodelete = Properties.Settings.Default.FinalPath + "\\" + CurrentTitle;
+                    UpdateStatusText("Delete: " + foldertodelete);
+                    Directory.Delete(foldertodelete, true);
+
                 }
                
             }
@@ -341,9 +338,9 @@ namespace AutoRip2MKV
             {
                 if (Properties.Settings.Default.TempPath != null)
                 {
-                    //Directory.Delete(Properties.Settings.Default.TempPath + "\\" + CurrentTitle, true);
-                    var test = Properties.Settings.Default.TempPath + "\\" + CurrentTitle;
-                    UpdateStatusText("Delete: " + test);
+                    var foldertodelete = Properties.Settings.Default.TempPath + "\\" + CurrentTitle;
+                    UpdateStatusText("Delete: " + foldertodelete);
+                    Directory.Delete(foldertodelete, true);
                 }
             }
             return;
