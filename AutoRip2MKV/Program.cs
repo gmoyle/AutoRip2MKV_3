@@ -301,7 +301,7 @@ namespace AutoRip2MKV
             }
             catch
             {
-                Properties.Settings.Default.TempPath = null;
+                Properties.Settings.Default.TempPath = "";
             }
 
             try
@@ -310,10 +310,10 @@ namespace AutoRip2MKV
             }
             catch
             {
-                Properties.Settings.Default.FinalPath = null;
+                Properties.Settings.Default.FinalPath = "";
             }
 
-            if (Properties.Settings.Default.FinalPath == null && Properties.Settings.Default.TempPath == null)
+            if (Properties.Settings.Default.FinalPath == "" && Properties.Settings.Default.TempPath == "")
             {
                 Properties.Settings.Default.Timout = false;
                 Properties.Settings.Default.Save(); // Saves settings in application configuration file
@@ -327,18 +327,26 @@ namespace AutoRip2MKV
             CurrentTitle = Properties.Settings.Default.CurrentTitle;
             if (Properties.Settings.Default.FinalPath != "" && CurrentTitle != null)
             {
-                //Directory.Delete(Properties.Settings.Default.FinalPath + "\\" + CurrentTitle, true);
-               var test = Properties.Settings.Default.FinalPath + "\\" + CurrentTitle;
+                if (Properties.Settings.Default.FinalPath != null)
+                {
+                    //Directory.Delete(Properties.Settings.Default.FinalPath + "\\" + CurrentTitle, true);
+                    var test = Properties.Settings.Default.FinalPath + "\\" + CurrentTitle;
+                }
+               
             }
             if (Properties.Settings.Default.TempPath != "" && CurrentTitle != null)
             {
-                //Directory.Delete(Properties.Settings.Default.TempPath + "\\" + CurrentTitle, true);
-                var test = Properties.Settings.Default.TempPath + "\\" + CurrentTitle;
+                if (Properties.Settings.Default.TempPath != null)
+                {
+                    //Directory.Delete(Properties.Settings.Default.TempPath + "\\" + CurrentTitle, true);
+                    var test = Properties.Settings.Default.TempPath + "\\" + CurrentTitle;
+                }
             }
             return;
         }
         public static void MakeWorkingDirs()
         {
+            CurrentTitle = Properties.Settings.Default.CurrentTitle;
             try
             {
                 Directory.CreateDirectory(Properties.Settings.Default.TempPath + "\\" + CurrentTitle);
@@ -349,7 +357,7 @@ namespace AutoRip2MKV
             }
             try
             {
-                Directory.CreateDirectory(Properties.Settings.Default.TempPath + "\\" + CurrentTitle);
+                Directory.CreateDirectory(Properties.Settings.Default.FinalPath + "\\" + CurrentTitle);
             }
             catch (Exception ex)
             {

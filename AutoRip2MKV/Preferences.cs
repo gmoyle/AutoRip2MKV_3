@@ -151,8 +151,8 @@ namespace AutoRip2MKV
         {
 
             // Start the timer.
-            timeLeft = 15;
-            timeLabel.Text = "15 seconds";
+            timeLeft = 30;
+            timeLabel.Text = timeLeft + " seconds";
             timer1.Start();
         }
 
