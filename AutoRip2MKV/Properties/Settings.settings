@@ -6,10 +6,10 @@
       <Value Profile="(Default)">.mkv" --preset "H.265 MKV 1080p30"</Value>
     </Setting>
     <Setting Name="TempPath" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">c:\temp\Movies</Value>
     </Setting>
     <Setting Name="FinalPath" Type="System.String" Scope="User">
-      <Value Profile="(Default)">C:\Movies</Value>
+      <Value Profile="(Default)" />
     </Setting>
     <Setting Name="MinTitleLength" Type="System.String" Scope="User">
       <Value Profile="(Default)">1200</Value>

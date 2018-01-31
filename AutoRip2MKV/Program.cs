@@ -324,13 +324,16 @@ namespace AutoRip2MKV
 
         static void CleanupFailedRip() 
         {
-            if (Properties.Settings.Default.FinalPath != null && CurrentTitle != null)
-            { 
-               // Directory.Delete(Properties.Settings.Default.FinalPath + "\\" + CurrentTitle, true);
+            CurrentTitle = Properties.Settings.Default.CurrentTitle;
+            if (Properties.Settings.Default.FinalPath != "" && CurrentTitle != null)
+            {
+                //Directory.Delete(Properties.Settings.Default.FinalPath + "\\" + CurrentTitle, true);
+               var test = Properties.Settings.Default.FinalPath + "\\" + CurrentTitle;
             }
-            if (Properties.Settings.Default.TempPath != null && CurrentTitle != null)
+            if (Properties.Settings.Default.TempPath != "" && CurrentTitle != null)
             {
                 //Directory.Delete(Properties.Settings.Default.TempPath + "\\" + CurrentTitle, true);
+                var test = Properties.Settings.Default.TempPath + "\\" + CurrentTitle;
             }
             return;
         }
