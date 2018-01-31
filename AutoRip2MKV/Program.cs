@@ -305,22 +305,30 @@ namespace AutoRip2MKV
 
         public static void CheckVariables()
         {
-            try
+            if (!System.IO.Directory.Exists(Properties.Settings.Default.TempPath))
             {
-                Directory.CreateDirectory(Properties.Settings.Default.TempPath);
-            }
-            catch
-            {
-                Properties.Settings.Default.TempPath = "";
+                if (Properties.Settings.Default.TempPath == "" || Properties.Settings.Default.TempPath == null)
+                {
+                    UpdateStatusText("TempPath was invalid, Set to C:\\temp\\Movies");
+                    Properties.Settings.Default.TempPath = @"C:\temp\Movies";
+                }
+                else
+                {
+                    Properties.Settings.Default.TempPath = @"C:\temp\Movies";
+                }
             }
 
-            try
+            if (!System.IO.Directory.Exists(Properties.Settings.Default.FinalPath))
             {
-                Directory.CreateDirectory(Properties.Settings.Default.FinalPath);
-            }
-            catch
-            {
-                Properties.Settings.Default.FinalPath = "";
+                if (Properties.Settings.Default.FinalPath == "" && Properties.Settings.Default.TempPath == "")
+                {
+                    UpdateStatusText("FinalPath and TempPath invalid. TempPath Set to C:\\temp\\Movies");
+                    Properties.Settings.Default.FinalPath = "";
+                }
+                else
+                {
+                    Properties.Settings.Default.FinalPath = "";
+                }
             }
 
             if (Properties.Settings.Default.FinalPath == "" && Properties.Settings.Default.TempPath == "")
@@ -360,23 +368,22 @@ namespace AutoRip2MKV
         public static void MakeWorkingDirs()
         {
             CurrentTitle = Properties.Settings.Default.CurrentTitle;
-            try
+            if (System.IO.Directory.Exists(Properties.Settings.Default.TempPath))
             {
                 Directory.CreateDirectory(Properties.Settings.Default.TempPath + "\\" + CurrentTitle);
             }
-            catch
+            else
             {
                 UpdateStatusText("Cannot create " + Properties.Settings.Default.TempPath + "\\" + CurrentTitle);
             }
-            try
+            if (System.IO.Directory.Exists(Properties.Settings.Default.FinalPath))
             {
                 Directory.CreateDirectory(Properties.Settings.Default.FinalPath + "\\" + CurrentTitle);
             }
-            catch
+            else
             {
                 UpdateStatusText("Cannot create " + Properties.Settings.Default.FinalPath + "\\" + CurrentTitle);
             }
-            return;
         }
 
         public static void UpdateStatusText(string update)

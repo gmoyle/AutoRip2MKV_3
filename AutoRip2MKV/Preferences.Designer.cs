@@ -251,7 +251,7 @@
             this.tempPath.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::AutoRip2MKV.Properties.Settings.Default, "TempPath", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.tempPath.Location = new System.Drawing.Point(130, 58);
             this.tempPath.Name = "tempPath";
-            this.tempPath.Size = new System.Drawing.Size(333, 20);
+            this.tempPath.Size = new System.Drawing.Size(263, 20);
             this.tempPath.TabIndex = 5;
             this.tempPath.Text = global::AutoRip2MKV.Properties.Settings.Default.TempPath;
             // 
@@ -260,7 +260,7 @@
             this.finalPath.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::AutoRip2MKV.Properties.Settings.Default, "FinalPath", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.finalPath.Location = new System.Drawing.Point(130, 84);
             this.finalPath.Name = "finalPath";
-            this.finalPath.Size = new System.Drawing.Size(333, 20);
+            this.finalPath.Size = new System.Drawing.Size(263, 20);
             this.finalPath.TabIndex = 4;
             this.finalPath.Text = global::AutoRip2MKV.Properties.Settings.Default.FinalPath;
             // 

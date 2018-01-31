@@ -112,9 +112,17 @@ namespace AutoRip2MKV
                 timer1.Stop();
                 timeLabel.Text = "AutoRip Executed!";
                 //this.Hide();
-                if (Properties.Settings.Default.TempPath == null)
+                if (Properties.Settings.Default.TempPath == "")
                 {
-                    Program.Rip2MKV(Properties.Settings.Default.FinalPath);
+                    if (Properties.Settings.Default.FinalPath != "")
+                    {
+                        Program.Rip2MKV(Properties.Settings.Default.FinalPath);
+                    }
+                    else
+                    {
+                        Program.UpdateStatusText("RIP FAILED: SET AT LEAST ONE DESTINATION FOLDER");
+                    }
+
                 }
                 else
                 {
