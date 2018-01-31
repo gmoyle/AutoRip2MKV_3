@@ -173,7 +173,10 @@ namespace AutoRip2MKV
                     if (exeProcess.ExitCode == 0)
                     {
                         RenameFiles();
-                        MoveFilesToFinalDestination();
+                        if (Properties.Settings.Default.FinalPath != "")
+                        {
+                            MoveFilesToFinalDestination();
+                        }
                         return;
                     }
                     else
