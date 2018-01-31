@@ -49,7 +49,7 @@ namespace AutoRip2MKV.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("D:\\Movies")]
         public string FinalPath {
             get {
                 return ((string)(this["FinalPath"]));
@@ -176,6 +176,18 @@ namespace AutoRip2MKV.Properties {
             }
             set {
                 this["CurrentTitle"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string StatusText {
+            get {
+                return ((string)(this["StatusText"]));
+            }
+            set {
+                this["StatusText"] = value;
             }
         }
     }

@@ -106,7 +106,7 @@ namespace AutoRip2MKV
                 // a MessageBox, and fill in the answers.
                 timer1.Stop();
                 timeLabel.Text = "AutoRip Executed!";
-                this.Hide();
+                //this.Hide();
                 if (Properties.Settings.Default.TempPath == null)
                 {
                     Program.Rip2MKV(Properties.Settings.Default.FinalPath);
@@ -151,7 +151,7 @@ namespace AutoRip2MKV
         {
 
             // Start the timer.
-            timeLeft = 30;
+            timeLeft =5;
             timeLabel.Text = timeLeft + " seconds";
             timer1.Start();
         }

@@ -39,8 +39,10 @@
             this.label8 = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.timeLabel = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.statusText = new System.Windows.Forms.TextBox();
+            this.textBox3 = new System.Windows.Forms.TextBox();
             this.AutoConvert = new System.Windows.Forms.CheckBox();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
@@ -50,13 +52,11 @@
             this.tempPath = new System.Windows.Forms.TextBox();
             this.finalPath = new System.Windows.Forms.TextBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // Save
             // 
-            this.Save.Location = new System.Drawing.Point(472, 298);
+            this.Save.Location = new System.Drawing.Point(98, 275);
             this.Save.Name = "Save";
             this.Save.Size = new System.Drawing.Size(75, 23);
             this.Save.TabIndex = 1;
@@ -67,7 +67,7 @@
             // 
             // Close
             // 
-            this.Close.Location = new System.Drawing.Point(910, 298);
+            this.Close.Location = new System.Drawing.Point(373, 275);
             this.Close.Name = "Close";
             this.Close.Size = new System.Drawing.Size(75, 23);
             this.Close.TabIndex = 2;
@@ -139,14 +139,6 @@
             // 
             this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
             // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(472, 30);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(513, 262);
-            this.textBox1.TabIndex = 26;
-            // 
             // timeLabel
             // 
             this.timeLabel.AutoSize = true;
@@ -156,6 +148,36 @@
             this.timeLabel.TabIndex = 27;
             this.timeLabel.Text = "30 Seconds";
             this.timeLabel.Visible = false;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(56, 9);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(64, 13);
+            this.label4.TabIndex = 28;
+            this.label4.Text = "Current Title";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // statusText
+            // 
+            this.statusText.AcceptsReturn = true;
+            this.statusText.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::AutoRip2MKV.Properties.Settings.Default, "StatusText", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.statusText.Location = new System.Drawing.Point(11, 316);
+            this.statusText.Multiline = true;
+            this.statusText.Name = "statusText";
+            this.statusText.Size = new System.Drawing.Size(452, 61);
+            this.statusText.TabIndex = 30;
+            this.statusText.Text = global::AutoRip2MKV.Properties.Settings.Default.StatusText;
+            // 
+            // textBox3
+            // 
+            this.textBox3.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::AutoRip2MKV.Properties.Settings.Default, "CurrentTitle", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.textBox3.Location = new System.Drawing.Point(130, 2);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(333, 20);
+            this.textBox3.TabIndex = 29;
+            this.textBox3.Text = global::AutoRip2MKV.Properties.Settings.Default.CurrentTitle;
             // 
             // AutoConvert
             // 
@@ -251,34 +273,15 @@
             this.textBox2.TabIndex = 3;
             this.textBox2.Text = global::AutoRip2MKV.Properties.Settings.Default.MinTitleLength;
             // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(56, 9);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(64, 13);
-            this.label4.TabIndex = 28;
-            this.label4.Text = "Current Title";
-            this.label4.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            // 
-            // textBox3
-            // 
-            this.textBox3.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::AutoRip2MKV.Properties.Settings.Default, "CurrentTitle", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.textBox3.Location = new System.Drawing.Point(130, 2);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(333, 20);
-            this.textBox3.TabIndex = 29;
-            this.textBox3.Text = global::AutoRip2MKV.Properties.Settings.Default.CurrentTitle;
-            // 
             // Preferences
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1003, 333);
+            this.ClientSize = new System.Drawing.Size(465, 389);
+            this.Controls.Add(this.statusText);
             this.Controls.Add(this.textBox3);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.timeLabel);
-            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.AutoConvert);
             this.Controls.Add(this.checkBox2);
             this.Controls.Add(this.checkBox1);
@@ -324,9 +327,9 @@
         private System.Windows.Forms.CheckBox AutoConvert;
         private System.Windows.Forms.Timer timer1;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
-        private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label timeLabel;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox statusText;
     }
 }

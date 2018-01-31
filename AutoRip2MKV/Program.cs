@@ -20,7 +20,7 @@ namespace AutoRip2MKV
 
         // Satisfies rule: MarkWindowsFormsEntryPointsWithStaThread.
         [STAThread]
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
 
             CheckHandBrakeInstall();
@@ -30,6 +30,8 @@ namespace AutoRip2MKV
             Properties.Settings.Default.CurrentTitle = CurrentTitle;
             Properties.Settings.Default.DVDDrive = DVDDriveToUse;
             Program.CheckVariables();
+            UpdateStatusText("Clear");
+
             Properties.Settings.Default.Save(); // Saves settings in application configuration file
             Properties.Settings.Default.Upgrade();
 
@@ -46,7 +48,7 @@ namespace AutoRip2MKV
 
             if (File.Exists(handbrakePath))
             {
-                Console.WriteLine("Handbrake Lives");
+                UpdateStatusText("Handbrake Lives");
             }
             else
             {
@@ -63,7 +65,7 @@ namespace AutoRip2MKV
                 }
                     
             }
-            Console.WriteLine(myExecutablePath);
+            UpdateStatusText(myExecutablePath);
             return;
 
         }
@@ -84,23 +86,19 @@ namespace AutoRip2MKV
             if (File.Exists (tExpand))
             {
                 //code if key Exist
-                //Console.WriteLine("MakeMKV Lives!: {0}", tExpand);
+                UpdateStatusText("MakeMKV Lives!: " +  tExpand);
                 Properties.Settings.Default.MakeMKVPath = tExpand;
                 Properties.Settings.Default.Save(); // Saves settings in application configuration file
-                //Console.WriteLine("makeMKVPath: " + Properties.Settings.Default.MakeMKVPath);
+                UpdateStatusText("MakeMKVPath: " + Properties.Settings.Default.MakeMKVPath);
 
                 if (File.Exists(@"C:\Program Files (x86)\makemkv\makemkvcon64.exe"))
                 {
-                   // if (Program.Is64BitOperatingSystem)
-                    //{
-                        string makeMKV64Exists = @"C:\Program Files (x86)\MakeMKV\makemkvcon64.exe";
-                        Properties.Settings.Default.MakeMKVPath = makeMKV64Exists;
-                        Properties.Settings.Default.Save(); // Saves settings in application configuration file
-                        Properties.Settings.Default.Upgrade();
-                    //Console.WriteLine("makeMKV_64_Path: " + Properties.Settings.Default.MakeMKVPath);
-                    //}
-
-
+                  
+                    string makeMKV64Exists = @"C:\Program Files (x86)\MakeMKV\makemkvcon64.exe";
+                    Properties.Settings.Default.MakeMKVPath = makeMKV64Exists;
+                    Properties.Settings.Default.Save(); // Saves settings in application configuration file
+                    Properties.Settings.Default.Upgrade();
+                    UpdateStatusText("makeMKV_64_Path: " + Properties.Settings.Default.MakeMKVPath);
                 }
 
             }
@@ -181,7 +179,7 @@ namespace AutoRip2MKV
             }
             catch
             {
-                Console.WriteLine("app execution failed");
+                UpdateStatusText("App execution failed");
             }
             finally
             {
@@ -252,7 +250,9 @@ namespace AutoRip2MKV
             Program.MakeWorkingDirs();
 
             string makeMKVPath = Properties.Settings.Default.MakeMKVPath;
-            //Console.WriteLine("Rip makeMKVPath: " + makeMKVPath);
+
+            UpdateStatusText("Rip makeMKVPath: " + makeMKVPath);
+            
             if (File.Exists(makeMKVPath))
             {
 
@@ -351,19 +351,31 @@ namespace AutoRip2MKV
             {
                 Directory.CreateDirectory(Properties.Settings.Default.TempPath + "\\" + CurrentTitle);
             }
-            catch (Exception ex)
+            catch
             {
-                Console.WriteLine(ex);
+                UpdateStatusText("Cannot create " + Properties.Settings.Default.TempPath + "\\" + CurrentTitle);
             }
             try
             {
                 Directory.CreateDirectory(Properties.Settings.Default.FinalPath + "\\" + CurrentTitle);
             }
-            catch (Exception ex)
+            catch
             {
-                Console.WriteLine(ex);
+                UpdateStatusText("Cannot create " + Properties.Settings.Default.FinalPath + "\\" + CurrentTitle);
             }
             return;
+        }
+
+        public static void UpdateStatusText(string update)
+        {
+            if (update == "Clear")
+            {
+                Properties.Settings.Default.StatusText = null;
+            }
+            else
+            {
+                Properties.Settings.Default.StatusText = Properties.Settings.Default.StatusText + "\n" + update + "\n";
+            }
         }
     }
 }
