@@ -24,13 +24,10 @@ namespace AutoRip2MKV
         public static void Main(string[] args)
         {
 
-            CheckHandBrakeInstall();
-            CheckMakeMKVInstall();
             var DVDDriveToUse = GetDriveInfo("drive");
             var CurrentTitle = GetDriveInfo("label");
             Properties.Settings.Default.CurrentTitle = CurrentTitle;
             Properties.Settings.Default.DVDDrive = DVDDriveToUse;
-            Program.CheckVariables();
             UpdateStatusText("Clear");
 
             Properties.Settings.Default.Save(); // Saves settings in application configuration file
@@ -39,7 +36,7 @@ namespace AutoRip2MKV
             Application.Run(new AutoRip2MKV.Preferences());
         }
 
-        static void CheckHandBrakeInstall()
+        public static void CheckHandBrakeInstall()
         {
             string myExecutablePath = AppDomain.CurrentDomain.BaseDirectory;
             string handbrakePath = myExecutablePath + @"\HandbrakeCLI\HandbrakeCLI.exe";
@@ -55,10 +52,11 @@ namespace AutoRip2MKV
             {
                 if (File.Exists(handbrakeZip))
                 {
+                    
                     // Path to directory of files to compress and decompress.
                     string dirpath = myExecutablePath;
                     DirectoryInfo di = new DirectoryInfo(dirpath);
-
+             
                     foreach (FileInfo fi in di.GetFiles("HandbrakeCLI.zip"))
                     {
                         Decompress();
@@ -75,11 +73,12 @@ namespace AutoRip2MKV
         {
             string handbrakeHomePath = AppDomain.CurrentDomain.BaseDirectory + @"\HandbrakeCLI";
             string handbrakeZip = AppDomain.CurrentDomain.BaseDirectory + @"\HandbrakeCLI.zip";
+            UpdateStatusText("Extract Handbrake to: " + handbrakeHomePath);
             ZipFile.ExtractToDirectory(handbrakeZip, handbrakeHomePath);
             return;
         }
 
-        static void CheckMakeMKVInstall()
+        public static void CheckMakeMKVInstall()
         {
 
             string tExpand = CheckMakeMKVRegistry();
@@ -108,8 +107,11 @@ namespace AutoRip2MKV
                 var mkvDownload = AppDomain.CurrentDomain.BaseDirectory + "Setup_MakeMKV_v1.10.10.exe";
                 if (File.Exists (mkvDownload))
                 {
+
                     string app = "Setup_MakeMKV_v1.10.10.exe";
                     string parameters = "/S /D";
+                    UpdateStatusText("Installing MakeMKV:" + app + parameters);
+
                     Program.LaunchCommandLineApp(app, parameters);
                 }
                 else
@@ -118,6 +120,9 @@ namespace AutoRip2MKV
                     using (var client = new System.Net.WebClient())
                     {
                         client.DownloadFile("https://www.makemkv.com/download/Setup_MakeMKV_v1.10.10.exe", "Setup_MakeMKV_v1.10.10.exe");
+
+                        UpdateStatusText("Downloading MakeMKV: https://www.makemkv.com/download/Setup_MakeMKV_v1.10.10.exe");
+
                         string app = "Setup_MakeMKV_v1.10.10.exe";
                         string parameters = "/S /D";
                         Program.LaunchCommandLineApp(app, parameters);
@@ -156,32 +161,36 @@ namespace AutoRip2MKV
 
                 Process exeProcess = Process.Start(startInfo);
 
-                while (!exeProcess.HasExited)
+                if (app == Properties.Settings.Default.MakeMKVPath)
                 {
-                    // Discard cached information about the process.
-                    exeProcess.Refresh();
-                    // Wait 2 seconds.
-                    System.Threading.Thread.Sleep(2000);
-                }
-                if (exeProcess.ExitCode == 0)
-                {
-                    RenameFiles();
-                    MoveFilesToFinalDestination();
-                    return;
-                }
-                else 
-                {
-                    //Directory.Delete(topPath, true);
-                    CleanupFailedRip();
-                    return;
+                    while (!exeProcess.HasExited)
+                    {
+                        // Discard cached information about the process.
+                        exeProcess.Refresh();
+                        // Wait 2 seconds.
+                        System.Threading.Thread.Sleep(2000);
+                    }
+                    if (exeProcess.ExitCode == 0)
+                    {
+                        RenameFiles();
+                        MoveFilesToFinalDestination();
+                        return;
+                    }
+                    else
+                    {
+                        //Directory.Delete(topPath, true);
+                        CleanupFailedRip();
+                        return;
+                    }
                 }
             }
             catch
             {
-                UpdateStatusText("App execution failed");
+                UpdateStatusText(app + " execution failed");
             }
             finally
             {
+
                 //Environment.Exit(0);
             }
 
@@ -241,6 +250,8 @@ namespace AutoRip2MKV
 
         public static void MoveFilesToFinalDestination()
         {
+            UpdateStatusText(Properties.Settings.Default.TempPath + "\\" + CurrentTitle + "to " +Properties.Settings.Default.FinalPath + "\\" + CurrentTitle);
+
             CurrentTitle = Properties.Settings.Default.CurrentTitle;
             Directory.Move(Properties.Settings.Default.TempPath + "\\" + CurrentTitle, Properties.Settings.Default.FinalPath + "\\" + CurrentTitle);
             return;
@@ -282,6 +293,7 @@ namespace AutoRip2MKV
                 if (result == System.Windows.Forms.DialogResult.OK)
                 {
                     // Closes the app .
+                   
                     //Environment.Exit(0);
                 }
             }
@@ -291,7 +303,7 @@ namespace AutoRip2MKV
             return;
         }
 
-        static void CheckVariables()
+        public static void CheckVariables()
         {
             try
             {
@@ -375,7 +387,7 @@ namespace AutoRip2MKV
             }
             else
             {
-                Properties.Settings.Default.StatusText = Properties.Settings.Default.StatusText + Environment.NewLine + update;
+                Properties.Settings.Default.StatusText = update + Environment.NewLine + Properties.Settings.Default.StatusText;
             }
         }
     }

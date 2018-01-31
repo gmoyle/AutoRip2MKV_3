@@ -56,7 +56,7 @@
             // 
             // Save
             // 
-            this.Save.Location = new System.Drawing.Point(98, 275);
+            this.Save.Location = new System.Drawing.Point(58, 354);
             this.Save.Name = "Save";
             this.Save.Size = new System.Drawing.Size(75, 23);
             this.Save.TabIndex = 1;
@@ -67,7 +67,7 @@
             // 
             // Close
             // 
-            this.Close.Location = new System.Drawing.Point(373, 275);
+            this.Close.Location = new System.Drawing.Point(333, 354);
             this.Close.Name = "Close";
             this.Close.Size = new System.Drawing.Size(75, 23);
             this.Close.TabIndex = 2;
@@ -142,7 +142,7 @@
             // timeLabel
             // 
             this.timeLabel.AutoSize = true;
-            this.timeLabel.Location = new System.Drawing.Point(226, 298);
+            this.timeLabel.Location = new System.Drawing.Point(186, 377);
             this.timeLabel.Name = "timeLabel";
             this.timeLabel.Size = new System.Drawing.Size(64, 13);
             this.timeLabel.TabIndex = 27;
@@ -163,10 +163,10 @@
             // 
             this.statusText.AcceptsReturn = true;
             this.statusText.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::AutoRip2MKV.Properties.Settings.Default, "StatusText", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.statusText.Location = new System.Drawing.Point(11, 316);
+            this.statusText.Location = new System.Drawing.Point(472, 2);
             this.statusText.Multiline = true;
             this.statusText.Name = "statusText";
-            this.statusText.Size = new System.Drawing.Size(850, 61);
+            this.statusText.Size = new System.Drawing.Size(389, 375);
             this.statusText.TabIndex = 30;
             this.statusText.Text = global::AutoRip2MKV.Properties.Settings.Default.StatusText;
             // 
@@ -185,7 +185,7 @@
             this.AutoConvert.Checked = global::AutoRip2MKV.Properties.Settings.Default.Timout;
             this.AutoConvert.CheckState = System.Windows.Forms.CheckState.Checked;
             this.AutoConvert.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::AutoRip2MKV.Properties.Settings.Default, "Timout", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.AutoConvert.Location = new System.Drawing.Point(200, 275);
+            this.AutoConvert.Location = new System.Drawing.Point(160, 354);
             this.AutoConvert.Name = "AutoConvert";
             this.AutoConvert.Size = new System.Drawing.Size(154, 17);
             this.AutoConvert.TabIndex = 25;

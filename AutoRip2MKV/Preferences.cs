@@ -19,9 +19,14 @@ namespace AutoRip2MKV
         // remaining time.
         int timeLeft;
 
+
         public Preferences()
         {
             InitializeComponent();
+            AutoRip2MKV.Program.CheckHandBrakeInstall();
+            AutoRip2MKV.Program.CheckMakeMKVInstall();
+            AutoRip2MKV.Program.CheckVariables();
+
             if (Settings.Default.Timout)
             {
                 StartTheTimer();
