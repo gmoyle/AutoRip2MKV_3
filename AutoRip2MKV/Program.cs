@@ -322,15 +322,15 @@ namespace AutoRip2MKV
             return;
         }
 
-        static void CleanupFailedRip()
+        static void CleanupFailedRip() 
         {
-            try
-            {
-                Directory.Delete(Properties.Settings.Default.FinalPath + "\\" + CurrentTitle, true);
+            if (Properties.Settings.Default.FinalPath != null && CurrentTitle != null)
+            { 
+               // Directory.Delete(Properties.Settings.Default.FinalPath + "\\" + CurrentTitle, true);
             }
-            catch
+            if (Properties.Settings.Default.TempPath != null && CurrentTitle != null)
             {
-                Directory.Delete(Properties.Settings.Default.TempPath + "\\" + CurrentTitle, true);
+                //Directory.Delete(Properties.Settings.Default.TempPath + "\\" + CurrentTitle, true);
             }
             return;
         }
