@@ -14,6 +14,8 @@ namespace AutoRip2MKV
 {
     class Program
     {
+        private static object status;
+
         public static bool Is64BitOperatingSystem { get; private set; }
         public static string CurrentTitle { get; private set; }
         public static string DVDDriveToUse { get; private set; }
@@ -141,10 +143,6 @@ namespace AutoRip2MKV
         /// </summary>
         static void LaunchCommandLineApp(string app, string parameters)
         {
-            // For the example
-            // const string ex1 = "C:\\";
-            //const string ex2 = "C:\\Dir";
-
             // Use ProcessStartInfo class
             ProcessStartInfo startInfo = new ProcessStartInfo();
             startInfo.CreateNoWindow = false;
@@ -155,6 +153,8 @@ namespace AutoRip2MKV
 
             try
             {
+                UpdateStatusText("Launch: " + startInfo);
+
                 Process exeProcess = Process.Start(startInfo);
 
                 while (!exeProcess.HasExited)
@@ -233,7 +233,9 @@ namespace AutoRip2MKV
 
             foreach (FileInfo f in files)
             {
-                File.Move(f.FullName, f.FullName.Replace("title", CurrentTitle));
+                string newname = f.FullName.Replace("title", CurrentTitle);
+                File.Move(f.FullName, newname);
+                UpdateStatusText("Rename:" + f.FullName + " to:" + newname);
             }
             return;
         }
@@ -250,19 +252,19 @@ namespace AutoRip2MKV
             Program.MakeWorkingDirs();
 
             string makeMKVPath = Properties.Settings.Default.MakeMKVPath;
-
-            UpdateStatusText("Rip makeMKVPath: " + makeMKVPath);
             
             if (File.Exists(makeMKVPath))
             {
 
                 string ripPath = destination + "\\" + CurrentTitle;
+                UpdateStatusText("Ripping to: " + ripPath);
                 string minTitleLength = Properties.Settings.Default.MinTitleLength;
                 var driveID = DVDDriveToUse;
 
                 string MakeMKVOptions = " mkv --decrypt --noscan --minlength=1200 --robot --directio=true disc:0 1 " + ripPath;
 
                 string app = makeMKVPath;
+
                 LaunchCommandLineApp(app, MakeMKVOptions);
             }
             else
@@ -331,6 +333,7 @@ namespace AutoRip2MKV
                 {
                     //Directory.Delete(Properties.Settings.Default.FinalPath + "\\" + CurrentTitle, true);
                     var test = Properties.Settings.Default.FinalPath + "\\" + CurrentTitle;
+                    UpdateStatusText("Delete: " + test);
                 }
                
             }
@@ -340,6 +343,7 @@ namespace AutoRip2MKV
                 {
                     //Directory.Delete(Properties.Settings.Default.TempPath + "\\" + CurrentTitle, true);
                     var test = Properties.Settings.Default.TempPath + "\\" + CurrentTitle;
+                    UpdateStatusText("Delete: " + test);
                 }
             }
             return;
@@ -374,7 +378,7 @@ namespace AutoRip2MKV
             }
             else
             {
-                Properties.Settings.Default.StatusText = Properties.Settings.Default.StatusText + "\n" + update + "\n";
+                Properties.Settings.Default.StatusText = Properties.Settings.Default.StatusText + Environment.NewLine + update;
             }
         }
     }

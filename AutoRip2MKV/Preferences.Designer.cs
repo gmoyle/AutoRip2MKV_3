@@ -166,7 +166,7 @@
             this.statusText.Location = new System.Drawing.Point(11, 316);
             this.statusText.Multiline = true;
             this.statusText.Name = "statusText";
-            this.statusText.Size = new System.Drawing.Size(452, 61);
+            this.statusText.Size = new System.Drawing.Size(850, 61);
             this.statusText.TabIndex = 30;
             this.statusText.Text = global::AutoRip2MKV.Properties.Settings.Default.StatusText;
             // 
@@ -277,7 +277,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(465, 389);
+            this.ClientSize = new System.Drawing.Size(873, 397);
             this.Controls.Add(this.statusText);
             this.Controls.Add(this.textBox3);
             this.Controls.Add(this.label4);
