@@ -155,8 +155,7 @@ namespace AutoRip2MKV
             startInfo.WindowStyle = ProcessWindowStyle.Normal;
             startInfo.Arguments = " " + parameters;
 
-            try
-            {
+  
                 UpdateStatusText("Launch: " + startInfo);
 
                 Process exeProcess = Process.Start(startInfo);
@@ -186,16 +185,7 @@ namespace AutoRip2MKV
                         return;
                     }
                 }
-            }
-            catch
-            {
-                UpdateStatusText(app + " execution failed");
-            }
-            finally
-            {
-
-                //Environment.Exit(0);
-            }
+      
 
             return;
         }
@@ -239,14 +229,23 @@ namespace AutoRip2MKV
 
         public static void RenameFiles()
         {
+
             DirectoryInfo d = new DirectoryInfo(Properties.Settings.Default.TempPath + "\\" + CurrentTitle);
-            FileInfo[] files = d.GetFiles();
+            FileInfo[] files = d.GetFiles("title*.*");
 
             foreach (FileInfo f in files)
             {
                 string newname = f.FullName.Replace("title", CurrentTitle);
+
+                if (File.Exists(newname))
+                {
+                    UpdateStatusText("Deleted existing Filename:" + newname);
+                    File.Delete(newname);
+
+                }
                 File.Move(f.FullName, newname);
                 UpdateStatusText("Rename:" + f.FullName + " to:" + newname);
+
             }
             return;
         }
