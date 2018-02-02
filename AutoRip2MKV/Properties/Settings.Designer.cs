@@ -190,5 +190,17 @@ namespace AutoRip2MKV.Properties {
                 this["StatusText"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("60")]
+        public int TimeoutValue {
+            get {
+                return ((int)(this["TimeoutValue"]));
+            }
+            set {
+                this["TimeoutValue"] = value;
+            }
+        }
     }
 }
