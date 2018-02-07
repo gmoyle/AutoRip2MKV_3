@@ -79,6 +79,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="OpenOrCloseCDDrive.cs" />
     <Compile Include="Preferences.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -42,7 +42,7 @@
             this.timeLabel = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.statusText = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.textBoxCurrentTitle = new System.Windows.Forms.TextBox();
             this.AutoConvert = new System.Windows.Forms.CheckBox();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
@@ -173,14 +173,15 @@
             this.statusText.TabIndex = 30;
             this.statusText.Text = global::AutoRip2MKV.Properties.Settings.Default.StatusText;
             // 
-            // textBox3
+            // textBoxCurrentTitle
             // 
-            this.textBox3.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::AutoRip2MKV.Properties.Settings.Default, "CurrentTitle", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.textBox3.Location = new System.Drawing.Point(130, 2);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(333, 20);
-            this.textBox3.TabIndex = 29;
-            this.textBox3.Text = global::AutoRip2MKV.Properties.Settings.Default.CurrentTitle;
+            this.textBoxCurrentTitle.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::AutoRip2MKV.Properties.Settings.Default, "CurrentTitle", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.textBoxCurrentTitle.Location = new System.Drawing.Point(130, 2);
+            this.textBoxCurrentTitle.Name = "textBoxCurrentTitle";
+            this.textBoxCurrentTitle.Size = new System.Drawing.Size(333, 20);
+            this.textBoxCurrentTitle.TabIndex = 29;
+            this.textBoxCurrentTitle.Text = global::AutoRip2MKV.Properties.Settings.Default.CurrentTitle;
+            this.textBoxCurrentTitle.TextChanged += new System.EventHandler(this.textBoxCurrentTitle_TextChanged);
             // 
             // AutoConvert
             // 
@@ -301,7 +302,7 @@
             this.Controls.Add(this.label5);
             this.Controls.Add(this.timeOutValue);
             this.Controls.Add(this.statusText);
-            this.Controls.Add(this.textBox3);
+            this.Controls.Add(this.textBoxCurrentTitle);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.timeLabel);
             this.Controls.Add(this.AutoConvert);
@@ -351,7 +352,7 @@
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.Label timeLabel;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox textBoxCurrentTitle;
         private System.Windows.Forms.TextBox statusText;
         private System.Windows.Forms.TextBox timeOutValue;
         private System.Windows.Forms.Label label5;

@@ -19,6 +19,7 @@ namespace AutoRip2MKV
         // remaining time.
         int timeLeft;
 
+        public string CurrentTitle { get; private set; }
 
         public Preferences()
         {
@@ -26,11 +27,8 @@ namespace AutoRip2MKV
             AutoRip2MKV.Program.CheckHandBrakeInstall();
             AutoRip2MKV.Program.CheckMakeMKVInstall();
 
-            if (Settings.Default.Timout)
-            {
-                StartTheTimer();
-            }
 
+           // StartTheTimer();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -96,50 +94,54 @@ namespace AutoRip2MKV
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            if (timeLeft > 0)
-            {
-                // Display the new time left
-                // by updating the Time Left label.
-                timeLeft = timeLeft - 1;
-                timeLabel.Visible = true;
-                timeLabel.Text = timeLeft + " seconds";
-            }
-            else
-            {
-                // If the user ran out of time, stop the timer
-                Properties.Settings.Default.Save(); // Saves settings in application configuration file
-                Properties.Settings.Default.Upgrade();
-                timer1.Stop();
+            if (textBoxCurrentTitle.Text != "")
 
-                if (AutoRip2MKV.Program.CheckVariables())
+            {
+                if (timeLeft > 0)
                 {
-                    timeLabel.Text = "AutoRip Executed!";
-                    //this.Hide();
-                    if (Properties.Settings.Default.TempPath == "")
-                    {
-                        if (Properties.Settings.Default.FinalPath != "")
-                        {
-                            Program.Rip2MKV(Properties.Settings.Default.FinalPath);
-                        }
-                        else
-                        {
-                            Program.UpdateStatusText("RIP FAILED: SET AT LEAST ONE DESTINATION FOLDER");
-                        }
-
-                    }
-                    else
-                    {
-                        Program.Rip2MKV(Properties.Settings.Default.TempPath);
-                        AutoConvert.Checked = true;
-                        timeLeft = Settings.Default.TimeoutValue;
-                        StartTheTimer();
-                    }
+                    // Display the new time left
+                    // by updating the Time Left label.
+                    timeLeft = timeLeft - 1;
+                    timeLabel.Visible = true;
+                    timeLabel.Text = timeLeft + " seconds";
                 }
                 else
                 {
-                    Program.UpdateStatusText("Preferences update. Please review and enable timer");
-                    AutoConvert.Checked = false;
-                    timeLeft = Settings.Default.TimeoutValue;
+                    // If the user ran out of time, stop the timer
+                    Properties.Settings.Default.Save(); // Saves settings in application configuration file
+                    Properties.Settings.Default.Upgrade();
+                    timer1.Stop();
+
+                    if (AutoRip2MKV.Program.CheckVariables())
+                    {
+                        timeLabel.Text = "AutoRip Executed!";
+                        //this.Hide();
+                        if (Properties.Settings.Default.TempPath == "")
+                        {
+                            if (Properties.Settings.Default.FinalPath != "")
+                            {
+                                Program.Rip2MKV(Properties.Settings.Default.FinalPath);
+                            }
+                            else
+                            {
+                                Program.UpdateStatusText("RIP FAILED: SET AT LEAST ONE DESTINATION FOLDER");
+                            }
+
+                        }
+                        else
+                        {
+                            Program.Rip2MKV(Properties.Settings.Default.TempPath);
+                            AutoConvert.Checked = true;
+                            timeLeft = Settings.Default.TimeoutValue;
+                            StartTheTimer();
+                        }
+                    }
+                    else
+                    {
+                        Program.UpdateStatusText("Preferences update. Please review and enable timer");
+                        AutoConvert.Checked = false;
+                        timeLeft = Settings.Default.TimeoutValue;
+                    }
                 }
             }
             this.Show();
@@ -180,11 +182,14 @@ namespace AutoRip2MKV
 
         public void StartTheTimer()
         {
-
-            // Start the timer.
-            timeLeft =  Settings.Default.TimeoutValue;
-            timeLabel.Text = timeLeft + " seconds";
-            timer1.Start();
+            if (textBoxCurrentTitle != null)
+            {
+                // Start the timer.
+                timeLeft = Settings.Default.TimeoutValue;
+                timeLabel.Text = timeLeft + " seconds";
+                timer1.Stop();
+                timer1.Start();
+            }
         }
 
         private void checkBox3_CheckedChanged(object sender, EventArgs e)
@@ -200,6 +205,14 @@ namespace AutoRip2MKV
                 timeLabel.Visible = false;
             }
 
+        }
+
+        private void textBoxCurrentTitle_TextChanged(object sender, EventArgs e)
+        {
+            if (textBoxCurrentTitle.Text != "")
+            {
+                StartTheTimer();
+            }
         }
     }
 }

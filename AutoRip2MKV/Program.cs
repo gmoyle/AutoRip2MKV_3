@@ -9,6 +9,8 @@ using System.Text.RegularExpressions;
 using Microsoft.Win32;
 using System.Diagnostics;
 using System.Windows.Forms;
+using System.Runtime.InteropServices;
+using System.Collections;
 
 namespace AutoRip2MKV
 {
@@ -24,6 +26,10 @@ namespace AutoRip2MKV
         [STAThread]
         public static void Main(string[] args)
         {
+            OpenOrCloseCDDrive openOrClose = new OpenOrCloseCDDrive();
+            IList drives = openOrClose.GetCDDrives;
+            openOrClose.Close(drives[0]);
+
 
             var DVDDriveToUse = GetDriveInfo("drive");
             var CurrentTitle = GetDriveInfo("label");
@@ -252,11 +258,45 @@ namespace AutoRip2MKV
         }
 
         public static void MoveFilesToFinalDestination()
-        {
-            UpdateStatusText(Properties.Settings.Default.TempPath + "\\" + CurrentTitle + "to " +Properties.Settings.Default.FinalPath + "\\" + CurrentTitle);
+         {
+        
+            string CurrentTitle = Properties.Settings.Default.CurrentTitle;
+            string sourcedir = Properties.Settings.Default.TempPath + "\\" + CurrentTitle;
+            string targetdir = Properties.Settings.Default.FinalPath + "\\" + CurrentTitle;
 
-            CurrentTitle = Properties.Settings.Default.CurrentTitle;
-            Directory.Move(Properties.Settings.Default.TempPath + "\\" + CurrentTitle, Properties.Settings.Default.FinalPath + "\\" + CurrentTitle);
+            // Path to directory of files to compress and decompress.
+            string dirpath = sourcedir;
+            DirectoryInfo di = new DirectoryInfo(dirpath);
+
+            foreach (FileInfo fi in di.GetFiles())
+            {
+                string source = sourcedir + "//" + fi.Name;
+                string target = targetdir + "//" + fi.Name;
+
+                try
+                {
+                    UpdateStatusText(source + "to " + target);
+                    File.Copy(source, target);
+                }
+                catch
+                {
+                    if (System.IO.Directory.Exists(targetdir))
+                    {
+                        UpdateStatusText("Movie Already Exists, Deleting: " + targetdir);
+                        File.Copy(source, target);
+                    }
+                }
+                if (File.Exists(target))
+                {
+                    File.Delete(source);
+                    UpdateStatusText("Deleted: " + source);
+                }
+            }
+
+            UpdateStatusText("Deleting: " + sourcedir);
+            Directory.Delete(sourcedir);
+
+
             return;
         }
 
@@ -305,6 +345,11 @@ namespace AutoRip2MKV
 
         public static bool CheckVariables()
         {
+            Directory.CreateDirectory(Properties.Settings.Default.FinalPath);
+            Directory.CreateDirectory(Properties.Settings.Default.TempPath);
+
+
+
             if (!System.IO.Directory.Exists(Properties.Settings.Default.TempPath))
             {
                 if (Properties.Settings.Default.TempPath == "" || Properties.Settings.Default.TempPath == null)
@@ -321,6 +366,7 @@ namespace AutoRip2MKV
                     Properties.Settings.Default.Upgrade();
                 }
             }
+
 
             if (!System.IO.Directory.Exists(Properties.Settings.Default.FinalPath))
             {
@@ -376,24 +422,28 @@ namespace AutoRip2MKV
         public static void MakeWorkingDirs()
         {
             CurrentTitle = Properties.Settings.Default.CurrentTitle;
-            if (System.IO.Directory.Exists(Properties.Settings.Default.TempPath))
+
+            try
             {
                 Directory.CreateDirectory(Properties.Settings.Default.TempPath + "\\" + CurrentTitle);
             }
-            else
+            catch
             {
                 UpdateStatusText("Cannot create " + Properties.Settings.Default.TempPath + "\\" + CurrentTitle);
             }
-            if (System.IO.Directory.Exists(Properties.Settings.Default.FinalPath))
+
+
+            try
             {
                 Directory.CreateDirectory(Properties.Settings.Default.FinalPath + "\\" + CurrentTitle);
             }
-            else
+            catch
             {
                 UpdateStatusText("Cannot create " + Properties.Settings.Default.FinalPath + "\\" + CurrentTitle);
             }
-        }
 
+        }
+       
         public static void UpdateStatusText(string update)
         {
             if (update == "Clear")
@@ -408,4 +458,5 @@ namespace AutoRip2MKV
             }
         }
     }
+
 }
