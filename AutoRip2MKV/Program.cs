@@ -26,7 +26,7 @@ namespace AutoRip2MKV
         [STAThread]
         public static void Main(string[] args)
         {
-            OpenOrCloseCDDrive.Open();
+            //OpenOrCloseCDDrive.Open();
 
             var DVDDriveToUse = GetDriveInfo("drive");
             var CurrentTitle = GetDriveInfo("label");
@@ -186,7 +186,11 @@ namespace AutoRip2MKV
                         {
                             MoveFilesToFinalDestination();
                         }
-                         OpenOrCloseCDDrive.Open();
+                    Properties.Settings.Default.CurrentTitle ="";
+                    Properties.Settings.Default.DVDDrive = "";
+                    Properties.Settings.Default.Save(); // Saves settings in application configuration file
+                    Properties.Settings.Default.Upgrade();
+                    OpenOrCloseCDDrive.Open();
 
                     return;
                     }
