@@ -26,10 +26,8 @@ namespace AutoRip2MKV
         [STAThread]
         public static void Main(string[] args)
         {
-            OpenOrCloseCDDrive openOrClose = new OpenOrCloseCDDrive();
-            IList drives = openOrClose.GetCDDrives;
-            openOrClose.Close(drives[0]);
-
+    //        OpenOrCloseCDDrive openOrClose = new OpenOrCloseCDDrive();
+            OpenOrCloseCDDrive.Open();
 
             var DVDDriveToUse = GetDriveInfo("drive");
             var CurrentTitle = GetDriveInfo("label");
@@ -169,11 +167,19 @@ namespace AutoRip2MKV
 
                 if (app == Properties.Settings.Default.MakeMKVPath)
                 {
+                    while (!exeProcess.HasExited)
+                    {
+
+                        Properties.Settings.Default.TimerGroup = false;
+                        //exeProcess.WaitForExit();
+                        // Discard cached information about the process.
+                        exeProcess.Refresh();
+                        // Wait 2 seconds.
+                        System.Threading.Thread.Sleep(2000);
+                    }
                 // Discard cached information about the process.
 
-                Properties.Settings.Default.TimerGroup = false;
-                exeProcess.WaitForExit();
-
+                
                     if (exeProcess.ExitCode == 0)
                     {
                         RenameFiles();
@@ -282,7 +288,11 @@ namespace AutoRip2MKV
                     if (System.IO.Directory.Exists(targetdir))
                     {
                         UpdateStatusText("Movie Already Exists, Deleting: " + targetdir);
+                        File.Delete(target);
+                        UpdateStatusText("Deleted: " + target);
                         File.Copy(source, target);
+                        UpdateStatusText("Copied: " + target);
+
                     }
                 }
                 if (File.Exists(target))

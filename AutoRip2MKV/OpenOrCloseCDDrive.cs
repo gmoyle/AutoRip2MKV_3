@@ -8,85 +8,41 @@ namespace AutoRip2MKV
 {
     public class OpenOrCloseCDDrive
     {
-
-        [DllImport("winmm.dll", CharSet = CharSet.Auto, EntryPoint = "mciSendString")]
-        public static extern int MciSendString(string command,
-           StringBuilder buffer, int bufferSize, IntPtr hwndCallback);
-
-        protected const int IntMciSuccess = 0;
-        protected const int IntBufferSize = 127;
-
-        protected List<DriveInfo> listCDDrives = new List<DriveInfo>();
-
-        public List<DriveInfo> GetCDDrives
+        static void Main(string[] args)
         {
-            get
+            ConsoleKey key;
+            while (true)
             {
-                return listCDDrives;
-            }
-        }
-
-        public OpenOrCloseCDDrive()
-        {
-            DriveInfo[] drives = DriveInfo.GetDrives();
-
-            foreach (DriveInfo drive in drives)
-            {
-                if (drive.DriveType == DriveType.CDRom)
+                key = Console.ReadKey().Key;
+                switch (key)
                 {
-                    listCDDrives.Add(drive);
+                    case ConsoleKey.O:
+                        Open();
+                        break;
+                    case ConsoleKey.C:
+                        Close();
+                        break;
+                    default:
+                        return;
                 }
             }
         }
 
-        internal void Close(object v)
+        public static void Open()
         {
-            //throw new NotImplementedException();
+            int ret = mciSendString("set cdaudio door open", null, 0, IntPtr.Zero);
         }
 
-        public void Open(DriveInfo cdDrive)
+        public static void Close()
         {
-            if (cdDrive.DriveType != DriveType.CDRom)
-            {
-                throw new InvalidOperationException
-                    ("Handed over parameter does not contain a valid CD/DVD drive!");
-            }
-
-            StringBuilder buffer = new StringBuilder();
-
-            int errorCode = MciSendString
-                (
-                (
-                String.Format
-                ("set CDAudio!{0} door open", cdDrive.Name)
-                ),
-                buffer,
-                IntBufferSize,
-                IntPtr.Zero
-                );
+            int ret = mciSendString("set cdaudio door closed", null, 0, IntPtr.Zero);
         }
 
-        public void Close(DriveInfo cdDrive)
-        {
-            if (cdDrive.DriveType != DriveType.CDRom)
-            {
-                throw new InvalidOperationException
-                    ("Handed over parameter does not contain a valid CD/DVD drive!");
-            }
+        [DllImport("winmm.dll", EntryPoint = "mciSendStringA", CharSet = CharSet.Ansi)]
+        protected static extern int mciSendString(string lpstrCommand,
+                                                    StringBuilder lpstrReturnString,
+                                                    int uReturnLength,
+                                                    IntPtr hwndCallback);
 
-            StringBuilder buffer = new StringBuilder();
-
-            int errorCode = MciSendString
-                (
-                (
-                String.Format
-                ("set CDAudio!{0} door closed", cdDrive.Name)
-                ),
-                buffer,
-                IntBufferSize,
-                IntPtr.Zero
-                );
-        }
     }
-
-}
+ }
