@@ -38,7 +38,6 @@
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.timeLabel = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.timeOutValue = new System.Windows.Forms.TextBox();
@@ -55,6 +54,7 @@
             this.tempPath = new System.Windows.Forms.TextBox();
             this.finalPath = new System.Windows.Forms.TextBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
+            this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.timerGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -140,10 +140,6 @@
             this.timer1.Interval = 1000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // backgroundWorker1
-            // 
-            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
-            // 
             // timeLabel
             // 
             this.timeLabel.AutoSize = true;
@@ -167,7 +163,7 @@
             // timeOutValue
             // 
             this.timeOutValue.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::AutoRip2MKV.Properties.Settings.Default, "TimeoutValue", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.timeOutValue.Location = new System.Drawing.Point(114, 16);
+            this.timeOutValue.Location = new System.Drawing.Point(125, 16);
             this.timeOutValue.Name = "timeOutValue";
             this.timeOutValue.Size = new System.Drawing.Size(46, 20);
             this.timeOutValue.TabIndex = 31;
@@ -175,7 +171,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(167, 19);
+            this.label5.Location = new System.Drawing.Point(176, 19);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(47, 13);
             this.label5.TabIndex = 32;
@@ -309,6 +305,11 @@
             this.textBox2.TabIndex = 3;
             this.textBox2.Text = global::AutoRip2MKV.Properties.Settings.Default.MinTitleLength;
             // 
+            // timer2
+            // 
+            this.timer2.Interval = 2000;
+            this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
+            // 
             // Preferences
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -363,7 +364,6 @@
         private System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.CheckBox AutoConvert;
         private System.Windows.Forms.Timer timer1;
-        private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.Label timeLabel;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox textBoxCurrentTitle;
@@ -371,5 +371,6 @@
         private System.Windows.Forms.TextBox timeOutValue;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.GroupBox timerGroupBox;
+        private System.Windows.Forms.Timer timer2;
     }
 }

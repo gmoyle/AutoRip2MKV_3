@@ -26,7 +26,6 @@ namespace AutoRip2MKV
         [STAThread]
         public static void Main(string[] args)
         {
-    //        OpenOrCloseCDDrive openOrClose = new OpenOrCloseCDDrive();
             OpenOrCloseCDDrive.Open();
 
             var DVDDriveToUse = GetDriveInfo("drive");
@@ -187,7 +186,9 @@ namespace AutoRip2MKV
                         {
                             MoveFilesToFinalDestination();
                         }
-                        return;
+                         OpenOrCloseCDDrive.Open();
+
+                    return;
                     }
                     else
                     {
@@ -213,13 +214,24 @@ namespace AutoRip2MKV
                     if (d.DriveFormat == "UDF" || d.DriveFormat == "CDRom" || d.DriveFormat == "M-Disc" || d.DriveFormat == "M2TS")
                     {
                         if (results == "label")
-                        { 
+                        {
                             string volumeLabel = GetVolumeLabel(d.VolumeLabel);
+
+                            Properties.Settings.Default.CurrentTitle = volumeLabel;
+                            Properties.Settings.Default.DVDDrive = d.Name;
+                            Properties.Settings.Default.Save(); // Saves settings in application configuration file
+                            Properties.Settings.Default.Upgrade();
+
                             return volumeLabel;
                         }
                         else if (results == "drive")
                         {
                             string drivePath = d.Name;
+                            Properties.Settings.Default.CurrentTitle = d.VolumeLabel;
+                            Properties.Settings.Default.DVDDrive = drivePath;
+                            Properties.Settings.Default.Save(); // Saves settings in application configuration file
+                            Properties.Settings.Default.Upgrade();
+
                             return drivePath;
                         }
 
@@ -356,9 +368,12 @@ namespace AutoRip2MKV
 
         public static bool CheckVariables()
         {
+            try
+            { 
             Directory.CreateDirectory(Properties.Settings.Default.FinalPath);
             Directory.CreateDirectory(Properties.Settings.Default.TempPath);
-
+            }
+            catch { }
 
 
             if (!System.IO.Directory.Exists(Properties.Settings.Default.TempPath))

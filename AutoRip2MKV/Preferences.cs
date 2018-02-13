@@ -144,17 +144,17 @@ namespace AutoRip2MKV
                     }
                 }
             }
+            else
+            {
+                timer2.Start();
+
+            }
             this.Show();
         }
 
         private void ExitThread()
         {
             throw new NotImplementedException();
-        }
-
-        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
-        {
-
         }
 
         private void checkBox2_CheckedChanged(object sender, EventArgs e)
@@ -190,9 +190,14 @@ namespace AutoRip2MKV
                 timer1.Stop();
                 timer1.Start();
             }
-        }
+            else
+            {
+                timer2.Start();
 
-        private void checkBox3_CheckedChanged(object sender, EventArgs e)
+            }
+
+        }
+            private void checkBox3_CheckedChanged(object sender, EventArgs e)
         {
             if (AutoConvert.Checked == true)
             {
@@ -213,6 +218,22 @@ namespace AutoRip2MKV
             {
                 StartTheTimer();
             }
+            else
+            {
+                timer2.Start();
+
+            }
+        }
+
+        private void timer2_Tick(object sender, EventArgs e)
+        {
+            while (textBoxCurrentTitle.Text == "")
+            {
+                AutoRip2MKV.Program.GetDriveInfo("drive");
+            }
+
+            timer2.Stop();
+
         }
     }
 }
