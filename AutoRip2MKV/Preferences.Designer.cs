@@ -41,9 +41,12 @@
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.timeLabel = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
+            this.timeOutValue = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.timerGroupBox = new System.Windows.Forms.GroupBox();
+            this.AutoConvert = new System.Windows.Forms.CheckBox();
             this.statusText = new System.Windows.Forms.TextBox();
             this.textBoxCurrentTitle = new System.Windows.Forms.TextBox();
-            this.AutoConvert = new System.Windows.Forms.CheckBox();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.dvdDriveID = new System.Windows.Forms.TextBox();
@@ -52,8 +55,7 @@
             this.tempPath = new System.Windows.Forms.TextBox();
             this.finalPath = new System.Windows.Forms.TextBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
-            this.timeOutValue = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
+            this.timerGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // Save
@@ -145,7 +147,7 @@
             // timeLabel
             // 
             this.timeLabel.AutoSize = true;
-            this.timeLabel.Location = new System.Drawing.Point(197, 359);
+            this.timeLabel.Location = new System.Drawing.Point(45, 60);
             this.timeLabel.Name = "timeLabel";
             this.timeLabel.Size = new System.Drawing.Size(64, 13);
             this.timeLabel.TabIndex = 27;
@@ -161,6 +163,50 @@
             this.label4.TabIndex = 28;
             this.label4.Text = "Current Title";
             this.label4.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // timeOutValue
+            // 
+            this.timeOutValue.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::AutoRip2MKV.Properties.Settings.Default, "TimeoutValue", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.timeOutValue.Location = new System.Drawing.Point(114, 16);
+            this.timeOutValue.Name = "timeOutValue";
+            this.timeOutValue.Size = new System.Drawing.Size(46, 20);
+            this.timeOutValue.TabIndex = 31;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(167, 19);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(47, 13);
+            this.label5.TabIndex = 32;
+            this.label5.Text = "seconds";
+            // 
+            // timerGroupBox
+            // 
+            this.timerGroupBox.Controls.Add(this.AutoConvert);
+            this.timerGroupBox.Controls.Add(this.label5);
+            this.timerGroupBox.Controls.Add(this.timeLabel);
+            this.timerGroupBox.Controls.Add(this.timeOutValue);
+            this.timerGroupBox.Location = new System.Drawing.Point(148, 248);
+            this.timerGroupBox.Name = "timerGroupBox";
+            this.timerGroupBox.Size = new System.Drawing.Size(229, 100);
+            this.timerGroupBox.TabIndex = 33;
+            this.timerGroupBox.TabStop = false;
+            this.timerGroupBox.Text = "TimerObjects";
+            // 
+            // AutoConvert
+            // 
+            this.AutoConvert.AutoSize = true;
+            this.AutoConvert.Checked = global::AutoRip2MKV.Properties.Settings.Default.Timout;
+            this.AutoConvert.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.AutoConvert.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::AutoRip2MKV.Properties.Settings.Default, "Timout", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.AutoConvert.Location = new System.Drawing.Point(6, 19);
+            this.AutoConvert.Name = "AutoConvert";
+            this.AutoConvert.Size = new System.Drawing.Size(113, 17);
+            this.AutoConvert.TabIndex = 25;
+            this.AutoConvert.Text = "Auto Convert After";
+            this.AutoConvert.UseVisualStyleBackColor = true;
+            this.AutoConvert.CheckedChanged += new System.EventHandler(this.checkBox3_CheckedChanged);
             // 
             // statusText
             // 
@@ -182,20 +228,6 @@
             this.textBoxCurrentTitle.TabIndex = 29;
             this.textBoxCurrentTitle.Text = global::AutoRip2MKV.Properties.Settings.Default.CurrentTitle;
             this.textBoxCurrentTitle.TextChanged += new System.EventHandler(this.textBoxCurrentTitle_TextChanged);
-            // 
-            // AutoConvert
-            // 
-            this.AutoConvert.AutoSize = true;
-            this.AutoConvert.Checked = global::AutoRip2MKV.Properties.Settings.Default.Timout;
-            this.AutoConvert.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.AutoConvert.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::AutoRip2MKV.Properties.Settings.Default, "Timout", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.AutoConvert.Location = new System.Drawing.Point(158, 318);
-            this.AutoConvert.Name = "AutoConvert";
-            this.AutoConvert.Size = new System.Drawing.Size(113, 17);
-            this.AutoConvert.TabIndex = 25;
-            this.AutoConvert.Text = "Auto Convert After";
-            this.AutoConvert.UseVisualStyleBackColor = true;
-            this.AutoConvert.CheckedChanged += new System.EventHandler(this.checkBox3_CheckedChanged);
             // 
             // checkBox2
             // 
@@ -277,35 +309,15 @@
             this.textBox2.TabIndex = 3;
             this.textBox2.Text = global::AutoRip2MKV.Properties.Settings.Default.MinTitleLength;
             // 
-            // timeOutValue
-            // 
-            this.timeOutValue.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::AutoRip2MKV.Properties.Settings.Default, "TimeoutValue", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.timeOutValue.Location = new System.Drawing.Point(266, 315);
-            this.timeOutValue.Name = "timeOutValue";
-            this.timeOutValue.Size = new System.Drawing.Size(46, 20);
-            this.timeOutValue.TabIndex = 31;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(319, 318);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(47, 13);
-            this.label5.TabIndex = 32;
-            this.label5.Text = "seconds";
-            // 
             // Preferences
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(873, 397);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.timeOutValue);
+            this.Controls.Add(this.timerGroupBox);
             this.Controls.Add(this.statusText);
             this.Controls.Add(this.textBoxCurrentTitle);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.timeLabel);
-            this.Controls.Add(this.AutoConvert);
             this.Controls.Add(this.checkBox2);
             this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.label8);
@@ -325,6 +337,8 @@
             this.Name = "Preferences";
             this.Text = "AutoRip2MKV Preferences";
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.timerGroupBox.ResumeLayout(false);
+            this.timerGroupBox.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -356,5 +370,6 @@
         private System.Windows.Forms.TextBox statusText;
         private System.Windows.Forms.TextBox timeOutValue;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.GroupBox timerGroupBox;
     }
 }

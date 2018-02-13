@@ -169,13 +169,11 @@ namespace AutoRip2MKV
 
                 if (app == Properties.Settings.Default.MakeMKVPath)
                 {
-                    while (!exeProcess.HasExited)
-                    {
-                        // Discard cached information about the process.
-                        exeProcess.Refresh();
-                        // Wait 2 seconds.
-                        System.Threading.Thread.Sleep(2000);
-                    }
+                // Discard cached information about the process.
+
+                Properties.Settings.Default.TimerGroup = false;
+                exeProcess.WaitForExit();
+
                     if (exeProcess.ExitCode == 0)
                     {
                         RenameFiles();
@@ -189,6 +187,7 @@ namespace AutoRip2MKV
                     {
                         //Directory.Delete(topPath, true);
                         CleanupFailedRip();
+                    
                         return;
                     }
                 }
@@ -305,16 +304,18 @@ namespace AutoRip2MKV
             Program.MakeWorkingDirs();
 
             string makeMKVPath = Properties.Settings.Default.MakeMKVPath;
-            
+
             if (File.Exists(makeMKVPath))
             {
 
                 string ripPath = destination + "\\" + CurrentTitle;
                 UpdateStatusText("Ripping to: " + ripPath);
+                char[] charsToTrim = { '\\' };
+                string activeDisc = Properties.Settings.Default.DVDDrive.TrimEnd(charsToTrim);
                 string minTitleLength = Properties.Settings.Default.MinTitleLength;
                 var driveID = DVDDriveToUse;
 
-                string MakeMKVOptions = " mkv --decrypt --noscan --minlength=1200 --robot --directio=true disc:0 1 " + ripPath;
+                string MakeMKVOptions = " --robot --messages=" + ripPath + "\\riplog.txt --decrypt --noscan --minlength=" + minTitleLength + " --directio=true mkv disc:0 all " + ripPath ;
 
                 string app = makeMKVPath;
 

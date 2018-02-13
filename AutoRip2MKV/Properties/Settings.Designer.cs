@@ -202,5 +202,17 @@ namespace AutoRip2MKV.Properties {
                 this["TimeoutValue"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool TimerGroup {
+            get {
+                return ((bool)(this["TimerGroup"]));
+            }
+            set {
+                this["TimerGroup"] = value;
+            }
+        }
     }
 }
