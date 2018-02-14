@@ -10,13 +10,13 @@ This is the document from the orginal. **** items are currently not completed.
 
 What it does for you:
 
-Rip any DVD or Bluray (MakeMKV License for Blueray required) to an MKV file at full quality, including chapters and dolby 5.1.
-No decryptor software required (handled by MakeMKV)
-****Optionally convert the MKV to an Apple Universal file format .MP4 file to the same location.
-****Optionally delete the MKV file if you do not want it (it is required for the initial rip)
-Copy the completed files to a final location (if specified, see readme)
-Eject your DVD and wait for another 
-****If you assign Rip using Autorip2MKV as your DVD or Bluray default insert functionality, it is completely user interaction free once installed.
+* Rip any DVD or Bluray (MakeMKV License for Blueray required) to an MKV file at full quality, including chapters and dolby 5.1. 
+* No decryptor software required (handled by MakeMKV)
+* ****Optionally convert the MKV to an Apple Universal file format .MP4 file to the same location.
+* ****Optionally delete the MKV file if you do not want it (it is required for the initial rip)
+* Copy the completed files to a final location (if specified, see readme)
+* Eject your DVD and wait for another 
+* ****If you assign Rip using Autorip2MKV as your DVD or Bluray default insert functionality, it is completely user interaction free once installed.
 
 You can leave the FinalPath Empty and it will rip directly to the Temp Folder path.
 

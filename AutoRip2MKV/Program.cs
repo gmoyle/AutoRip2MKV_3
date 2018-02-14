@@ -154,7 +154,7 @@ namespace AutoRip2MKV
             // Use ProcessStartInfo class
             ProcessStartInfo startInfo = new ProcessStartInfo();
             startInfo.CreateNoWindow = false;
-            startInfo.UseShellExecute = false;
+            startInfo.UseShellExecute = true;
             startInfo.FileName = app;
             startInfo.WindowStyle = ProcessWindowStyle.Minimized;
             startInfo.Arguments = " " + parameters;
@@ -264,7 +264,8 @@ namespace AutoRip2MKV
 
             foreach (FileInfo f in files)
             {
-                try
+
+                if (f.FullName.Contains("title"))
                 {
                     string newname = f.FullName.Replace("title", CurrentTitle);
                     if (File.Exists(newname))
@@ -275,10 +276,9 @@ namespace AutoRip2MKV
                     File.Move(f.FullName, newname);
                     UpdateStatusText("Rename:" + f.FullName + " to:" + newname);
                 }
-
-                catch
+                else
                 {
-
+                    UpdateStatusText("Rename not needed");
                 }
 
 
@@ -304,18 +304,20 @@ namespace AutoRip2MKV
 
                 try
                 {
-                    UpdateStatusText(source + " ==> " + target);
+                    UpdateStatusText("Copying ... " + source + " ==> " + target);
                     File.Copy(source, target);
+                    UpdateStatusText("Completed " + source + " ==> " + target);
                 }
                 catch
                 {
                     if (System.IO.Directory.Exists(targetdir))
                     {
-                        UpdateStatusText("Movie Already Exists, Deleting: " + targetdir);
+                        UpdateStatusText("Movie Directory Already Exists, Deleting: " + targetdir);
                         File.Delete(target);
-                        UpdateStatusText("Deleted: " + target);
+                        UpdateStatusText("Deleted existing file: " + target);
+                        UpdateStatusText("Copying ... " + source + " ==> " + target);
                         File.Copy(source, target);
-                        UpdateStatusText("Copied: " + target);
+                        UpdateStatusText("Completed " + source + " ==> " + target);
 
                     }
                 }
@@ -326,9 +328,9 @@ namespace AutoRip2MKV
                 }
             }
              
-            UpdateStatusText("Deleting: " + sourcedir);
+            UpdateStatusText("Deleting.... " + sourcedir);
             Directory.Delete(sourcedir);
-
+            UpdateStatusText("Deleted: " + sourcedir);
 
             return;
         }
