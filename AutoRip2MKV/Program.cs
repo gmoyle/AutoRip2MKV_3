@@ -156,13 +156,14 @@ namespace AutoRip2MKV
             startInfo.CreateNoWindow = false;
             startInfo.UseShellExecute = false;
             startInfo.FileName = app;
-            startInfo.WindowStyle = ProcessWindowStyle.Normal;
+            startInfo.WindowStyle = ProcessWindowStyle.Minimized;
             startInfo.Arguments = " " + parameters;
 
   
                 UpdateStatusText("Launch: " + startInfo);
+            AutoRip2MKV.Preferences.ActiveForm.WindowState = FormWindowState.Minimized;
 
-                Process exeProcess = Process.Start(startInfo);
+            Process exeProcess = Process.Start(startInfo);
 
                 if (app == Properties.Settings.Default.MakeMKVPath)
                 {
@@ -174,7 +175,7 @@ namespace AutoRip2MKV
                         // Discard cached information about the process.
                         exeProcess.Refresh();
                         // Wait 2 seconds.
-                        System.Threading.Thread.Sleep(2000);
+                       // System.Threading.Thread.Sleep(2000);
                     }
                 // Discard cached information about the process.
 
@@ -198,7 +199,7 @@ namespace AutoRip2MKV
                     {
                         //Directory.Delete(topPath, true);
                         CleanupFailedRip();
-                    
+
                         return;
                     }
                 }
@@ -256,23 +257,30 @@ namespace AutoRip2MKV
         }
 
         public static void RenameFiles()
-        {
+         {
 
             DirectoryInfo d = new DirectoryInfo(Properties.Settings.Default.TempPath + "\\" + CurrentTitle);
-            FileInfo[] files = d.GetFiles("title*.*");
+            FileInfo[] files = d.GetFiles("*.mkv");
 
             foreach (FileInfo f in files)
             {
-                string newname = f.FullName.Replace("title", CurrentTitle);
-
-                if (File.Exists(newname))
+                try
                 {
-                    UpdateStatusText("Deleted existing Filename:" + newname);
-                    File.Delete(newname);
+                    string newname = f.FullName.Replace("title", CurrentTitle);
+                    if (File.Exists(newname))
+                    {
+                        UpdateStatusText("Deleted existing Filename:" + newname);
+                        File.Delete(newname);
+                    }
+                    File.Move(f.FullName, newname);
+                    UpdateStatusText("Rename:" + f.FullName + " to:" + newname);
+                }
+
+                catch
+                {
 
                 }
-                File.Move(f.FullName, newname);
-                UpdateStatusText("Rename:" + f.FullName + " to:" + newname);
+
 
             }
             return;
@@ -296,7 +304,7 @@ namespace AutoRip2MKV
 
                 try
                 {
-                    UpdateStatusText(source + "to " + target);
+                    UpdateStatusText(source + " ==> " + target);
                     File.Copy(source, target);
                 }
                 catch
@@ -317,7 +325,7 @@ namespace AutoRip2MKV
                     UpdateStatusText("Deleted: " + source);
                 }
             }
-
+             
             UpdateStatusText("Deleting: " + sourcedir);
             Directory.Delete(sourcedir);
 

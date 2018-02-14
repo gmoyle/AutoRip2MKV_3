@@ -24,6 +24,8 @@ namespace AutoRip2MKV
         public Preferences()
         {
             InitializeComponent();
+            this.WindowState = FormWindowState.Normal;
+
             AutoRip2MKV.Program.CheckHandBrakeInstall();
             AutoRip2MKV.Program.CheckMakeMKVInstall();
 
@@ -64,7 +66,7 @@ namespace AutoRip2MKV
             Settings.Default.WindowSize = this.Size;
 
             // Copy window size to app settings
-            if (this.WindowState == FormWindowState.Normal)
+            if (this.WindowState == FormWindowState.Minimized)
             {
                 Settings.Default.WindowSize = this.Size;
             }
@@ -114,8 +116,9 @@ namespace AutoRip2MKV
 
                     if (AutoRip2MKV.Program.CheckVariables())
                     {
+                        this.WindowState = FormWindowState.Minimized;
+
                         timeLabel.Text = "AutoRip Executed!";
-                        //this.Hide();
                         if (Properties.Settings.Default.TempPath == "")
                         {
                             if (Properties.Settings.Default.FinalPath != "")
@@ -130,6 +133,8 @@ namespace AutoRip2MKV
                         }
                         else
                         {
+                            this.WindowState = FormWindowState.Normal;
+
                             Program.Rip2MKV(Properties.Settings.Default.TempPath);
                             AutoConvert.Checked = true;
                             timeLeft = Settings.Default.TimeoutValue;
@@ -138,6 +143,8 @@ namespace AutoRip2MKV
                     }
                     else
                     {
+                        this.WindowState = FormWindowState.Normal;
+
                         Program.UpdateStatusText("Preferences update. Please review and enable timer");
                         AutoConvert.Checked = false;
                         timeLeft = Settings.Default.TimeoutValue;
@@ -146,10 +153,11 @@ namespace AutoRip2MKV
             }
             else
             {
+                this.WindowState = FormWindowState.Normal;
+
                 timer2.Start();
 
             }
-            this.Show();
         }
 
         private void ExitThread()
@@ -182,7 +190,7 @@ namespace AutoRip2MKV
 
         public void StartTheTimer()
         {
-            if (textBoxCurrentTitle != null)
+            if (textBoxCurrentTitle.Text != "")
             {
                 // Start the timer.
                 timeLeft = Settings.Default.TimeoutValue;
@@ -192,7 +200,7 @@ namespace AutoRip2MKV
             }
             else
             {
-                timer2.Start();
+               timer2.Start();
 
             }
 
@@ -220,19 +228,23 @@ namespace AutoRip2MKV
             }
             else
             {
-                timer2.Start();
-
+               timer2.Start();
             }
         }
 
         private void timer2_Tick(object sender, EventArgs e)
         {
-            while (textBoxCurrentTitle.Text == "")
+            if (textBoxCurrentTitle.Text == "")
             {
                 AutoRip2MKV.Program.GetDriveInfo("drive");
+                //System.Threading.Thread.Sleep(20000);
+            }
+            else
+            {
+                timer2.Stop();
+
             }
 
-            timer2.Stop();
 
         }
     }
