@@ -108,7 +108,7 @@ namespace AutoRip2MKV
             }
             else
             {
-                var mkvDownload = AppDomain.CurrentDomain.BaseDirectory + "Setup_MakeMKV_v1.10.10.exe";
+                var mkvDownload = AppDomain.CurrentDomain.BaseDirectory + "Setup_MakeMKV_v1.12.0.exe";
                 if (File.Exists (mkvDownload))
                 {
 
