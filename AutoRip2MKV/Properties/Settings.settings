@@ -27,7 +27,7 @@
       <Value Profile="(Default)">0, 0</Value>
     </Setting>
     <Setting Name="WindowSize" Type="System.Drawing.Size" Scope="User">
-      <Value Profile="(Default)">1036, 389</Value>
+      <Value Profile="(Default)">1000, 455</Value>
     </Setting>
     <Setting Name="ConvWithHandbrake" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>

@@ -44,6 +44,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.timerGroupBox = new System.Windows.Forms.GroupBox();
             this.AutoConvert = new System.Windows.Forms.CheckBox();
+            this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.statusText = new System.Windows.Forms.TextBox();
             this.textBoxCurrentTitle = new System.Windows.Forms.TextBox();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
@@ -54,13 +55,12 @@
             this.tempPath = new System.Windows.Forms.TextBox();
             this.finalPath = new System.Windows.Forms.TextBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
-            this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.timerGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // Save
             // 
-            this.Save.Location = new System.Drawing.Point(58, 354);
+            this.Save.Location = new System.Drawing.Point(59, 308);
             this.Save.Name = "Save";
             this.Save.Size = new System.Drawing.Size(75, 23);
             this.Save.TabIndex = 1;
@@ -71,7 +71,7 @@
             // 
             // Close
             // 
-            this.Close.Location = new System.Drawing.Point(333, 354);
+            this.Close.Location = new System.Drawing.Point(383, 308);
             this.Close.Name = "Close";
             this.Close.Size = new System.Drawing.Size(75, 23);
             this.Close.TabIndex = 2;
@@ -185,7 +185,7 @@
             this.timerGroupBox.Controls.Add(this.timeOutValue);
             this.timerGroupBox.Location = new System.Drawing.Point(148, 248);
             this.timerGroupBox.Name = "timerGroupBox";
-            this.timerGroupBox.Size = new System.Drawing.Size(229, 100);
+            this.timerGroupBox.Size = new System.Drawing.Size(229, 83);
             this.timerGroupBox.TabIndex = 33;
             this.timerGroupBox.TabStop = false;
             this.timerGroupBox.Text = "TimerObjects";
@@ -204,6 +204,11 @@
             this.AutoConvert.UseVisualStyleBackColor = true;
             this.AutoConvert.CheckedChanged += new System.EventHandler(this.checkBox3_CheckedChanged);
             // 
+            // timer2
+            // 
+            this.timer2.Interval = 2000;
+            this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
+            // 
             // statusText
             // 
             this.statusText.AcceptsReturn = true;
@@ -211,7 +216,7 @@
             this.statusText.Location = new System.Drawing.Point(472, 2);
             this.statusText.Multiline = true;
             this.statusText.Name = "statusText";
-            this.statusText.Size = new System.Drawing.Size(389, 375);
+            this.statusText.Size = new System.Drawing.Size(535, 346);
             this.statusText.TabIndex = 30;
             this.statusText.Text = global::AutoRip2MKV.Properties.Settings.Default.StatusText;
             // 
@@ -305,16 +310,11 @@
             this.textBox2.TabIndex = 3;
             this.textBox2.Text = global::AutoRip2MKV.Properties.Settings.Default.MinTitleLength;
             // 
-            // timer2
-            // 
-            this.timer2.Interval = 2000;
-            this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
-            // 
             // Preferences
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(873, 397);
+            this.ClientSize = new System.Drawing.Size(984, 358);
             this.Controls.Add(this.timerGroupBox);
             this.Controls.Add(this.statusText);
             this.Controls.Add(this.textBoxCurrentTitle);
@@ -335,6 +335,8 @@
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.Close);
             this.Controls.Add(this.Save);
+            this.DataBindings.Add(new System.Windows.Forms.Binding("MaximumSize", global::AutoRip2MKV.Properties.Settings.Default, "WindowSize", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.MaximumSize = global::AutoRip2MKV.Properties.Settings.Default.WindowSize;
             this.Name = "Preferences";
             this.Text = "AutoRip2MKV Preferences";
             this.Load += new System.EventHandler(this.Form1_Load);
