@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.Save = new System.Windows.Forms.Button();
             this.Close = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
@@ -37,14 +36,7 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.timeLabel = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.timeOutValue = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.timerGroupBox = new System.Windows.Forms.GroupBox();
-            this.AutoConvert = new System.Windows.Forms.CheckBox();
-            this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.statusText = new System.Windows.Forms.TextBox();
             this.textBoxCurrentTitle = new System.Windows.Forms.TextBox();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
@@ -55,7 +47,8 @@
             this.tempPath = new System.Windows.Forms.TextBox();
             this.finalPath = new System.Windows.Forms.TextBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
-            this.timerGroupBox.SuspendLayout();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.buttonRipMovie = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // Save
@@ -134,22 +127,6 @@
             this.label8.TabIndex = 21;
             this.label8.Text = "Minimum Title Length";
             // 
-            // timer1
-            // 
-            this.timer1.Enabled = true;
-            this.timer1.Interval = 1000;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-            // 
-            // timeLabel
-            // 
-            this.timeLabel.AutoSize = true;
-            this.timeLabel.Location = new System.Drawing.Point(45, 60);
-            this.timeLabel.Name = "timeLabel";
-            this.timeLabel.Size = new System.Drawing.Size(64, 13);
-            this.timeLabel.TabIndex = 27;
-            this.timeLabel.Text = "30 Seconds";
-            this.timeLabel.Visible = false;
-            // 
             // label4
             // 
             this.label4.AutoSize = true;
@@ -159,55 +136,6 @@
             this.label4.TabIndex = 28;
             this.label4.Text = "Current Title";
             this.label4.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            // 
-            // timeOutValue
-            // 
-            this.timeOutValue.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::AutoRip2MKV.Properties.Settings.Default, "TimeoutValue", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.timeOutValue.Location = new System.Drawing.Point(125, 16);
-            this.timeOutValue.Name = "timeOutValue";
-            this.timeOutValue.Size = new System.Drawing.Size(46, 20);
-            this.timeOutValue.TabIndex = 31;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(176, 19);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(47, 13);
-            this.label5.TabIndex = 32;
-            this.label5.Text = "seconds";
-            // 
-            // timerGroupBox
-            // 
-            this.timerGroupBox.Controls.Add(this.AutoConvert);
-            this.timerGroupBox.Controls.Add(this.label5);
-            this.timerGroupBox.Controls.Add(this.timeLabel);
-            this.timerGroupBox.Controls.Add(this.timeOutValue);
-            this.timerGroupBox.Location = new System.Drawing.Point(148, 248);
-            this.timerGroupBox.Name = "timerGroupBox";
-            this.timerGroupBox.Size = new System.Drawing.Size(229, 83);
-            this.timerGroupBox.TabIndex = 33;
-            this.timerGroupBox.TabStop = false;
-            this.timerGroupBox.Text = "TimerObjects";
-            // 
-            // AutoConvert
-            // 
-            this.AutoConvert.AutoSize = true;
-            this.AutoConvert.Checked = global::AutoRip2MKV.Properties.Settings.Default.Timout;
-            this.AutoConvert.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.AutoConvert.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::AutoRip2MKV.Properties.Settings.Default, "Timout", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.AutoConvert.Location = new System.Drawing.Point(6, 19);
-            this.AutoConvert.Name = "AutoConvert";
-            this.AutoConvert.Size = new System.Drawing.Size(113, 17);
-            this.AutoConvert.TabIndex = 25;
-            this.AutoConvert.Text = "Auto Convert After";
-            this.AutoConvert.UseVisualStyleBackColor = true;
-            this.AutoConvert.CheckedChanged += new System.EventHandler(this.checkBox3_CheckedChanged);
-            // 
-            // timer2
-            // 
-            this.timer2.Interval = 2000;
-            this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
             // 
             // statusText
             // 
@@ -247,6 +175,7 @@
             // 
             this.checkBox1.AutoSize = true;
             this.checkBox1.Checked = global::AutoRip2MKV.Properties.Settings.Default.ConvWithHandbrake;
+            this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox1.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::AutoRip2MKV.Properties.Settings.Default, "ConvWithHandbrake", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.checkBox1.Location = new System.Drawing.Point(133, 137);
             this.checkBox1.Name = "checkBox1";
@@ -310,12 +239,26 @@
             this.textBox2.TabIndex = 3;
             this.textBox2.Text = global::AutoRip2MKV.Properties.Settings.Default.MinTitleLength;
             // 
+            // backgroundWorker1
+            // 
+            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
+            // 
+            // buttonRipMovie
+            // 
+            this.buttonRipMovie.Location = new System.Drawing.Point(59, 244);
+            this.buttonRipMovie.Name = "buttonRipMovie";
+            this.buttonRipMovie.Size = new System.Drawing.Size(75, 23);
+            this.buttonRipMovie.TabIndex = 31;
+            this.buttonRipMovie.Text = "Rip Movie";
+            this.buttonRipMovie.UseVisualStyleBackColor = true;
+            this.buttonRipMovie.Click += new System.EventHandler(this.button1_Click);
+            // 
             // Preferences
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(984, 358);
-            this.Controls.Add(this.timerGroupBox);
+            this.Controls.Add(this.buttonRipMovie);
             this.Controls.Add(this.statusText);
             this.Controls.Add(this.textBoxCurrentTitle);
             this.Controls.Add(this.label4);
@@ -340,8 +283,6 @@
             this.Name = "Preferences";
             this.Text = "AutoRip2MKV Preferences";
             this.Load += new System.EventHandler(this.Form1_Load);
-            this.timerGroupBox.ResumeLayout(false);
-            this.timerGroupBox.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -364,15 +305,10 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.CheckBox checkBox2;
-        private System.Windows.Forms.CheckBox AutoConvert;
-        private System.Windows.Forms.Timer timer1;
-        private System.Windows.Forms.Label timeLabel;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox textBoxCurrentTitle;
         private System.Windows.Forms.TextBox statusText;
-        private System.Windows.Forms.TextBox timeOutValue;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.GroupBox timerGroupBox;
-        private System.Windows.Forms.Timer timer2;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private System.Windows.Forms.Button buttonRipMovie;
     }
 }

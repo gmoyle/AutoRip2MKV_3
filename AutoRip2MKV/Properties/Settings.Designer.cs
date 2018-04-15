@@ -25,7 +25,7 @@ namespace AutoRip2MKV.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(".mkv\" --preset \"H.265 MKV 1080p30\"")]
+        [global::System.Configuration.DefaultSettingValueAttribute(".mp4\" --preset \"H.265 MKV 1080p30\"")]
         public string HandBrakeParameters {
             get {
                 return ((string)(this["HandBrakeParameters"]));
@@ -133,7 +133,7 @@ namespace AutoRip2MKV.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool ConvWithHandbrake {
             get {
                 return ((bool)(this["ConvWithHandbrake"]));

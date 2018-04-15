@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="HandBrakeParameters" Type="System.String" Scope="User">
-      <Value Profile="(Default)">.mkv" --preset "H.265 MKV 1080p30"</Value>
+      <Value Profile="(Default)">.mp4" --preset "H.265 MKV 1080p30"</Value>
     </Setting>
     <Setting Name="TempPath" Type="System.String" Scope="User">
       <Value Profile="(Default)">c:\temp\Movies</Value>
@@ -30,7 +30,7 @@
       <Value Profile="(Default)">1000, 455</Value>
     </Setting>
     <Setting Name="ConvWithHandbrake" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
+      <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="KeepAfterConv" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
