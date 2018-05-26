@@ -364,7 +364,7 @@ namespace AutoRip2MKV
             {
                 if (File.Exists(makeMKVPath))
                 {
-
+                    Properties.Settings.Default.RipRetry = 0;
                     string ripPath = destination + "\\" + CurrentTitle;
                     UpdateStatusText("Ripping to: " + ripPath);
                     char[] charsToTrim = { '\\' };
