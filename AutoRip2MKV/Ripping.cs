@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using Microsoft.Win32;
+using Microsoft.VisualBasic.FileIO;
 using System.Diagnostics;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
@@ -152,6 +153,7 @@ namespace AutoRip2MKV
             //Console.WriteLine("tExpand: " + tExpand);
             return tExpand;
         }
+
         /// <summary>
         /// Launch the legacy application with some options set.
         /// </summary>
@@ -186,7 +188,6 @@ namespace AutoRip2MKV
                     // System.Threading.Thread.Sleep(2000);
                 }
             // Discard cached information about the process.
-
                 
                 if (exeProcess.ExitCode == 0)
                 {
@@ -285,7 +286,7 @@ namespace AutoRip2MKV
                     if (File.Exists(newname))
                     {
                         UpdateStatusText("Deleted existing Filename:" + newname);
-                        File.Delete(newname);
+                        FileSystem.DeleteFile(newname, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
                     }
                     File.Move(f.FullName, newname);
                     UpdateStatusText("Rename:" + f.FullName + " to:" + newname);
@@ -294,8 +295,6 @@ namespace AutoRip2MKV
                 {
                     UpdateStatusText("Rename not needed");
                 }
-
-
             }
             return;
         }
@@ -327,7 +326,7 @@ namespace AutoRip2MKV
                     if (System.IO.Directory.Exists(targetdir))
                     {
                         UpdateStatusText("Movie Directory Already Exists, Deleting: " + targetdir);
-                        File.Delete(target);
+                        FileSystem.DeleteFile(target, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
                         UpdateStatusText("Deleted existing file: " + target);
                         UpdateStatusText("Copying ... " + source + " ==> " + target);
                         File.Copy(source, target);
@@ -337,13 +336,13 @@ namespace AutoRip2MKV
                 }
                 if (File.Exists(target))
                 {
-                    File.Delete(source);
+                    FileSystem.DeleteFile(source, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
                     UpdateStatusText("Deleted: " + source);
                 }
             }
              
             UpdateStatusText("Deleting.... " + sourcedir);
-            Directory.Delete(sourcedir);
+            FileSystem.DeleteDirectory(sourcedir, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
             UpdateStatusText("Deleted: " + sourcedir);
 
             return;
@@ -455,9 +454,12 @@ namespace AutoRip2MKV
             {
                 if (Properties.Settings.Default.FinalPath != null)
                 {
-                    var foldertodelete = Properties.Settings.Default.FinalPath + "\\" + CurrentTitle;
-                    UpdateStatusText("Delete: " + foldertodelete);
-                    Directory.Delete(foldertodelete, true);
+                    if (CurrentTitle != null)
+                    {
+                        var foldertodelete = Properties.Settings.Default.FinalPath + "\\" + CurrentTitle;
+                        UpdateStatusText("Delete: " + foldertodelete);
+                        FileSystem.DeleteDirectory(foldertodelete, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
+                    }
 
                 }
                
@@ -466,9 +468,12 @@ namespace AutoRip2MKV
             {
                 if (Properties.Settings.Default.TempPath != null)
                 {
-                    var foldertodelete = Properties.Settings.Default.TempPath + "\\" + CurrentTitle;
-                    UpdateStatusText("Delete: " + foldertodelete);
-                    Directory.Delete(foldertodelete, true);
+                    if (CurrentTitle != null)
+                    {
+                        var foldertodelete = Properties.Settings.Default.TempPath + "\\" + CurrentTitle;
+                        UpdateStatusText("Delete: " + foldertodelete);
+                        FileSystem.DeleteDirectory(foldertodelete, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
+                    }
                 }
             }
             return;
@@ -477,25 +482,27 @@ namespace AutoRip2MKV
         {
             CurrentTitle = Properties.Settings.Default.CurrentTitle;
 
-            try
+            if (CurrentTitle != null)
             {
-                Directory.CreateDirectory(Properties.Settings.Default.TempPath + "\\" + CurrentTitle);
-            }
-            catch
-            {
-                UpdateStatusText("Cannot create " + Properties.Settings.Default.TempPath + "\\" + CurrentTitle);
-            }
+                try
+                {
+                    Directory.CreateDirectory(Properties.Settings.Default.TempPath + "\\" + CurrentTitle);
+                }
+                catch
+                {
+                    UpdateStatusText("Cannot create " + Properties.Settings.Default.TempPath + "\\" + CurrentTitle);
+                }
 
 
-            try
-            {
-                Directory.CreateDirectory(Properties.Settings.Default.FinalPath + "\\" + CurrentTitle);
+                try
+                {
+                    Directory.CreateDirectory(Properties.Settings.Default.FinalPath + "\\" + CurrentTitle);
+                }
+                catch
+                {
+                    UpdateStatusText("Cannot create " + Properties.Settings.Default.FinalPath + "\\" + CurrentTitle);
+                }
             }
-            catch
-            {
-                UpdateStatusText("Cannot create " + Properties.Settings.Default.FinalPath + "\\" + CurrentTitle);
-            }
-
         }
        
         public static void UpdateStatusText(string update)
