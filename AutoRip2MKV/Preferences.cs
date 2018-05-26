@@ -131,6 +131,7 @@ namespace AutoRip2MKV
 
         }
 
+    
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
 
@@ -166,6 +167,7 @@ namespace AutoRip2MKV
 
         private void timer1_Tick(object sender, EventArgs e)
         {
+
             if (timeLeft > 0)
             {
                 // Display the new time left
@@ -194,5 +196,6 @@ namespace AutoRip2MKV
                 }
             }
         }
+
     }
 }

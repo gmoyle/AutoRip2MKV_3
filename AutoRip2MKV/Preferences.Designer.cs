@@ -51,6 +51,7 @@
             this.buttonRipMovie = new System.Windows.Forms.Button();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.timeLabel = new System.Windows.Forms.Label();
+            this.failedRipCount = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // Save
@@ -159,6 +160,7 @@
             this.textBoxCurrentTitle.TabIndex = 29;
             this.textBoxCurrentTitle.Text = global::AutoRip2MKV.Properties.Settings.Default.CurrentTitle;
             this.textBoxCurrentTitle.TextChanged += new System.EventHandler(this.textBoxCurrentTitle_TextChanged);
+
             // 
             // checkBox2
             // 
@@ -263,13 +265,13 @@
             this.timeLabel.Name = "timeLabel";
             this.timeLabel.Size = new System.Drawing.Size(35, 13);
             this.timeLabel.TabIndex = 32;
-            this.timeLabel.Text = "label5";
-            // 
+            this.timeLabel.Text = "timer";
             // Preferences
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(984, 358);
+            this.Controls.Add(this.failedRipCount);
             this.Controls.Add(this.timeLabel);
             this.Controls.Add(this.buttonRipMovie);
             this.Controls.Add(this.statusText);
@@ -324,5 +326,6 @@
         private System.Windows.Forms.Button buttonRipMovie;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Label timeLabel;
+        private System.Windows.Forms.Label failedRipCount;
     }
 }

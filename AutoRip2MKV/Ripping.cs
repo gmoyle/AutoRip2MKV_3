@@ -351,20 +351,16 @@ namespace AutoRip2MKV
 
         public static void Rip2MKV(string destination)
         {
-            AutoRip2MKV.Ripping.MakeWorkingDirs();
-
-            string makeMKVPath = Properties.Settings.Default.MakeMKVPath;
-
-
             string checkFinalPath = Properties.Settings.Default.FinalPath + "\\" + CurrentTitle;
-
             AutoRip2MKV.Ripping.CheckForRecentRip(checkFinalPath);
 
             if (!DontRip)
             {
+                AutoRip2MKV.Ripping.MakeWorkingDirs();
+                string makeMKVPath = Properties.Settings.Default.MakeMKVPath;
+
                 if (File.Exists(makeMKVPath))
                 {
-                    Properties.Settings.Default.RipRetry = 0;
                     string ripPath = destination + "\\" + CurrentTitle;
                     UpdateStatusText("Ripping to: " + ripPath);
                     char[] charsToTrim = { '\\' };
@@ -427,13 +423,12 @@ namespace AutoRip2MKV
                     Properties.Settings.Default.Upgrade();
                     return;
                 }
-                else
-                {
-                    Properties.Settings.Default.RipRetry = 0;
-                    Properties.Settings.Default.Save();
-                    Properties.Settings.Default.Upgrade();
-                }
             }
+
+            DontRip = false;
+            Properties.Settings.Default.RipRetry = 0;
+            Properties.Settings.Default.Save();
+            Properties.Settings.Default.Upgrade();
             return;
         }
 
