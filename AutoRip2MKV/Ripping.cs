@@ -396,9 +396,11 @@ namespace AutoRip2MKV
             }
             else
             {
-                OpenOrCloseCDDrive.Open();
+                if (Properties.Settings.Default.RipRetry <= 5)
+                {
+                    OpenOrCloseCDDrive.Open();
+                }   
             }
-
             Properties.Settings.Default.Save();
             Properties.Settings.Default.Upgrade();
             return;
