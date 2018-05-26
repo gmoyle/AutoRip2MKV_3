@@ -52,6 +52,7 @@
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.timeLabel = new System.Windows.Forms.Label();
             this.failedRipCount = new System.Windows.Forms.Label();
+            this.FailedCounter = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // Save
@@ -160,7 +161,6 @@
             this.textBoxCurrentTitle.TabIndex = 29;
             this.textBoxCurrentTitle.Text = global::AutoRip2MKV.Properties.Settings.Default.CurrentTitle;
             this.textBoxCurrentTitle.TextChanged += new System.EventHandler(this.textBoxCurrentTitle_TextChanged);
-
             // 
             // checkBox2
             // 
@@ -263,14 +263,33 @@
             this.timeLabel.AutoSize = true;
             this.timeLabel.Location = new System.Drawing.Point(226, 254);
             this.timeLabel.Name = "timeLabel";
-            this.timeLabel.Size = new System.Drawing.Size(35, 13);
+            this.timeLabel.Size = new System.Drawing.Size(29, 13);
             this.timeLabel.TabIndex = 32;
             this.timeLabel.Text = "timer";
+            // 
+            // failedRipCount
+            // 
+            this.failedRipCount.Location = new System.Drawing.Point(0, 0);
+            this.failedRipCount.Name = "failedRipCount";
+            this.failedRipCount.Size = new System.Drawing.Size(100, 23);
+            this.failedRipCount.TabIndex = 0;
+            // 
+            // FailedCounter
+            // 
+            this.FailedCounter.AutoSize = true;
+            this.FailedCounter.Location = new System.Drawing.Point(229, 288);
+            this.FailedCounter.Name = "FailedCounter";
+            this.FailedCounter.Size = new System.Drawing.Size(93, 13);
+            this.FailedCounter.TabIndex = 33;
+            this.FailedCounter.Text = "FailedCounterText";
+            this.FailedCounter.Click += new System.EventHandler(this.FailedCounter_Click);
+            // 
             // Preferences
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(984, 358);
+            this.Controls.Add(this.FailedCounter);
             this.Controls.Add(this.failedRipCount);
             this.Controls.Add(this.timeLabel);
             this.Controls.Add(this.buttonRipMovie);
@@ -327,5 +346,6 @@
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Label timeLabel;
         private System.Windows.Forms.Label failedRipCount;
+        private System.Windows.Forms.Label FailedCounter;
     }
 }

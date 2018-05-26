@@ -197,5 +197,9 @@ namespace AutoRip2MKV
             }
         }
 
+        private void FailedCounter_Click(object sender, EventArgs e)
+        {
+            FailedCounter.Text = "Failed "  + Settings.Default.RipRetry.ToString();
+        }
     }
 }

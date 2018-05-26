@@ -351,7 +351,7 @@ namespace AutoRip2MKV
 
         public static void Rip2MKV(string destination)
         {
-            string checkFinalPath = Properties.Settings.Default.FinalPath + "\\" + CurrentTitle;
+            string checkFinalPath = Properties.Settings.Default.FinalPath + "\\" + Properties.Settings.Default.CurrentTitle; ;
             AutoRip2MKV.Ripping.CheckForRecentRip(checkFinalPath);
 
             if (!DontRip)
