@@ -12,7 +12,7 @@
       <Value Profile="(Default)">D:\Movies</Value>
     </Setting>
     <Setting Name="MinTitleLength" Type="System.String" Scope="User">
-      <Value Profile="(Default)">1200</Value>
+      <Value Profile="(Default)">1800</Value>
     </Setting>
     <Setting Name="KeepMKV" Type="System.String" Scope="User">
       <Value Profile="(Default)">True</Value>

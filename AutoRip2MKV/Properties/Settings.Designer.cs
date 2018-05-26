@@ -61,7 +61,7 @@ namespace AutoRip2MKV.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1200")]
+        [global::System.Configuration.DefaultSettingValueAttribute("1800")]
         public string MinTitleLength {
             get {
                 return ((string)(this["MinTitleLength"]));

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.Save = new System.Windows.Forms.Button();
             this.Close = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
@@ -47,8 +48,9 @@
             this.tempPath = new System.Windows.Forms.TextBox();
             this.finalPath = new System.Windows.Forms.TextBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
-            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.buttonRipMovie = new System.Windows.Forms.Button();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.timeLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // Save
@@ -239,10 +241,6 @@
             this.textBox2.TabIndex = 3;
             this.textBox2.Text = global::AutoRip2MKV.Properties.Settings.Default.MinTitleLength;
             // 
-            // backgroundWorker1
-            // 
-            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
-            // 
             // buttonRipMovie
             // 
             this.buttonRipMovie.Location = new System.Drawing.Point(59, 244);
@@ -253,11 +251,26 @@
             this.buttonRipMovie.UseVisualStyleBackColor = true;
             this.buttonRipMovie.Click += new System.EventHandler(this.button1_Click);
             // 
+            // timer1
+            // 
+            this.timer1.Interval = 1000;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // timeLabel
+            // 
+            this.timeLabel.AutoSize = true;
+            this.timeLabel.Location = new System.Drawing.Point(226, 254);
+            this.timeLabel.Name = "timeLabel";
+            this.timeLabel.Size = new System.Drawing.Size(35, 13);
+            this.timeLabel.TabIndex = 32;
+            this.timeLabel.Text = "label5";
+            // 
             // Preferences
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(984, 358);
+            this.Controls.Add(this.timeLabel);
             this.Controls.Add(this.buttonRipMovie);
             this.Controls.Add(this.statusText);
             this.Controls.Add(this.textBoxCurrentTitle);
@@ -308,7 +321,8 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox textBoxCurrentTitle;
         private System.Windows.Forms.TextBox statusText;
-        private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.Button buttonRipMovie;
+        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Label timeLabel;
     }
 }

@@ -33,7 +33,7 @@ namespace AutoRip2MKV
 
 
 
-            // StartTheTimer();
+            StartTheTimer();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -134,20 +134,65 @@ namespace AutoRip2MKV
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
 
-            if (textBoxCurrentTitle.Text != "")
-            {
-                if (Settings.Default.TempPath != "" || Settings.Default.TempPath != null)
-                    AutoRip2MKV.Ripping.Rip2MKV(Settings.Default.TempPath);
-            }
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             if (textBoxCurrentTitle.Text != "")
             {
-                Ripping.Rip2MKV(Settings.Default.FinalPath);
+                if (Settings.Default.TempPath != "")
+                {
+                    AutoRip2MKV.Ripping.Rip2MKV(Settings.Default.TempPath);
+                }
+                else
+                {
+                    Ripping.Rip2MKV(Settings.Default.FinalPath);
+                }
+                this.Close();
             }
         }
 
+        /// <summary>
+        /// Start the quiz by filling in all of the problem 
+        /// values and starting the timer. 
+        /// </summary>
+        public void StartTheTimer()
+        {
+            // Start the timer.
+            timeLeft = 15;
+            timeLabel.Text = timeLeft + " seconds";
+            timer1.Start();
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            if (timeLeft > 0)
+            {
+                // Display the new time left
+                // by updating the Time Left label.
+                timeLeft = timeLeft - 1;
+                timeLabel.Text = timeLeft + " seconds";
+            }
+            else
+            {
+                // If the user ran out of time, stop the timer, show
+                // a MessageBox, and fill in the answers.
+                timer1.Stop();
+                timeLabel.Text = "Time's up!";
+
+                if (textBoxCurrentTitle.Text != "")
+                {
+                    if (Settings.Default.TempPath != "")
+                    {
+                        AutoRip2MKV.Ripping.Rip2MKV(Settings.Default.TempPath);
+                    }
+                    else
+                    {
+                        Ripping.Rip2MKV(Settings.Default.FinalPath);
+                    }
+                    this.Close();
+                }
+            }
+        }
     }
 }
