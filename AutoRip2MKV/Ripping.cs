@@ -22,6 +22,7 @@ namespace AutoRip2MKV
 
         public static string CurrentTitle { get; private set; }
         public static string DVDDriveToUse { get; private set; }
+        public static bool DontRip = false;
 
         // Satisfies rule: MarkWindowsFormsEntryPointsWithStaThread.
         [STAThread]
@@ -354,42 +355,83 @@ namespace AutoRip2MKV
 
             string makeMKVPath = Properties.Settings.Default.MakeMKVPath;
 
-            if (File.Exists(makeMKVPath))
+
+            string checkFinalPath = Properties.Settings.Default.FinalPath + "\\" + CurrentTitle;
+
+            AutoRip2MKV.Ripping.CheckForRecentRip(checkFinalPath);
+
+            if (!DontRip)
             {
+                if (File.Exists(makeMKVPath))
+                {
 
-                string ripPath = destination + "\\" + CurrentTitle;
-                UpdateStatusText("Ripping to: " + ripPath);
-                char[] charsToTrim = { '\\' };
-                string activeDisc = Properties.Settings.Default.DVDDrive.TrimEnd(charsToTrim);
-                string minTitleLength = Properties.Settings.Default.MinTitleLength;
-                var driveID = DVDDriveToUse;
+                    string ripPath = destination + "\\" + CurrentTitle;
+                    UpdateStatusText("Ripping to: " + ripPath);
+                    char[] charsToTrim = { '\\' };
+                    string activeDisc = Properties.Settings.Default.DVDDrive.TrimEnd(charsToTrim);
+                    string minTitleLength = Properties.Settings.Default.MinTitleLength;
+                    var driveID = DVDDriveToUse;
 
-                string MakeMKVOptions = " --robot --messages=" + ripPath + "\\riplog.txt --decrypt --noscan --minlength=" + minTitleLength + " --directio=true mkv disc:0 all " + ripPath ;
+                    string MakeMKVOptions = " --robot --messages=" + ripPath + "\\riplog.txt --decrypt --noscan --minlength=" + minTitleLength + " --directio=true mkv disc:0 all " + ripPath;
 
-                string app = makeMKVPath;
+                    string app = makeMKVPath;
 
-                LaunchCommandLineApp(app, MakeMKVOptions);
+                    LaunchCommandLineApp(app, MakeMKVOptions);
+                }
+                else
+                {
+                    // Initializes the variables to pass to the MessageBox.Show method.
+                    string message = "MakeMKV not found";
+                    string caption = "Error Detected in Input";
+                    MessageBoxButtons buttons = MessageBoxButtons.OK;
+                    DialogResult result;
+
+                    // Displays the MessageBox.
+                    result = MessageBox.Show(message, caption, buttons);
+
+                    if (result == System.Windows.Forms.DialogResult.OK)
+                    {
+                    }
+                }
             }
             else
             {
-                // Initializes the variables to pass to the MessageBox.Show method.
-
-                string message = "MakeMKV not found";
-                string caption = "Error Detected in Input";
-                MessageBoxButtons buttons = MessageBoxButtons.OK;
-                DialogResult result;
-
-                // Displays the MessageBox.
-
-                result = MessageBox.Show(message, caption, buttons);
-
-                if (result == System.Windows.Forms.DialogResult.OK)
-                {
-                }
+                OpenOrCloseCDDrive.Open();
             }
-            
+
             Properties.Settings.Default.Save();
             Properties.Settings.Default.Upgrade();
+            return;
+        }
+
+        public static void CheckForRecentRip(string checkFinalPath)
+        {
+            // Path to already ripped  files.
+            DirectoryInfo di = new DirectoryInfo(checkFinalPath);
+
+            foreach (FileInfo fi in di.GetFiles())
+            {
+                DateTime currentDateTime = DateTime.Now;
+                DateTime filedate = fi.LastWriteTime;
+
+                // comparee date and time
+                TimeSpan diff1 = currentDateTime.Subtract(filedate);
+
+                if (diff1.Hours < 24)
+                {
+                    DontRip = true;
+                    Properties.Settings.Default.RipRetry = Properties.Settings.Default.RipRetry + 1;
+                    Properties.Settings.Default.Save();
+                    Properties.Settings.Default.Upgrade();
+                    return;
+                }
+                else
+                {
+                    Properties.Settings.Default.RipRetry = 0;
+                    Properties.Settings.Default.Save();
+                    Properties.Settings.Default.Upgrade();
+                }
+            }
             return;
         }
 
@@ -454,7 +496,7 @@ namespace AutoRip2MKV
             {
                 if (Properties.Settings.Default.FinalPath != null)
                 {
-                    if (CurrentTitle != null)
+                    if (CurrentTitle != "")
                     {
                         var foldertodelete = Properties.Settings.Default.FinalPath + "\\" + CurrentTitle;
                         UpdateStatusText("Delete: " + foldertodelete);
@@ -468,7 +510,7 @@ namespace AutoRip2MKV
             {
                 if (Properties.Settings.Default.TempPath != null)
                 {
-                    if (CurrentTitle != null)
+                    if (CurrentTitle != "")
                     {
                         var foldertodelete = Properties.Settings.Default.TempPath + "\\" + CurrentTitle;
                         UpdateStatusText("Delete: " + foldertodelete);
@@ -482,7 +524,7 @@ namespace AutoRip2MKV
         {
             CurrentTitle = Properties.Settings.Default.CurrentTitle;
 
-            if (CurrentTitle != null)
+            if (CurrentTitle != "")
             {
                 try
                 {

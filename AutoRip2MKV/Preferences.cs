@@ -134,16 +134,19 @@ namespace AutoRip2MKV
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
 
-            if (textBoxCurrentTitle.Text != "" && textBoxCurrentTitle != null)
+            if (textBoxCurrentTitle.Text != "")
             {
-                if (Settings.Default.TempPath != "" && Settings.Default.TempPath != null)
+                if (Settings.Default.TempPath != "" || Settings.Default.TempPath != null)
                     AutoRip2MKV.Ripping.Rip2MKV(Settings.Default.TempPath);
             }
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Ripping.Rip2MKV(Settings.Default.FinalPath);
+            if (textBoxCurrentTitle.Text != "")
+            {
+                Ripping.Rip2MKV(Settings.Default.FinalPath);
+            }
         }
 
     }
