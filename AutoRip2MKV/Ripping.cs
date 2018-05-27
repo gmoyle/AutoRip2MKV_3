@@ -425,14 +425,14 @@ namespace AutoRip2MKV
                         return;
                     }
                 }
-
-                DontRip = false;
-                Properties.Settings.Default.RipRetry = 0;
-                Properties.Settings.Default.Save();
-                Properties.Settings.Default.Upgrade();
-                return;
             }
-                
+
+            DontRip = false;
+            Properties.Settings.Default.RipRetry = 0;
+            Properties.Settings.Default.Save();
+            Properties.Settings.Default.Upgrade();
+            return;
+
         }
 
         public static bool CheckVariables()
