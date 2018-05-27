@@ -188,7 +188,7 @@ namespace AutoRip2MKV
                     // Wait 2 seconds.
                     // System.Threading.Thread.Sleep(2000);
                 }
-            // Discard cached information about the process.
+                // Discard cached information about the process.
                 
                 if (exeProcess.ExitCode == 0)
                 {
@@ -406,7 +406,7 @@ namespace AutoRip2MKV
         {
             // Path to already ripped  files.
             DirectoryInfo di = new DirectoryInfo(checkFinalPath);
-            if (!System.IO.Directory.Exists(Properties.Settings.Default.FinalPath))
+            if (di.Exists)
             {
                 foreach (FileInfo fi in di.GetFiles())
                 {
