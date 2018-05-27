@@ -406,30 +406,33 @@ namespace AutoRip2MKV
         {
             // Path to already ripped  files.
             DirectoryInfo di = new DirectoryInfo(checkFinalPath);
-
-            foreach (FileInfo fi in di.GetFiles())
+            if (!System.IO.Directory.Exists(Properties.Settings.Default.FinalPath))
             {
-                DateTime currentDateTime = DateTime.Now;
-                DateTime filedate = fi.LastWriteTime;
-
-                // comparee date and time
-                TimeSpan diff1 = currentDateTime.Subtract(filedate);
-
-                if (diff1.Hours < 24)
+                foreach (FileInfo fi in di.GetFiles())
                 {
-                    DontRip = true;
-                    Properties.Settings.Default.RipRetry = Properties.Settings.Default.RipRetry + 1;
-                    Properties.Settings.Default.Save();
-                    Properties.Settings.Default.Upgrade();
-                    return;
-                }
-            }
+                    DateTime currentDateTime = DateTime.Now;
+                    DateTime filedate = fi.LastWriteTime;
 
-            DontRip = false;
-            Properties.Settings.Default.RipRetry = 0;
-            Properties.Settings.Default.Save();
-            Properties.Settings.Default.Upgrade();
-            return;
+                    // comparee date and time
+                    TimeSpan diff1 = currentDateTime.Subtract(filedate);
+
+                    if (diff1.Hours < 24)
+                    {
+                        DontRip = true;
+                        Properties.Settings.Default.RipRetry = Properties.Settings.Default.RipRetry + 1;
+                        Properties.Settings.Default.Save();
+                        Properties.Settings.Default.Upgrade();
+                        return;
+                    }
+                }
+
+                DontRip = false;
+                Properties.Settings.Default.RipRetry = 0;
+                Properties.Settings.Default.Save();
+                Properties.Settings.Default.Upgrade();
+                return;
+            }
+                
         }
 
         public static bool CheckVariables()
