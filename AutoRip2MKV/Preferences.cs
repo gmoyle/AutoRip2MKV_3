@@ -30,9 +30,7 @@ namespace AutoRip2MKV
             AutoRip2MKV.Ripping.CheckHandBrakeInstall();
             AutoRip2MKV.Ripping.CheckMakeMKVInstall();
 
-
-
-
+            FailedCounter.Text = "Failed " + Settings.Default.RipRetry.ToString();
             StartTheTimer();
         }
 
@@ -159,10 +157,18 @@ namespace AutoRip2MKV
         /// </summary>
         public void StartTheTimer()
         {
-            // Start the timer.
-            timeLeft = 60;
-            timeLabel.Text = timeLeft + " seconds";
-            timer1.Start();
+            if (Settings.Default.Timeout)
+            {
+                // Start the timer.
+                timeLeft = Settings.Default.TimerValue;
+                timeLabel.Text = timeLeft + " seconds";
+                timer1.Start();
+            }
+            else
+            {
+                timer1.Stop();
+            }
+                
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -199,7 +205,23 @@ namespace AutoRip2MKV
 
         private void FailedCounter_Click(object sender, EventArgs e)
         {
-            FailedCounter.Text = "Failed "  + Settings.Default.RipRetry.ToString();
+
+        }
+
+        private void timeLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void timeout_CheckedChanged(object sender, EventArgs e)
+        {
+            Settings.Default.Timeout = TimeOutCheckBox.Checked;
+            StartTheTimer();
+        }
+
+        private void TimeOutValueBox_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

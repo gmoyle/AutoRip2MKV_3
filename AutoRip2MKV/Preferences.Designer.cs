@@ -51,8 +51,9 @@
             this.buttonRipMovie = new System.Windows.Forms.Button();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.timeLabel = new System.Windows.Forms.Label();
-            this.failedRipCount = new System.Windows.Forms.Label();
             this.FailedCounter = new System.Windows.Forms.Label();
+            this.TimeOutCheckBox = new System.Windows.Forms.CheckBox();
+            this.TimeOutValueBox = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // Save
@@ -261,18 +262,11 @@
             // timeLabel
             // 
             this.timeLabel.AutoSize = true;
-            this.timeLabel.Location = new System.Drawing.Point(226, 254);
+            this.timeLabel.Location = new System.Drawing.Point(229, 264);
             this.timeLabel.Name = "timeLabel";
-            this.timeLabel.Size = new System.Drawing.Size(29, 13);
+            this.timeLabel.Size = new System.Drawing.Size(0, 13);
             this.timeLabel.TabIndex = 32;
-            this.timeLabel.Text = "timer";
-            // 
-            // failedRipCount
-            // 
-            this.failedRipCount.Location = new System.Drawing.Point(0, 0);
-            this.failedRipCount.Name = "failedRipCount";
-            this.failedRipCount.Size = new System.Drawing.Size(100, 23);
-            this.failedRipCount.TabIndex = 0;
+            this.timeLabel.Click += new System.EventHandler(this.timeLabel_Click);
             // 
             // FailedCounter
             // 
@@ -282,15 +276,40 @@
             this.FailedCounter.Size = new System.Drawing.Size(93, 13);
             this.FailedCounter.TabIndex = 33;
             this.FailedCounter.Text = "FailedCounterText";
+            this.FailedCounter.TextChanged += new System.EventHandler(this.Form1_Load);
             this.FailedCounter.Click += new System.EventHandler(this.FailedCounter_Click);
+            // 
+            // TimeOutCheckBox
+            // 
+            this.TimeOutCheckBox.AutoSize = true;
+            this.TimeOutCheckBox.Checked = global::AutoRip2MKV.Properties.Settings.Default.Timeout;
+            this.TimeOutCheckBox.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::AutoRip2MKV.Properties.Settings.Default, "Timeout", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.TimeOutCheckBox.Location = new System.Drawing.Point(195, 244);
+            this.TimeOutCheckBox.Name = "TimeOutCheckBox";
+            this.TimeOutCheckBox.Size = new System.Drawing.Size(88, 17);
+            this.TimeOutCheckBox.TabIndex = 34;
+            this.TimeOutCheckBox.Text = "Enable Timer";
+            this.TimeOutCheckBox.UseVisualStyleBackColor = true;
+            this.TimeOutCheckBox.CheckedChanged += new System.EventHandler(this.timeout_CheckedChanged);
+            // 
+            // TimeOutValueBox
+            // 
+            this.TimeOutValueBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::AutoRip2MKV.Properties.Settings.Default, "TimerValue", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.TimeOutValueBox.Location = new System.Drawing.Point(293, 244);
+            this.TimeOutValueBox.Name = "TimeOutValueBox";
+            this.TimeOutValueBox.Size = new System.Drawing.Size(29, 20);
+            this.TimeOutValueBox.TabIndex = 35;
+            this.TimeOutValueBox.Text = "30";
+            this.TimeOutValueBox.TextChanged += new System.EventHandler(this.TimeOutValueBox_TextChanged);
             // 
             // Preferences
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(984, 358);
+            this.Controls.Add(this.TimeOutValueBox);
+            this.Controls.Add(this.TimeOutCheckBox);
             this.Controls.Add(this.FailedCounter);
-            this.Controls.Add(this.failedRipCount);
             this.Controls.Add(this.timeLabel);
             this.Controls.Add(this.buttonRipMovie);
             this.Controls.Add(this.statusText);
@@ -345,7 +364,8 @@
         private System.Windows.Forms.Button buttonRipMovie;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Label timeLabel;
-        private System.Windows.Forms.Label failedRipCount;
         private System.Windows.Forms.Label FailedCounter;
+        private System.Windows.Forms.CheckBox TimeOutCheckBox;
+        private System.Windows.Forms.TextBox TimeOutValueBox;
     }
 }

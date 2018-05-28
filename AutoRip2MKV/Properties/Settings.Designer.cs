@@ -158,12 +158,12 @@ namespace AutoRip2MKV.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool Timout {
+        public bool Timeout {
             get {
-                return ((bool)(this["Timout"]));
+                return ((bool)(this["Timeout"]));
             }
             set {
-                this["Timout"] = value;
+                this["Timeout"] = value;
             }
         }
         
@@ -193,18 +193,6 @@ namespace AutoRip2MKV.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("60")]
-        public int TimeoutValue {
-            get {
-                return ((int)(this["TimeoutValue"]));
-            }
-            set {
-                this["TimeoutValue"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool TimerGroup {
             get {
@@ -224,6 +212,18 @@ namespace AutoRip2MKV.Properties {
             }
             set {
                 this["RipRetry"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("30")]
+        public int TimerValue {
+            get {
+                return ((int)(this["TimerValue"]));
+            }
+            set {
+                this["TimerValue"] = value;
             }
         }
     }

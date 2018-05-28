@@ -480,7 +480,7 @@ namespace AutoRip2MKV
                 }
                 if (Properties.Settings.Default.FinalPath == "" && Properties.Settings.Default.TempPath == "")
                 {
-                    Properties.Settings.Default.Timout = false;
+                    Properties.Settings.Default.Timeout = false;
                     Properties.Settings.Default.Save(); // Saves settings in application configuration file
                     Properties.Settings.Default.Upgrade();
                     return false;
