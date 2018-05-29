@@ -392,7 +392,7 @@ namespace AutoRip2MKV
             }
             else
             {
-                if (Properties.Settings.Default.RipRetry <= 5)
+                if (Properties.Settings.Default.RipRetry <= 1)
                 {
                     OpenOrCloseCDDrive.Open();
                 }   
@@ -413,7 +413,7 @@ namespace AutoRip2MKV
                     DateTime currentDateTime = DateTime.Now;
                     DateTime filedate = fi.LastWriteTime;
 
-                    // comparee date and time
+                    // compare date and time
                     TimeSpan diff1 = currentDateTime.Subtract(filedate);
 
                     if (diff1.Hours < 24)
