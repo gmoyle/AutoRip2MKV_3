@@ -18,7 +18,7 @@ What it does for you:
 * Eject your DVD and wait for another 
 * ****If you assign Rip using Autorip2MKV as your DVD or Bluray default insert functionality, it is completely user interaction free once installed.
 
-You can leave the FinalPath Empty and it will rip directly to the Temp Folder path.
+You can leave the Temp Folder and it will rip directly to the pathFinalPath empty.
 
 Temp and directory folders now function as intended.  Put whatever folders you want there.  The only caveat is they MUST be a subfolder and not a root drive.
 
