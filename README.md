@@ -16,7 +16,7 @@ What it does for you:
 * ****Optionally delete the MKV file if you do not want it (it is required for the initial rip)
 * Copy the completed files to a final location (if specified, see readme)
 * Eject your DVD and wait for another 
-* ****If you assign Rip using Autorip2MKV as your DVD or Bluray default insert functionality, it is completely user interaction free once installed.
+* If you assign Rip using Autorip2MKV as your DVD or Bluray default insert functionality, it is completely user interaction free once installed.
 
 You can leave the Temp Folder empty and it will rip directly to the FinalPath.
 
