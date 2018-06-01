@@ -210,7 +210,7 @@ namespace AutoRip2MKV
                 }
                 else
                 {
-
+                    results = false;
                     SMTPSender.Main(results);
                     CleanupFailedRip();
 
@@ -344,7 +344,7 @@ namespace AutoRip2MKV
 
         public static void Rip2MKV(string destination)
         {
-            string checkFinalPath = Properties.Settings.Default.FinalPath + "\\" + Properties.Settings.Default.CurrentTitle; ;
+            string checkFinalPath = Properties.Settings.Default.FinalPath + "\\" + Properties.Settings.Default.CurrentTitle;
             AutoRip2MKV.Ripping.CheckForRecentRip(checkFinalPath);
 
             if (!DontRip)
