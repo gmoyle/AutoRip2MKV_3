@@ -30,7 +30,7 @@ namespace AutoRip2MKV
             AutoRip2MKV.Ripping.CheckHandBrakeInstall();
             AutoRip2MKV.Ripping.CheckMakeMKVInstall();
 
-            FailedCounter.Text = "Failed " + Settings.Default.RipRetry.ToString();
+            //FailedCounter.Text = "Failed " + Settings.Default.RipRetry.ToString();
             StartTheTimer();
         }
 
@@ -179,6 +179,7 @@ namespace AutoRip2MKV
                 // Display the new time left
                 // by updating the Time Left label.
                 timeLeft = timeLeft - 1;
+                timeLabel.Enabled = true;
                 timeLabel.Text = timeLeft + " seconds";
             }
             else
@@ -186,8 +187,8 @@ namespace AutoRip2MKV
                 // If the user ran out of time, stop the timer, show
                 // a MessageBox, and fill in the answers.
                 timer1.Stop();
-                timeLabel.Text = "Time's up!";
-
+                Ripping.UpdateStatusText(Settings.Default.CurrentTitle + "Ripping Started!!!!");
+                timeLabel.Enabled = false;
                 if (textBoxCurrentTitle.Text != "")
                 {
                     if (Settings.Default.TempPath != "")
@@ -222,6 +223,109 @@ namespace AutoRip2MKV
         private void TimeOutValueBox_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void statusText_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label5_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch (comboBox1.Text)
+            {
+                case "Republic Wireless":
+                    AutoRip2MKV.Properties.Settings.Default.CurrentProvider = "@text.republicwireless.com";
+                    break;
+                case "Metro PCS":
+                    AutoRip2MKV.Properties.Settings.Default.CurrentProvider = "@mymetropcs.com";
+                    break;
+                case "Tracfone":
+                    AutoRip2MKV.Properties.Settings.Default.CurrentProvider = "@mmst5.tracfone.com";
+                    break;
+                case "Virgin Mobile":
+                    AutoRip2MKV.Properties.Settings.Default.CurrentProvider = "@vmobl.com";
+                    break;
+                case "Sprint":
+                    AutoRip2MKV.Properties.Settings.Default.CurrentProvider = "@messaging.sprintpcs.com";
+                    break;
+                case "Verizon":
+                    AutoRip2MKV.Properties.Settings.Default.CurrentProvider = "@vtext.com";
+                    break;
+                case "T-Mobile":
+                    AutoRip2MKV.Properties.Settings.Default.CurrentProvider = "@tmomail.net";
+                    break;
+                case "AT&T":
+                    AutoRip2MKV.Properties.Settings.Default.CurrentProvider = "@txt.att.net";
+                    break;
+                case "Boost Mobile":
+                    AutoRip2MKV.Properties.Settings.Default.CurrentProvider = "@sms.myboostmobile.com";
+                    break;
+                case "Cricket":
+                    AutoRip2MKV.Properties.Settings.Default.CurrentProvider = "@sms.cricketwireless.net";
+                    break;
+                case "Google Fi (Project Fi)":
+                    AutoRip2MKV.Properties.Settings.Default.CurrentProvider = "@msg.fi.google.com";
+                    break;
+                case "U.S.Cellular":
+                    AutoRip2MKV.Properties.Settings.Default.CurrentProvider = "@email.uscc.net";
+                    break;
+                case "Ting":
+                    AutoRip2MKV.Properties.Settings.Default.CurrentProvider = "@message.ting.com";
+                    break;
+                case "Consumer Cellular":
+                    AutoRip2MKV.Properties.Settings.Default.CurrentProvider = "@mailmymobile.net";
+                    break;
+                case "C-Spire":
+                    AutoRip2MKV.Properties.Settings.Default.CurrentProvider = "@cspire1.com";
+                    break;
+                case "Page Plus":
+                    AutoRip2MKV.Properties.Settings.Default.CurrentProvider = "@vtext.com";
+                    break;
+                default:
+                    AutoRip2MKV.Properties.Settings.Default.CurrentProvider = "@txt.att.net";
+                    break;
+            }
+        }
+
+        private void textBox3_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void PhoneNumber_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void FromEmail_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void EmailSettingsBox_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox4_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            SMTPSender.Main(true);
         }
     }
 }

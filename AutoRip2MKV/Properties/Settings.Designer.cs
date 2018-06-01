@@ -226,5 +226,101 @@ namespace AutoRip2MKV.Properties {
                 this["TimerValue"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("your.email@address.com")]
+        public string FromEmail {
+            get {
+                return ((string)(this["FromEmail"]));
+            }
+            set {
+                this["FromEmail"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("@txt.att.net")]
+        public string CurrentProvider {
+            get {
+                return ((string)(this["CurrentProvider"]));
+            }
+            set {
+                this["CurrentProvider"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("comboBox1")]
+        public string CellProviders {
+            get {
+                return ((string)(this["CellProviders"]));
+            }
+            set {
+                this["CellProviders"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("xxxxxxxxxx")]
+        public string PhoneNumber {
+            get {
+                return ((string)(this["PhoneNumber"]));
+            }
+            set {
+                this["PhoneNumber"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("your.smtp.com")]
+        public string SMTPAddress {
+            get {
+                return ((string)(this["SMTPAddress"]));
+            }
+            set {
+                this["SMTPAddress"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("username")]
+        public string SMTPUser {
+            get {
+                return ((string)(this["SMTPUser"]));
+            }
+            set {
+                this["SMTPUser"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool EnableTTL {
+            get {
+                return ((bool)(this["EnableTTL"]));
+            }
+            set {
+                this["EnableTTL"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SMTPPass {
+            get {
+                return ((string)(this["SMTPPass"]));
+            }
+            set {
+                this["SMTPPass"] = value;
+            }
+        }
     }
 }

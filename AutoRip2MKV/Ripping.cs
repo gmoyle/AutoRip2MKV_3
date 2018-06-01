@@ -23,6 +23,7 @@ namespace AutoRip2MKV
         public static string CurrentTitle { get; private set; }
         public static string DVDDriveToUse { get; private set; }
         public static bool DontRip = false;
+        public static bool results;
 
         // Satisfies rule: MarkWindowsFormsEntryPointsWithStaThread.
         [STAThread]
@@ -41,8 +42,6 @@ namespace AutoRip2MKV
 
             Properties.Settings.Default.Save(); // Saves settings in application configuration file
             Properties.Settings.Default.Upgrade();
-
-            //UpdateStatusText(args[0]);
 
             Application.Run(new AutoRip2MKV.Preferences());
 
@@ -103,10 +102,10 @@ namespace AutoRip2MKV
                 Properties.Settings.Default.Save(); // Saves settings in application configuration file
                 UpdateStatusText("MakeMKVPath: " + Properties.Settings.Default.MakeMKVPath);
 
-                if (File.Exists(@"C:\Program Files (x86)\makemkv\makemkvcon64.exe"))
+                if (File.Exists(@"C:\SMTPSender Files (x86)\makemkv\makemkvcon64.exe"))
                 {
                   
-                    string makeMKV64Exists = @"C:\Program Files (x86)\MakeMKV\makemkvcon64.exe";
+                    string makeMKV64Exists = @"C:\SMTPSender Files (x86)\MakeMKV\makemkvcon64.exe";
                     Properties.Settings.Default.MakeMKVPath = makeMKV64Exists;
                     Properties.Settings.Default.Save(); // Saves settings in application configuration file
                     Properties.Settings.Default.Upgrade();
@@ -204,17 +203,20 @@ namespace AutoRip2MKV
                     {
                         MoveFilesToFinalDestination();
                     }
-                Properties.Settings.Default.CurrentTitle ="";
-                Properties.Settings.Default.DVDDrive = "";
-                Properties.Settings.Default.Save(); // Saves settings in application configuration file
-                Properties.Settings.Default.Upgrade();
-                OpenOrCloseCDDrive.Open();
+                    results = true;
+                    SMTPSender.Main(results);
+                    Properties.Settings.Default.CurrentTitle ="";
+                    Properties.Settings.Default.DVDDrive = "";
+                    Properties.Settings.Default.Save(); // Saves settings in application configuration file
+                    Properties.Settings.Default.Upgrade();
+
+                    OpenOrCloseCDDrive.Open();
 
                 return;
                 }
                 else
                 {
-                    //Directory.Delete(topPath, true);
+                    SMTPSender.Main(results);
                     CleanupFailedRip();
 
                     return;

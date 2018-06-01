@@ -53,5 +53,29 @@
     <Setting Name="TimerValue" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">30</Value>
     </Setting>
+    <Setting Name="FromEmail" Type="System.String" Scope="User">
+      <Value Profile="(Default)">your.email@address.com</Value>
+    </Setting>
+    <Setting Name="CurrentProvider" Type="System.String" Scope="User">
+      <Value Profile="(Default)">@txt.att.net</Value>
+    </Setting>
+    <Setting Name="CellProviders" Type="System.String" Scope="User">
+      <Value Profile="(Default)">comboBox1</Value>
+    </Setting>
+    <Setting Name="PhoneNumber" Type="System.String" Scope="User">
+      <Value Profile="(Default)">xxxxxxxxxx</Value>
+    </Setting>
+    <Setting Name="SMTPAddress" Type="System.String" Scope="User">
+      <Value Profile="(Default)">your.smtp.com</Value>
+    </Setting>
+    <Setting Name="SMTPUser" Type="System.String" Scope="User">
+      <Value Profile="(Default)">username</Value>
+    </Setting>
+    <Setting Name="EnableTTL" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="SMTPPass" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>
