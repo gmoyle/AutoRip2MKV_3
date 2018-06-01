@@ -40,8 +40,7 @@ namespace AutoRip2MKV
             Properties.Settings.Default.DVDDrive = DVDDriveToUse;
             UpdateStatusText("Clear");
 
-            Properties.Settings.Default.Save(); // Saves settings in application configuration file
-            Properties.Settings.Default.Upgrade();
+            SaveSettings();
 
             Application.Run(new AutoRip2MKV.Preferences());
 
@@ -99,19 +98,16 @@ namespace AutoRip2MKV
                 //code if key Exist
                 UpdateStatusText("MakeMKV Lives!: " +  tExpand);
                 Properties.Settings.Default.MakeMKVPath = tExpand;
-                Properties.Settings.Default.Save(); // Saves settings in application configuration file
                 UpdateStatusText("MakeMKVPath: " + Properties.Settings.Default.MakeMKVPath);
 
-                if (File.Exists(@"C:\SMTPSender Files (x86)\makemkv\makemkvcon64.exe"))
+                if (File.Exists(@"C:\Program Files (x86)\makemkv\makemkvcon64.exe"))
                 {
                   
-                    string makeMKV64Exists = @"C:\SMTPSender Files (x86)\MakeMKV\makemkvcon64.exe";
+                    string makeMKV64Exists = @"C:\Program Files (x86)\MakeMKV\makemkvcon64.exe";
                     Properties.Settings.Default.MakeMKVPath = makeMKV64Exists;
-                    Properties.Settings.Default.Save(); // Saves settings in application configuration file
-                    Properties.Settings.Default.Upgrade();
                     UpdateStatusText("makeMKV_64_Path: " + Properties.Settings.Default.MakeMKVPath);
                 }
-
+                SaveSettings();
             }
             else
             {
@@ -171,7 +167,6 @@ namespace AutoRip2MKV
 
 
             UpdateStatusText("Launch: " + startInfo);
-            AutoRip2MKV.Preferences.ActiveForm.WindowState = FormWindowState.Normal;
 
             Process exeProcess = Process.Start(startInfo);
 
@@ -207,8 +202,7 @@ namespace AutoRip2MKV
                     SMTPSender.Main(results);
                     Properties.Settings.Default.CurrentTitle ="";
                     Properties.Settings.Default.DVDDrive = "";
-                    Properties.Settings.Default.Save(); // Saves settings in application configuration file
-                    Properties.Settings.Default.Upgrade();
+                    SaveSettings();
 
                     OpenOrCloseCDDrive.Open();
 
@@ -216,6 +210,7 @@ namespace AutoRip2MKV
                 }
                 else
                 {
+
                     SMTPSender.Main(results);
                     CleanupFailedRip();
 
@@ -242,8 +237,6 @@ namespace AutoRip2MKV
 
                             Properties.Settings.Default.CurrentTitle = volumeLabel;
                             Properties.Settings.Default.DVDDrive = d.Name;
-                            Properties.Settings.Default.Save(); // Saves settings in application configuration file
-                            Properties.Settings.Default.Upgrade();
 
                             return volumeLabel;
                         }
@@ -252,12 +245,10 @@ namespace AutoRip2MKV
                             string drivePath = d.Name;
                             Properties.Settings.Default.CurrentTitle = d.VolumeLabel;
                             Properties.Settings.Default.DVDDrive = drivePath;
-                            Properties.Settings.Default.Save(); // Saves settings in application configuration file
-                            Properties.Settings.Default.Upgrade();
 
                             return drivePath;
                         }
-
+                        SaveSettings();
                     }
                 }
                 else
@@ -394,13 +385,12 @@ namespace AutoRip2MKV
             }
             else
             {
-                if (Properties.Settings.Default.RipRetry <= 1)
+                if (Properties.Settings.Default.RipRetry >= 1)
                 {
                     OpenOrCloseCDDrive.Open();
                 }   
             }
-            Properties.Settings.Default.Save();
-            Properties.Settings.Default.Upgrade();
+            SaveSettings();
             return;
         }
 
@@ -410,7 +400,7 @@ namespace AutoRip2MKV
             DirectoryInfo di = new DirectoryInfo(checkFinalPath);
             if (di.Exists)
             {
-                foreach (FileInfo fi in di.GetFiles())
+                foreach (FileInfo fi in di.GetFiles("*.mkv"))
                 {
                     DateTime currentDateTime = DateTime.Now;
                     DateTime filedate = fi.LastWriteTime;
@@ -422,17 +412,16 @@ namespace AutoRip2MKV
                     {
                         DontRip = true;
                         Properties.Settings.Default.RipRetry = Properties.Settings.Default.RipRetry + 1;
-                        Properties.Settings.Default.Save();
-                        Properties.Settings.Default.Upgrade();
+                        SaveSettings();
                         return;
                     }
                 }
+                return;
             }
 
             DontRip = false;
             Properties.Settings.Default.RipRetry = 0;
-            Properties.Settings.Default.Save();
-            Properties.Settings.Default.Upgrade();
+            SaveSettings();
             return;
 
         }
@@ -453,14 +442,10 @@ namespace AutoRip2MKV
                 {
                     UpdateStatusText("TempPath was invalid, Set to C:\\temp\\Movies");
                     Properties.Settings.Default.TempPath = @"C:\temp\Movies";
-                    Properties.Settings.Default.Save(); // Saves settings in application configuration file
-                    Properties.Settings.Default.Upgrade();
                 }
                 else
                 {
                     Properties.Settings.Default.TempPath = @"C:\temp\Movies";
-                    Properties.Settings.Default.Save(); // Saves settings in application configuration file
-                    Properties.Settings.Default.Upgrade();
                 }
             }
 
@@ -471,23 +456,18 @@ namespace AutoRip2MKV
                 {
                     UpdateStatusText("FinalPath and TempPath invalid. TempPath Set to C:\\temp\\Movies");
                     Properties.Settings.Default.FinalPath = "";
-                    Properties.Settings.Default.Save(); // Saves settings in application configuration file
-                    Properties.Settings.Default.Upgrade();
                 }
                 else
                 {
                     Properties.Settings.Default.FinalPath = "";
-                    Properties.Settings.Default.Save(); // Saves settings in application configuration file
-                    Properties.Settings.Default.Upgrade();
                 }
                 if (Properties.Settings.Default.FinalPath == "" && Properties.Settings.Default.TempPath == "")
                 {
                     Properties.Settings.Default.Timeout = false;
-                    Properties.Settings.Default.Save(); // Saves settings in application configuration file
-                    Properties.Settings.Default.Upgrade();
                     return false;
                 }
             }
+            SaveSettings();
             return true;
         }
 
@@ -548,19 +528,24 @@ namespace AutoRip2MKV
                 }
             }
         }
+
+        private static void SaveSettings()
+        {
+            Properties.Settings.Default.Save();
+            Properties.Settings.Default.Upgrade();
+        }
        
         public static void UpdateStatusText(string update)
         {
             if (update == "Clear")
             {
                 Properties.Settings.Default.StatusText = null;
-                Properties.Settings.Default.Save(); // Saves settings in application configuration file
-                Properties.Settings.Default.Upgrade();
             }
             else
             {
                 Properties.Settings.Default.StatusText = update + Environment.NewLine + Properties.Settings.Default.StatusText;
             }
+            SaveSettings();
         }
     }
 
