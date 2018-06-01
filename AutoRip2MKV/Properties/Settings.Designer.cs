@@ -322,5 +322,17 @@ namespace AutoRip2MKV.Properties {
                 this["SMTPPass"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("587")]
+        public int SMTPPort {
+            get {
+                return ((int)(this["SMTPPort"]));
+            }
+            set {
+                this["SMTPPort"] = value;
+            }
+        }
     }
 }

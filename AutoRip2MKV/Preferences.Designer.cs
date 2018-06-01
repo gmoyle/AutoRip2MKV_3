@@ -56,6 +56,8 @@
             this.TimeOutValueBox = new System.Windows.Forms.TextBox();
             this.RipSettingsBox = new System.Windows.Forms.GroupBox();
             this.EmailSettingsBox = new System.Windows.Forms.GroupBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.textBox5 = new System.Windows.Forms.TextBox();
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.textBox3 = new System.Windows.Forms.TextBox();
@@ -265,6 +267,7 @@
             this.textBox2.Size = new System.Drawing.Size(333, 20);
             this.textBox2.TabIndex = 40;
             this.textBox2.Text = global::AutoRip2MKV.Properties.Settings.Default.MinTitleLength;
+            this.textBox2.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
             // buttonRipMovie
             // 
@@ -357,6 +360,8 @@
             // 
             // EmailSettingsBox
             // 
+            this.EmailSettingsBox.Controls.Add(this.label14);
+            this.EmailSettingsBox.Controls.Add(this.textBox5);
             this.EmailSettingsBox.Controls.Add(this.button2);
             this.EmailSettingsBox.Controls.Add(this.button1);
             this.EmailSettingsBox.Controls.Add(this.textBox3);
@@ -379,6 +384,25 @@
             this.EmailSettingsBox.Text = "Email Settings";
             this.EmailSettingsBox.Enter += new System.EventHandler(this.EmailSettingsBox_Enter);
             // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(75, 163);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(26, 13);
+            this.label14.TabIndex = 566;
+            this.label14.Text = "Port";
+            this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // textBox5
+            // 
+            this.textBox5.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::AutoRip2MKV.Properties.Settings.Default, "SMTPPort", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged, null, "N0"));
+            this.textBox5.Location = new System.Drawing.Point(107, 159);
+            this.textBox5.Name = "textBox5";
+            this.textBox5.Size = new System.Drawing.Size(100, 20);
+            this.textBox5.TabIndex = 565;
+            this.textBox5.Text = Properties.Settings.Default.SMTPPort.ToString();
+            // Enjoy 
             // button2
             // 
             this.button2.Location = new System.Drawing.Point(419, 84);
@@ -639,5 +663,7 @@
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.TextBox textBox5;
     }
 }

@@ -327,5 +327,10 @@ namespace AutoRip2MKV
         {
             SMTPSender.Main(true);
         }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

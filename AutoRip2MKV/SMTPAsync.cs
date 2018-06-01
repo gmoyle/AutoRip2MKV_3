@@ -15,7 +15,7 @@ namespace AutoRip2MKV
         public static string smtppass = Properties.Settings.Default.SMTPPass;
         public static string userfromemail = Properties.Settings.Default.FromEmail;
         public static string usertxtto = Properties.Settings.Default.PhoneNumber + Properties.Settings.Default.CurrentProvider;
-
+        public static int userport = Properties.Settings.Default.SMTPPort;
 
         public static void Main(bool results)
         {
@@ -27,7 +27,7 @@ namespace AutoRip2MKV
 
             smtpClient.Host = Properties.Settings.Default.SMTPAddress;
                 //"email-smtp.us-east-1.amazonaws.com";
-            smtpClient.Port = 587;
+            smtpClient.Port = Properties.Settings.Default.SMTPPort;
             smtpClient.UseDefaultCredentials = false;
             smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
             smtpClient.EnableSsl = Properties.Settings.Default.EnableTTL;
