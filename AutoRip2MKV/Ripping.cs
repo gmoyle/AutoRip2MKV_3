@@ -23,14 +23,11 @@ namespace AutoRip2MKV
         public static string CurrentTitle { get; private set; }
         public static string DVDDriveToUse { get; private set; }
         public static bool DontRip = false;
-        public static bool results;
 
         // Satisfies rule: MarkWindowsFormsEntryPointsWithStaThread.
         [STAThread]
         public static void Main(string[] args)
         {
-            //OpenOrCloseCDDrive.Open();
-
             var DVDDriveToUse = GetDriveInfo("drive");
             var CurrentTitle = GetDriveInfo("label");
 
@@ -176,13 +173,9 @@ namespace AutoRip2MKV
                 {
 
                     Properties.Settings.Default.TimerGroup = false;
-                    //exeProcess.WaitForExit();
                     // Discard cached information about the process.
                     exeProcess.Refresh();
-                    // Wait 2 seconds.
-                    // System.Threading.Thread.Sleep(2000);
                 }
-                // Discard cached information about the process.
                 
                 if (exeProcess.ExitCode == 0)
                 {
@@ -198,20 +191,14 @@ namespace AutoRip2MKV
                     {
                         MoveFilesToFinalDestination();
                     }
-                    results = true;
-                    SMTPSender.Main(results);
-                    Properties.Settings.Default.CurrentTitle ="";
-                    Properties.Settings.Default.DVDDrive = "";
+                    SMTPSender.Main(true);
                     SaveSettings();
 
-                    OpenOrCloseCDDrive.Open();
-
-                return;
+                    return;
                 }
                 else
                 {
-                    results = false;
-                    SMTPSender.Main(results);
+                    SMTPSender.Main(false);
                     CleanupFailedRip();
 
                     return;
@@ -385,9 +372,9 @@ namespace AutoRip2MKV
             }
             else
             {
-                if (Properties.Settings.Default.RipRetry >= 1)
+                if (Properties.Settings.Default.RipRetry >= 2)
                 {
-                    OpenOrCloseCDDrive.Open();
+                    return;
                 }   
             }
             SaveSettings();
@@ -433,7 +420,9 @@ namespace AutoRip2MKV
             Directory.CreateDirectory(Properties.Settings.Default.FinalPath);
             Directory.CreateDirectory(Properties.Settings.Default.TempPath);
             }
-            catch { }
+            catch
+            {
+            }
 
 
             if (!System.IO.Directory.Exists(Properties.Settings.Default.TempPath))
@@ -480,7 +469,7 @@ namespace AutoRip2MKV
                 {
                     if (CurrentTitle != "")
                     {
-                        var foldertodelete = Properties.Settings.Default.FinalPath + "\\" + CurrentTitle;
+                        var foldertodelete = @Properties.Settings.Default.FinalPath + "\\" + CurrentTitle;
                         UpdateStatusText("Delete: " + foldertodelete);
                         FileSystem.DeleteDirectory(foldertodelete, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
                     }
@@ -494,7 +483,7 @@ namespace AutoRip2MKV
                 {
                     if (CurrentTitle != "")
                     {
-                        var foldertodelete = Properties.Settings.Default.TempPath + "\\" + CurrentTitle;
+                        var foldertodelete = @Properties.Settings.Default.TempPath + "\\" + CurrentTitle;
                         UpdateStatusText("Delete: " + foldertodelete);
                         FileSystem.DeleteDirectory(foldertodelete, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
                     }
@@ -510,29 +499,28 @@ namespace AutoRip2MKV
             {
                 try
                 {
-                    Directory.CreateDirectory(Properties.Settings.Default.TempPath + "\\" + CurrentTitle);
+                    Directory.CreateDirectory(@Properties.Settings.Default.TempPath + "\\" + CurrentTitle);
                 }
                 catch
                 {
-                    UpdateStatusText("Cannot create " + Properties.Settings.Default.TempPath + "\\" + CurrentTitle);
+                    UpdateStatusText("Cannot create " + @Properties.Settings.Default.TempPath + "\\" + CurrentTitle);
                 }
 
 
                 try
                 {
-                    Directory.CreateDirectory(Properties.Settings.Default.FinalPath + "\\" + CurrentTitle);
+                    Directory.CreateDirectory(@Properties.Settings.Default.FinalPath + "\\" + CurrentTitle);
                 }
                 catch
                 {
-                    UpdateStatusText("Cannot create " + Properties.Settings.Default.FinalPath + "\\" + CurrentTitle);
+                    UpdateStatusText("Cannot create " + @Properties.Settings.Default.FinalPath + "\\" + CurrentTitle);
                 }
             }
         }
 
-        private static void SaveSettings()
+        public static void SaveSettings()
         {
             Properties.Settings.Default.Save();
-            Properties.Settings.Default.Upgrade();
         }
        
         public static void UpdateStatusText(string update)

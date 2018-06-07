@@ -9,8 +9,13 @@ using System.Diagnostics;
 
 namespace AutoRip2MKV
 {
+
     class Convert
     {
+        public static string convertlist = @Application.StartupPath + "\\ConvertList.log";
+        public static string title = AutoRip2MKV.Properties.Settings.Default.CurrentTitle;
+        public static string newtitle = title + "\r\n";
+
         public static void MainConvert(string[] args)
         {
 
@@ -19,27 +24,23 @@ namespace AutoRip2MKV
 
         public static void AddTitleToConvvertList()
         {
-            string convertlist = "ConvertList.log";
-            string newtitle = AutoRip2MKV.Properties.Settings.Default.CurrentTitle + "\r\n";
 
-            try
+            if(File.Exists(convertlist))
             {
                 File.AppendAllText(convertlist, newtitle);
             }
-            catch
+            else
             {
-
-
+                File.WriteAllText(convertlist, newtitle);
             }
-            finally
-            {
 
-            }
+
+
         }
 
         public static void ConvertWithHandbrake()
         {
-            string convertlist = "ConvertList.log";
+
             bool convertfilessetting = AutoRip2MKV.Properties.Settings.Default.ConvWithHandbrake;
             string parameters = AutoRip2MKV.Properties.Settings.Default.HandBrakeParameters;
             string tempPath = AutoRip2MKV.Properties.Settings.Default.TempPath;
@@ -47,21 +48,32 @@ namespace AutoRip2MKV
             string handbrakePath = myExecutablePath + @"\HandbrakeCLI\HandbrakeCLI.exe";
 
 
+
             if (convertfilessetting)
             {
+
+                if (!File.Exists(convertlist))
+                {
+                    File.WriteAllText(convertlist, newtitle);
+                }
+
                 foreach (String titlestoconvert in File.ReadAllLines(convertlist))
                 {
                     DirectoryInfo d = new DirectoryInfo(tempPath + "\\" + titlestoconvert);
-                    FileInfo[] files = d.GetFiles("*.mkv");
-                    foreach (FileInfo f in files)
+                    if (d.Exists)
                     {
-                        string shortFilename = Path.GetFileNameWithoutExtension(f.FullName);
+                        FileInfo[] files = d.GetFiles("*.mkv");
+                        foreach (FileInfo f in files)
+                        {
+                            string shortFilename = tempPath + "\\" + title + "\\" + Path.GetFileNameWithoutExtension(f.FullName);
 
-                        AutoRip2MKV.Convert.LaunchConversion(handbrakePath, f.FullName, shortFilename, parameters);  
-                        File.WriteAllText(convertlist, titlestoconvert.Replace(titlestoconvert, null));
+                            Convert.LaunchConversion(handbrakePath, f.FullName, shortFilename, parameters);
+                            File.WriteAllText(convertlist, titlestoconvert.Replace(titlestoconvert, null));
 
 
+                        }
                     }
+
                 }
             }
 
@@ -73,7 +85,7 @@ namespace AutoRip2MKV
             ProcessStartInfo startInfo = new ProcessStartInfo
             {
                 CreateNoWindow = false,
-                UseShellExecute = true,
+                UseShellExecute = false,
                 FileName = "\"" + app + "\"",
                 WindowStyle = ProcessWindowStyle.Minimized,
                 Arguments = " -i \"" + source + "\" -o \"" + destination + parameters 
@@ -96,7 +108,7 @@ namespace AutoRip2MKV
                     exeProcess.Refresh();
                 }
 
-                if (exeProcess.ExitCode == 0)
+                if (exeProcess.ExitCode != 0)
                 {
                     // Initializes the variables to pass to the MessageBox.Show method.
 
@@ -111,7 +123,7 @@ namespace AutoRip2MKV
                 else
                 {
 
-
+                    return;
                 }
             }
 

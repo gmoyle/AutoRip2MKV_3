@@ -82,7 +82,7 @@
             this.Save.Location = new System.Drawing.Point(207, 308);
             this.Save.Name = "Save";
             this.Save.Size = new System.Drawing.Size(75, 23);
-            this.Save.TabIndex = 1;
+            this.Save.TabIndex = 105;
             this.Save.Text = "&Save";
             this.Save.UseVisualStyleBackColor = true;
             this.Save.AutoSizeChanged += new System.EventHandler(this.Save_Click);
@@ -93,7 +93,7 @@
             this.Close.Location = new System.Drawing.Point(393, 308);
             this.Close.Name = "Close";
             this.Close.Size = new System.Drawing.Size(75, 23);
-            this.Close.TabIndex = 2;
+            this.Close.TabIndex = 115;
             this.Close.Text = "&Close";
             this.Close.UseVisualStyleBackColor = true;
             this.Close.Click += new System.EventHandler(this.FormMain_FormClosing);
@@ -172,6 +172,7 @@
             this.statusText.Name = "statusText";
             this.statusText.Size = new System.Drawing.Size(475, 113);
             this.statusText.TabIndex = 30;
+            this.statusText.TabStop = false;
             this.statusText.Text = global::AutoRip2MKV.Properties.Settings.Default.StatusText;
             this.statusText.TextChanged += new System.EventHandler(this.statusText_TextChanged);
             // 
@@ -190,7 +191,6 @@
             this.checkBox2.AutoSize = true;
             this.checkBox2.Checked = global::AutoRip2MKV.Properties.Settings.Default.KeepAfterConv;
             this.checkBox2.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::AutoRip2MKV.Properties.Settings.Default, "KeepAfterConv", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.checkBox2.Enabled = false;
             this.checkBox2.Location = new System.Drawing.Point(128, 178);
             this.checkBox2.Name = "checkBox2";
             this.checkBox2.Size = new System.Drawing.Size(142, 17);
@@ -205,7 +205,6 @@
             this.checkBox1.Checked = global::AutoRip2MKV.Properties.Settings.Default.ConvWithHandbrake;
             this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox1.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::AutoRip2MKV.Properties.Settings.Default, "ConvWithHandbrake", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.checkBox1.Enabled = false;
             this.checkBox1.Location = new System.Drawing.Point(128, 155);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(141, 17);
@@ -274,7 +273,7 @@
             this.buttonRipMovie.Location = new System.Drawing.Point(54, 308);
             this.buttonRipMovie.Name = "buttonRipMovie";
             this.buttonRipMovie.Size = new System.Drawing.Size(75, 23);
-            this.buttonRipMovie.TabIndex = 31;
+            this.buttonRipMovie.TabIndex = 110;
             this.buttonRipMovie.Text = "Rip Movie";
             this.buttonRipMovie.UseVisualStyleBackColor = true;
             this.buttonRipMovie.Click += new System.EventHandler(this.button1_Click);
@@ -290,7 +289,7 @@
             this.timeLabel.Location = new System.Drawing.Point(326, 263);
             this.timeLabel.Name = "timeLabel";
             this.timeLabel.Size = new System.Drawing.Size(61, 13);
-            this.timeLabel.TabIndex = 32;
+            this.timeLabel.TabIndex = 0;
             this.timeLabel.Text = "Countdown";
             this.timeLabel.Click += new System.EventHandler(this.timeLabel_Click);
             // 
@@ -301,7 +300,7 @@
             this.FailedCounter.Location = new System.Drawing.Point(817, 199);
             this.FailedCounter.Name = "FailedCounter";
             this.FailedCounter.Size = new System.Drawing.Size(93, 13);
-            this.FailedCounter.TabIndex = 33;
+            this.FailedCounter.TabIndex = 0;
             this.FailedCounter.Text = "FailedCounterText";
             this.FailedCounter.Visible = false;
             this.FailedCounter.TextChanged += new System.EventHandler(this.Form1_Load);
@@ -400,24 +399,25 @@
             this.textBox5.Location = new System.Drawing.Point(107, 159);
             this.textBox5.Name = "textBox5";
             this.textBox5.Size = new System.Drawing.Size(100, 20);
-            this.textBox5.TabIndex = 565;
-            this.textBox5.Text = Properties.Settings.Default.SMTPPort.ToString();
-            // Enjoy 
+            this.textBox5.TabIndex = 180;
+            this.textBox5.Text = "587";
+            // 
             // button2
             // 
             this.button2.Location = new System.Drawing.Point(419, 84);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(44, 23);
-            this.button2.TabIndex = 39;
+            this.button2.TabIndex = 200;
             this.button2.Text = "&Save";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(419, 113);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(44, 39);
-            this.button1.TabIndex = 564;
+            this.button1.TabIndex = 210;
             this.button1.Text = "Test Email";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click_1);
@@ -428,7 +428,7 @@
             this.textBox3.Location = new System.Drawing.Point(107, 107);
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(306, 20);
-            this.textBox3.TabIndex = 563;
+            this.textBox3.TabIndex = 160;
             this.textBox3.Text = global::AutoRip2MKV.Properties.Settings.Default.SMTPPass;
             this.textBox3.UseSystemPasswordChar = true;
             // 
@@ -448,7 +448,7 @@
             this.textBox4.Location = new System.Drawing.Point(107, 133);
             this.textBox4.Name = "textBox4";
             this.textBox4.Size = new System.Drawing.Size(306, 20);
-            this.textBox4.TabIndex = 561;
+            this.textBox4.TabIndex = 170;
             this.textBox4.Text = global::AutoRip2MKV.Properties.Settings.Default.SMTPAddress;
             this.textBox4.TextChanged += new System.EventHandler(this.textBox4_TextChanged);
             // 
@@ -462,7 +462,7 @@
             this.EnableTTL.Location = new System.Drawing.Point(331, 159);
             this.EnableTTL.Name = "EnableTTL";
             this.EnableTTL.Size = new System.Drawing.Size(82, 17);
-            this.EnableTTL.TabIndex = 560;
+            this.EnableTTL.TabIndex = 190;
             this.EnableTTL.Text = "Enable TTL";
             this.EnableTTL.UseVisualStyleBackColor = true;
             // 
@@ -492,7 +492,7 @@
             this.textBox1.Location = new System.Drawing.Point(107, 81);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(306, 20);
-            this.textBox1.TabIndex = 555;
+            this.textBox1.TabIndex = 150;
             this.textBox1.Text = global::AutoRip2MKV.Properties.Settings.Default.SMTPUser;
             this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged_1);
             // 
@@ -502,7 +502,7 @@
             this.PhoneNumber.Location = new System.Drawing.Point(107, 54);
             this.PhoneNumber.Name = "PhoneNumber";
             this.PhoneNumber.Size = new System.Drawing.Size(136, 20);
-            this.PhoneNumber.TabIndex = 554;
+            this.PhoneNumber.TabIndex = 130;
             this.PhoneNumber.Text = global::AutoRip2MKV.Properties.Settings.Default.PhoneNumber;
             this.PhoneNumber.TextChanged += new System.EventHandler(this.PhoneNumber_TextChanged);
             // 
@@ -548,7 +548,7 @@
             this.comboBox1.Location = new System.Drawing.Point(249, 54);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(164, 21);
-            this.comboBox1.TabIndex = 553;
+            this.comboBox1.TabIndex = 140;
             this.comboBox1.Text = global::AutoRip2MKV.Properties.Settings.Default.CurrentProvider;
             this.comboBox1.ValueMember = "comboBox1";
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
@@ -579,7 +579,7 @@
             this.FromEmail.Location = new System.Drawing.Point(107, 28);
             this.FromEmail.Name = "FromEmail";
             this.FromEmail.Size = new System.Drawing.Size(306, 20);
-            this.FromEmail.TabIndex = 0;
+            this.FromEmail.TabIndex = 120;
             this.FromEmail.Text = global::AutoRip2MKV.Properties.Settings.Default.FromEmail;
             this.FromEmail.TextChanged += new System.EventHandler(this.FromEmail_TextChanged);
             // 

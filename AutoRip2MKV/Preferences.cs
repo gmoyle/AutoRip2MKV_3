@@ -30,6 +30,9 @@ namespace AutoRip2MKV
             AutoRip2MKV.Ripping.CheckHandBrakeInstall();
             AutoRip2MKV.Ripping.CheckMakeMKVInstall();
 
+            //AutoRip2MKV.Convert.AddTitleToConvvertList();
+            //AutoRip2MKV.Convert.ConvertWithHandbrake();
+
             //FailedCounter.Text = "Failed " + Settings.Default.RipRetry.ToString();
             StartTheTimer();
         }
@@ -137,23 +140,30 @@ namespace AutoRip2MKV
 
         private void button1_Click(object sender, EventArgs e)
         {
+            ExecuteRipProcess();
+        }
+
+        private void ExecuteRipProcess()
+        {
             if (textBoxCurrentTitle.Text != "")
             {
                 if (Settings.Default.TempPath != "")
                 {
+                    //this.Hide();
                     AutoRip2MKV.Ripping.Rip2MKV(Settings.Default.TempPath);
                 }
                 else
                 {
+                   // this.Hide();
                     Ripping.Rip2MKV(Settings.Default.FinalPath);
                 }
+                OpenOrCloseCDDrive.Open();
                 this.Close();
             }
         }
 
         /// <summary>
-        /// Start the quiz by filling in all of the problem 
-        /// values and starting the timer. 
+        /// Start timer
         /// </summary>
         public void StartTheTimer()
         {
@@ -184,23 +194,7 @@ namespace AutoRip2MKV
             }
             else
             {
-                // If the user ran out of time, stop the timer, show
-                // a MessageBox, and fill in the answers.
-                timer1.Stop();
-                Ripping.UpdateStatusText(Settings.Default.CurrentTitle + "Ripping Started!!!!");
-                timeLabel.Enabled = false;
-                if (textBoxCurrentTitle.Text != "")
-                {
-                    if (Settings.Default.TempPath != "")
-                    {
-                        AutoRip2MKV.Ripping.Rip2MKV(Settings.Default.TempPath);
-                    }
-                    else
-                    {
-                        Ripping.Rip2MKV(Settings.Default.FinalPath);
-                    }
-                    this.Close();
-                }
+                ExecuteRipProcess();
             }
         }
 
@@ -331,6 +325,11 @@ namespace AutoRip2MKV
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Ripping.SaveSettings();
         }
     }
 }
