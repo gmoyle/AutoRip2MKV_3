@@ -190,6 +190,7 @@
             // 
             this.checkBox2.AutoSize = true;
             this.checkBox2.Checked = global::AutoRip2MKV.Properties.Settings.Default.KeepAfterConv;
+            this.checkBox2.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox2.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::AutoRip2MKV.Properties.Settings.Default, "KeepAfterConv", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.checkBox2.Location = new System.Drawing.Point(128, 178);
             this.checkBox2.Name = "checkBox2";

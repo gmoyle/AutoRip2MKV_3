@@ -30,9 +30,7 @@ namespace AutoRip2MKV
         {
             var DVDDriveToUse = GetDriveInfo("drive");
             var CurrentTitle = GetDriveInfo("label");
-
-            //var CurrentTitle = "GregsTestLabel";
-            
+          
             Properties.Settings.Default.CurrentTitle = CurrentTitle;
             Properties.Settings.Default.DVDDrive = DVDDriveToUse;
             UpdateStatusText("Clear");
@@ -521,8 +519,10 @@ namespace AutoRip2MKV
         public static void SaveSettings()
         {
             Properties.Settings.Default.Save();
+            Properties.Settings.Default.Reload();
+
         }
-       
+
         public static void UpdateStatusText(string update)
         {
             if (update == "Clear")

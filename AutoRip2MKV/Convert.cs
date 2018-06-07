@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
+using Microsoft.VisualBasic.FileIO;
 
 namespace AutoRip2MKV
 {
@@ -70,13 +71,19 @@ namespace AutoRip2MKV
                             Convert.LaunchConversion(handbrakePath, f.FullName, shortFilename, parameters);
                             File.WriteAllText(convertlist, titlestoconvert.Replace(titlestoconvert, null));
 
-
+                            string convertedFile = tempPath + "\\" + title + "\\" + Path.GetFileNameWithoutExtension(f.FullName) + parameters.Remove(4);
+                            if(!Properties.Settings.Default.KeepAfterConv)
+                            {
+                                if (File.Exists(convertedFile))
+                                {
+                                    FileSystem.DeleteFile(d.FullName, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
+                                }
+                            }
+                            
                         }
                     }
-
                 }
             }
-
         }
 
         static void LaunchConversion(String app, String source, String destination, String parameters)

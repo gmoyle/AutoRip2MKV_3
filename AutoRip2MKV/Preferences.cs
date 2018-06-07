@@ -79,9 +79,7 @@ namespace AutoRip2MKV
             {
                 Settings.Default.WindowSize = this.RestoreBounds.Size;
             }
-
-            Settings.Default.Save();
-            Settings.Default.Upgrade();
+            Ripping.SaveSettings();
         }
 
         private void makeMKVParams_TextChanged(object sender, EventArgs e)

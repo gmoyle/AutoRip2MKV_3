@@ -14,9 +14,6 @@
     <Setting Name="MinTitleLength" Type="System.String" Scope="User">
       <Value Profile="(Default)">1800</Value>
     </Setting>
-    <Setting Name="KeepMKV" Type="System.String" Scope="User">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
     <Setting Name="DVDDrive" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
@@ -33,7 +30,7 @@
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="KeepAfterConv" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
+      <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="Timeout" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
@@ -58,9 +55,6 @@
     </Setting>
     <Setting Name="CurrentProvider" Type="System.String" Scope="User">
       <Value Profile="(Default)">@txt.att.net</Value>
-    </Setting>
-    <Setting Name="CellProviders" Type="System.String" Scope="User">
-      <Value Profile="(Default)">comboBox1</Value>
     </Setting>
     <Setting Name="PhoneNumber" Type="System.String" Scope="User">
       <Value Profile="(Default)">xxxxxxxxxx</Value>

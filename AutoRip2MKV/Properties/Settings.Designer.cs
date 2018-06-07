@@ -73,18 +73,6 @@ namespace AutoRip2MKV.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public string KeepMKV {
-            get {
-                return ((string)(this["KeepMKV"]));
-            }
-            set {
-                this["KeepMKV"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string DVDDrive {
             get {
@@ -145,7 +133,7 @@ namespace AutoRip2MKV.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool KeepAfterConv {
             get {
                 return ((bool)(this["KeepAfterConv"]));
@@ -248,18 +236,6 @@ namespace AutoRip2MKV.Properties {
             }
             set {
                 this["CurrentProvider"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("comboBox1")]
-        public string CellProviders {
-            get {
-                return ((string)(this["CellProviders"]));
-            }
-            set {
-                this["CellProviders"] = value;
             }
         }
         
