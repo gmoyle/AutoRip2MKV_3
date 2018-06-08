@@ -12,11 +12,13 @@ using System.Diagnostics;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Collections;
+using System.Threading;
 
 namespace AutoRip2MKV
 {
     class Ripping
     {
+        static Mutex m;
 
         public static bool Is64BitOperatingSystem { get; private set; }
 
@@ -28,16 +30,28 @@ namespace AutoRip2MKV
         [STAThread]
         public static void Main(string[] args)
         {
-            var DVDDriveToUse = GetDriveInfo("drive");
-            var CurrentTitle = GetDriveInfo("label");
-          
-            Properties.Settings.Default.CurrentTitle = CurrentTitle;
-            Properties.Settings.Default.DVDDrive = DVDDriveToUse;
-            UpdateStatusText("Clear");
 
-            SaveSettings();
+            bool first = false;
+            m = new Mutex(true, Application.ProductName.ToString(), out first);
+            if ((first))
+            {
 
-            Application.Run(new AutoRip2MKV.Preferences());
+                var DVDDriveToUse = GetDriveInfo("drive");
+                var CurrentTitle = GetDriveInfo("label");
+
+                Properties.Settings.Default.CurrentTitle = CurrentTitle;
+                Properties.Settings.Default.DVDDrive = DVDDriveToUse;
+                UpdateStatusText("Clear");
+
+                SaveSettings();
+
+                Application.Run(new AutoRip2MKV.Preferences());
+            }
+            else
+            {
+                
+            }
+
 
         }
 
