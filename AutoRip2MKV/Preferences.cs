@@ -143,6 +143,8 @@ namespace AutoRip2MKV
 
         private void ExecuteRipProcess()
         {
+            Ripping.SaveSettings();
+
             if (textBoxCurrentTitle.Text != "")
             {
                 if (Settings.Default.TempPath != "")

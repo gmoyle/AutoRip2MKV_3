@@ -71,12 +71,12 @@ namespace AutoRip2MKV
                             Convert.LaunchConversion(handbrakePath, f.FullName, shortFilename, parameters);
                             File.WriteAllText(convertlist, titlestoconvert.Replace(titlestoconvert, null));
 
-                            string convertedFile = tempPath + "\\" + title + "\\" + Path.GetFileNameWithoutExtension(f.FullName) + parameters.Remove(4);
+                            string convertedFile = @tempPath + "\\" + title + "\\" + Path.GetFileNameWithoutExtension(f.FullName) + parameters.Remove(4);
                             if(!Properties.Settings.Default.KeepAfterConv)
                             {
                                 if (File.Exists(convertedFile))
                                 {
-                                    FileSystem.DeleteFile(d.FullName, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
+                                    FileSystem.DeleteFile(f.FullName, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
                                 }
                             }
                             
