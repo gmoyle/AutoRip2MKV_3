@@ -171,7 +171,7 @@ namespace AutoRip2MKV
                 UseShellExecute = true,
                 FileName = app,
                 WindowStyle = ProcessWindowStyle.Minimized,
-                Arguments = " " + parameters
+                Arguments = @parameters
             };
 
 
@@ -232,7 +232,7 @@ namespace AutoRip2MKV
                     {
                         if (results == "label")
                         {
-                            string volumeLabel = GetVolumeLabel(d.VolumeLabel);
+                            string volumeLabel = GetVolumeLabel(d.VolumeLabel).Replace(" ","_");
 
                             Properties.Settings.Default.CurrentTitle = volumeLabel;
                             Properties.Settings.Default.DVDDrive = d.Name;
@@ -242,7 +242,7 @@ namespace AutoRip2MKV
                         else if (results == "drive")
                         {
                             string drivePath = d.Name;
-                            Properties.Settings.Default.CurrentTitle = d.VolumeLabel;
+                            Properties.Settings.Default.CurrentTitle = d.VolumeLabel.Replace(" ", "_");
                             Properties.Settings.Default.DVDDrive = drivePath;
 
                             return drivePath;
@@ -260,6 +260,7 @@ namespace AutoRip2MKV
         public static string GetVolumeLabel(string fileName)
         {
             string driveLabel = Path.GetInvalidFileNameChars().Aggregate(fileName, (current, c) => current.Replace(c.ToString(), string.Empty));
+            string drivelabel = driveLabel.Replace(" ", "_");
             return driveLabel;
 
         }
@@ -267,7 +268,7 @@ namespace AutoRip2MKV
         public static void RenameFiles()
          {
 
-            DirectoryInfo d = new DirectoryInfo(Properties.Settings.Default.TempPath + "\\" + CurrentTitle);
+            DirectoryInfo d = new DirectoryInfo(Properties.Settings.Default.TempPath + @"\" + CurrentTitle);
             FileInfo[] files = d.GetFiles("*.mkv");
 
             foreach (FileInfo f in files)
@@ -296,8 +297,8 @@ namespace AutoRip2MKV
          {
         
             string CurrentTitle = Properties.Settings.Default.CurrentTitle;
-            string sourcedir = Properties.Settings.Default.TempPath + "\\" + CurrentTitle;
-            string targetdir = Properties.Settings.Default.FinalPath + "\\" + CurrentTitle;
+            string sourcedir = Properties.Settings.Default.TempPath + @"\" + CurrentTitle;
+            string targetdir = Properties.Settings.Default.FinalPath + @"\" + CurrentTitle;
 
             // Path to directory of files to compress and decompress.
             string dirpath = sourcedir;
@@ -343,7 +344,7 @@ namespace AutoRip2MKV
 
         public static void Rip2MKV(string destination)
         {
-            string checkFinalPath = Properties.Settings.Default.FinalPath + "\\" + Properties.Settings.Default.CurrentTitle;
+            string checkFinalPath = @Properties.Settings.Default.FinalPath + @"\" + Properties.Settings.Default.CurrentTitle;
             AutoRip2MKV.Ripping.CheckForRecentRip(checkFinalPath);
 
             if (!DontRip)
@@ -353,18 +354,18 @@ namespace AutoRip2MKV
 
                 if (File.Exists(makeMKVPath))
                 {
-                    string ripPath = destination + "\\" + CurrentTitle;
+                    string ripPath = @destination + "\\" + CurrentTitle;
                     UpdateStatusText("Ripping to: " + ripPath);
                     char[] charsToTrim = { '\\' };
                     string activeDisc = Properties.Settings.Default.DVDDrive.TrimEnd(charsToTrim);
                     string minTitleLength = Properties.Settings.Default.MinTitleLength;
                     var driveID = DVDDriveToUse;
 
-                    string MakeMKVOptions = " --robot --messages=" + ripPath + "\\riplog.txt --decrypt --noscan --minlength=" + minTitleLength + " --directio=true mkv disc:0 all " + ripPath;
+                    string MakeMKVOptions = " --robot --messages=\"" + ripPath + "\riplog.txt\" --decrypt --noscan --minlength=" + minTitleLength + " --directio=true mkv disc:0 all " + @ripPath;
 
                     string app = makeMKVPath;
 
-                    LaunchCommandLineApp(app, MakeMKVOptions);
+                    LaunchCommandLineApp(@app, @MakeMKVOptions);
                 }
                 else
                 {
@@ -481,7 +482,7 @@ namespace AutoRip2MKV
                 {
                     if (CurrentTitle != "")
                     {
-                        var foldertodelete = @Properties.Settings.Default.FinalPath + "\\" + CurrentTitle;
+                        var foldertodelete = @Properties.Settings.Default.FinalPath + @"\" + CurrentTitle;
                         UpdateStatusText("Delete: " + foldertodelete);
                         FileSystem.DeleteDirectory(foldertodelete, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
                     }
@@ -495,7 +496,7 @@ namespace AutoRip2MKV
                 {
                     if (CurrentTitle != "")
                     {
-                        var foldertodelete = @Properties.Settings.Default.TempPath + "\\" + CurrentTitle;
+                        var foldertodelete = @Properties.Settings.Default.TempPath + @"\" + CurrentTitle;
                         UpdateStatusText("Delete: " + foldertodelete);
                         FileSystem.DeleteDirectory(foldertodelete, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
                     }
@@ -511,21 +512,21 @@ namespace AutoRip2MKV
             {
                 try
                 {
-                    Directory.CreateDirectory(@Properties.Settings.Default.TempPath + "\\" + CurrentTitle);
+                    Directory.CreateDirectory(@Properties.Settings.Default.TempPath + @"\" + CurrentTitle);
                 }
                 catch
                 {
-                    UpdateStatusText("Cannot create " + @Properties.Settings.Default.TempPath + "\\" + CurrentTitle);
+                    UpdateStatusText("Cannot create " + @Properties.Settings.Default.TempPath + @"\" + CurrentTitle);
                 }
 
 
                 try
                 {
-                    Directory.CreateDirectory(@Properties.Settings.Default.FinalPath + "\\" + CurrentTitle);
+                    Directory.CreateDirectory(@Properties.Settings.Default.FinalPath + @"\" + CurrentTitle);
                 }
                 catch
                 {
-                    UpdateStatusText("Cannot create " + @Properties.Settings.Default.FinalPath + "\\" + CurrentTitle);
+                    UpdateStatusText("Cannot create " + @Properties.Settings.Default.FinalPath + @"\" + CurrentTitle);
                 }
             }
         }
