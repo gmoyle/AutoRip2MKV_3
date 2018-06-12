@@ -199,7 +199,7 @@ namespace AutoRip2MKV
                     OpenOrCloseCDDrive.Open();
                     SMTPSender.Main(true);
                     SaveSettings();
-
+                    Application.Exit();
                     return;
                 }
                 else
@@ -207,6 +207,7 @@ namespace AutoRip2MKV
                     SMTPSender.Main(false);
                     CleanupFailedRip();
                     OpenOrCloseCDDrive.Open();
+                    Application.Exit();
                     return;
                 }
             }
@@ -336,57 +337,7 @@ namespace AutoRip2MKV
             return;
         }
 
-        public static void Rip2MKV(string destination)
-        {
-            string checkFinalPath = @Properties.Settings.Default.FinalPath + @"\" + Properties.Settings.Default.CurrentTitle;
-            CheckForRecentRip(checkFinalPath);
 
-            if (!DontRip)
-            {
-                MakeWorkingDirs();
-                string makeMKVPath = Properties.Settings.Default.MakeMKVPath;
-
-                if (File.Exists(makeMKVPath))
-                {
-                    string ripPath = @destination + @"\" + CurrentTitle;
-                    UpdateStatusText("Ripping to: " + ripPath);
-                    char[] charsToTrim = { '\\' };
-                    string activeDisc = Properties.Settings.Default.DVDDrive.TrimEnd(charsToTrim);
-                    string minTitleLength = Properties.Settings.Default.MinTitleLength;
-                    var driveID = DVDDriveToUse;
-
-                    string MakeMKVOptions = " --robot --messages=\"" + ripPath + "\riplog.txt\" --decrypt --noscan --minlength=" + minTitleLength + " --directio=true mkv disc:0 1 " + @ripPath;
-
-                    string app = makeMKVPath;
-
-                    LaunchCommandLineApp(@app, @MakeMKVOptions);
-                }
-                else
-                {
-                    // Initializes the variables to pass to the MessageBox.Show method.
-                    string message = "MakeMKV not found";
-                    string caption = "Error Detected in Input";
-                    MessageBoxButtons buttons = MessageBoxButtons.OK;
-                    DialogResult result;
-
-                    // Displays the MessageBox.
-                    result = MessageBox.Show(message, caption, buttons);
-
-                    if (result == System.Windows.Forms.DialogResult.OK)
-                    {
-                    }
-                }
-            }
-            else
-            {
-                if (Properties.Settings.Default.RipRetry >= 2)
-                {
-                    return;
-                }   
-            }
-            SaveSettings();
-            return;
-        }
 
         public static bool CheckForRecentRip(string checkFinalPath)
         {

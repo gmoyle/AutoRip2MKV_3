@@ -81,7 +81,7 @@ namespace AutoRip2MKV
 
         private void FormMain_FormClosing(object sender, EventArgs e)
         {
-            this.Close();
+            Application.Exit();
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -182,7 +182,7 @@ namespace AutoRip2MKV
                     string minTitleLength = Properties.Settings.Default.MinTitleLength;
                     var driveID = Ripping.DVDDriveToUse;
 
-                    string MakeMKVOptions = " --robot --messages=\"" + ripPath + "\riplog.txt\" --decrypt --noscan --minlength=" + minTitleLength + " --directio=true mkv disc:0 1 " + @ripPath;
+                    string MakeMKVOptions = " --robot --messages=" + @ripPath + "riplog.txt --decrypt --noscan --minlength=" + minTitleLength + " --directio=true mkv disc:0 1 " + @ripPath;
 
                     string app = makeMKVPath;
 
@@ -426,11 +426,12 @@ namespace AutoRip2MKV
             }
             OpenOrCloseCDDrive.Open();
             Thread.Sleep(5000);
-            this.Close();
+            Application.Exit();
         }
 
         private void button2_Click_1(object sender, EventArgs e)
         {
+            OpenOrCloseCDDrive.Close();
             var DVDDriveToUse = Ripping.GetDriveInfo("drive");
             var CurrentTitle = Ripping.GetDriveInfo("label");
 
@@ -479,6 +480,8 @@ namespace AutoRip2MKV
 
         private void toolStripMenuAbout_Click(object sender, EventArgs e)
         {
+            Form about = new About();
+            about.Show();
         }
     }
 }
