@@ -30,5 +30,6 @@ MinimumTitleLength determines if features or other items on the DVD are included
 Set MakeMKV Conversion profile to fine tune your rip settings. 
 
 Settings I use:
+
 -sel:all,+sel:subtitle,-100:(eng),-99:(forced*(eng)),-90:(eng),-89:(forced*(eng)),+sel:audio,-sel:special,-100:(audio*(eng)),-90:(audio*(eng))
 
