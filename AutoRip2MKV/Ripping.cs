@@ -1,17 +1,11 @@
 ﻿using System;
 using System.IO;
 using System.IO.Compression;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Text.RegularExpressions;
 using Microsoft.Win32;
 using Microsoft.VisualBasic.FileIO;
 using System.Diagnostics;
 using System.Windows.Forms;
-using System.Runtime.InteropServices;
-using System.Collections;
 using System.Threading;
 
 namespace AutoRip2MKV
@@ -45,7 +39,7 @@ namespace AutoRip2MKV
 
                 SaveSettings();
 
-                Application.Run(new AutoRip2MKV.Preferences());
+                Application.Run(new Preferences());
             }
             else
             {
@@ -128,7 +122,7 @@ namespace AutoRip2MKV
                     string parameters = "/S /D";
                     UpdateStatusText("Installing MakeMKV:" + app + parameters);
 
-                    AutoRip2MKV.Ripping.LaunchCommandLineApp(app, parameters);
+                    LaunchCommandLineApp(app, parameters);
                 }
                 else
                 {  
@@ -141,7 +135,7 @@ namespace AutoRip2MKV
 
                         string app = "Setup_MakeMKV_v1.10.10.exe";
                         string parameters = "/S /D";
-                        AutoRip2MKV.Ripping.LaunchCommandLineApp(app, parameters);
+                        LaunchCommandLineApp(app, parameters);
 
 
                     }
@@ -162,7 +156,7 @@ namespace AutoRip2MKV
         /// <summary>
         /// Launch the legacy application with some options set.
         /// </summary>
-        static void LaunchCommandLineApp(string app, string parameters)
+        public static void LaunchCommandLineApp(string app, string parameters)
         {
             // Use ProcessStartInfo class
             ProcessStartInfo startInfo = new ProcessStartInfo
@@ -173,7 +167,6 @@ namespace AutoRip2MKV
                 WindowStyle = ProcessWindowStyle.Minimized,
                 Arguments = @parameters
             };
-
 
             UpdateStatusText("Launch: " + startInfo);
 
@@ -195,14 +188,15 @@ namespace AutoRip2MKV
 
                     if (Properties.Settings.Default.ConvWithHandbrake == true)
                     {
-                        AutoRip2MKV.Convert.AddTitleToConvvertList();
-                        AutoRip2MKV.Convert.ConvertWithHandbrake();
+                        Convert.AddTitleToConvvertList();
+                        Convert.ConvertWithHandbrake();
                     }
 
                     if (Properties.Settings.Default.FinalPath != "")
                     {
                         MoveFilesToFinalDestination();
                     }
+                    OpenOrCloseCDDrive.Open();
                     SMTPSender.Main(true);
                     SaveSettings();
 
@@ -212,7 +206,7 @@ namespace AutoRip2MKV
                 {
                     SMTPSender.Main(false);
                     CleanupFailedRip();
-
+                    OpenOrCloseCDDrive.Open();
                     return;
                 }
             }
@@ -242,7 +236,7 @@ namespace AutoRip2MKV
                         else if (results == "drive")
                         {
                             string drivePath = d.Name;
-                            Properties.Settings.Default.CurrentTitle = d.VolumeLabel.Replace(" ", "_");
+                            Properties.Settings.Default.CurrentTitle = d.VolumeLabel.Replace(" ","_");
                             Properties.Settings.Default.DVDDrive = drivePath;
 
                             return drivePath;
@@ -260,7 +254,7 @@ namespace AutoRip2MKV
         public static string GetVolumeLabel(string fileName)
         {
             string driveLabel = Path.GetInvalidFileNameChars().Aggregate(fileName, (current, c) => current.Replace(c.ToString(), string.Empty));
-            string drivelabel = driveLabel.Replace(" ", "_");
+            string drivelabel = driveLabel.Replace(" ","_");
             return driveLabel;
 
         }
@@ -317,7 +311,7 @@ namespace AutoRip2MKV
                 }
                 catch
                 {
-                    if (System.IO.Directory.Exists(targetdir))
+                    if (Directory.Exists(targetdir))
                     {
                         UpdateStatusText("Movie Directory Already Exists, Deleting: " + targetdir);
                         FileSystem.DeleteFile(target, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
@@ -345,23 +339,23 @@ namespace AutoRip2MKV
         public static void Rip2MKV(string destination)
         {
             string checkFinalPath = @Properties.Settings.Default.FinalPath + @"\" + Properties.Settings.Default.CurrentTitle;
-            AutoRip2MKV.Ripping.CheckForRecentRip(checkFinalPath);
+            CheckForRecentRip(checkFinalPath);
 
             if (!DontRip)
             {
-                AutoRip2MKV.Ripping.MakeWorkingDirs();
+                MakeWorkingDirs();
                 string makeMKVPath = Properties.Settings.Default.MakeMKVPath;
 
                 if (File.Exists(makeMKVPath))
                 {
-                    string ripPath = @destination + "\\" + CurrentTitle;
+                    string ripPath = @destination + @"\" + CurrentTitle;
                     UpdateStatusText("Ripping to: " + ripPath);
                     char[] charsToTrim = { '\\' };
                     string activeDisc = Properties.Settings.Default.DVDDrive.TrimEnd(charsToTrim);
                     string minTitleLength = Properties.Settings.Default.MinTitleLength;
                     var driveID = DVDDriveToUse;
 
-                    string MakeMKVOptions = " --robot --messages=\"" + ripPath + "\riplog.txt\" --decrypt --noscan --minlength=" + minTitleLength + " --directio=true mkv disc:0 all " + @ripPath;
+                    string MakeMKVOptions = " --robot --messages=\"" + ripPath + "\riplog.txt\" --decrypt --noscan --minlength=" + minTitleLength + " --directio=true mkv disc:0 1 " + @ripPath;
 
                     string app = makeMKVPath;
 
@@ -394,7 +388,7 @@ namespace AutoRip2MKV
             return;
         }
 
-        public static void CheckForRecentRip(string checkFinalPath)
+        public static bool CheckForRecentRip(string checkFinalPath)
         {
             // Path to already ripped  files.
             DirectoryInfo di = new DirectoryInfo(checkFinalPath);
@@ -413,16 +407,16 @@ namespace AutoRip2MKV
                         DontRip = true;
                         Properties.Settings.Default.RipRetry = Properties.Settings.Default.RipRetry + 1;
                         SaveSettings();
-                        return;
+                        return DontRip;
                     }
                 }
-                return;
+                return DontRip;
             }
 
             DontRip = false;
             Properties.Settings.Default.RipRetry = 0;
             SaveSettings();
-            return;
+            return DontRip;
 
         }
 
@@ -438,11 +432,11 @@ namespace AutoRip2MKV
             }
 
 
-            if (!System.IO.Directory.Exists(Properties.Settings.Default.TempPath))
+            if (!Directory.Exists(Properties.Settings.Default.TempPath))
             {
                 if (Properties.Settings.Default.TempPath == "" || Properties.Settings.Default.TempPath == null)
                 {
-                    UpdateStatusText("TempPath was invalid, Set to C:\\temp\\Movies");
+                    UpdateStatusText(@"TempPath was invalid, Set to C:\temp\Movies");
                     Properties.Settings.Default.TempPath = @"C:\temp\Movies";
                 }
                 else
@@ -452,11 +446,11 @@ namespace AutoRip2MKV
             }
 
 
-            if (!System.IO.Directory.Exists(Properties.Settings.Default.FinalPath))
+            if (!Directory.Exists(Properties.Settings.Default.FinalPath))
             {
                 if (Properties.Settings.Default.FinalPath == "" && Properties.Settings.Default.TempPath == "")
                 {
-                    UpdateStatusText("FinalPath and TempPath invalid. TempPath Set to C:\\temp\\Movies");
+                    UpdateStatusText(@"FinalPath and TempPath invalid. TempPath Set to C:\temp\Movies");
                     Properties.Settings.Default.FinalPath = "";
                 }
                 else

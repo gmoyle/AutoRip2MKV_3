@@ -60,18 +60,18 @@ namespace AutoRip2MKV
 
                 foreach (String titlestoconvert in File.ReadAllLines(convertlist))
                 {
-                    DirectoryInfo d = new DirectoryInfo(tempPath + "\\" + titlestoconvert);
+                    DirectoryInfo d = new DirectoryInfo(tempPath + @"\" + titlestoconvert);
                     if (d.Exists)
                     {
                         FileInfo[] files = d.GetFiles("*.mkv");
                         foreach (FileInfo f in files)
                         {
-                            string shortFilename = tempPath + "\\" + title + "\\" + Path.GetFileNameWithoutExtension(f.FullName);
+                            string shortFilename = tempPath + @"\" + title + @"\" + Path.GetFileNameWithoutExtension(f.FullName);
 
                             Convert.LaunchConversion(handbrakePath, f.FullName, shortFilename, parameters);
                             File.WriteAllText(convertlist, titlestoconvert.Replace(titlestoconvert, null));
 
-                            string convertedFile = @tempPath + "\\" + title + "\\" + Path.GetFileNameWithoutExtension(f.FullName) + parameters.Remove(4);
+                            string convertedFile = @tempPath + @"\" + title + @"\" + Path.GetFileNameWithoutExtension(f.FullName) + parameters.Remove(4);
                             if(!Properties.Settings.Default.KeepAfterConv)
                             {
                                 if (File.Exists(convertedFile))

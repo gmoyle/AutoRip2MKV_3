@@ -2,13 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
+using System.Diagnostics;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace AutoRip2MKV
@@ -27,13 +22,14 @@ namespace AutoRip2MKV
             InitializeComponent();
             this.WindowState = FormWindowState.Normal;
 
-            AutoRip2MKV.Ripping.CheckHandBrakeInstall();
-            AutoRip2MKV.Ripping.CheckMakeMKVInstall();
+           Ripping.CheckHandBrakeInstall();
+           Ripping.CheckMakeMKVInstall();
 
             //AutoRip2MKV.Convert.AddTitleToConvvertList();
             //AutoRip2MKV.Convert.ConvertWithHandbrake();
 
-            //FailedCounter.Text = "Failed " + Settings.Default.RipRetry.ToString();
+            if (!backgroundWorker.IsBusy)
+                backgroundWorker.RunWorkerAsync();
             StartTheTimer();
         }
 
@@ -51,7 +47,36 @@ namespace AutoRip2MKV
             {
                 this.Size = Settings.Default.WindowSize;
             }
-            //Task.Run(Convert.ConvertWithHandbrake());
+
+        }
+
+        private void Form1_Resize(object sender, EventArgs e)
+        {
+                //if the form is minimized  
+                //hide it from the task bar  
+                //and show the system tray icon (represented by the NotifyIcon control)  
+                if (this.WindowState == FormWindowState.Minimized)
+                {
+                    Hide();
+                    notifyIcon.BalloonTipTitle = "AutoRip2MKV";
+                    if (Settings.Default.CurrentTitle == "")
+                    {
+                        notifyIcon.BalloonTipText = "No Disc";
+                    }
+                    else
+                    {
+                        notifyIcon.BalloonTipText = Settings.Default.CurrentTitle;
+                    }
+                    notifyIcon.Visible = true;
+                    notifyIcon.ShowBalloonTip(1);
+                }
+        }
+
+        private void notifyIcon_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            Show();
+            this.WindowState = FormWindowState.Normal;
+            notifyIcon.Visible = false;
         }
 
         private void FormMain_FormClosing(object sender, EventArgs e)
@@ -120,46 +145,102 @@ namespace AutoRip2MKV
             }
         }
 
-        private void label4_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void textBoxCurrentTitle_TextChanged(object sender, EventArgs e)
         {
+            if(textBoxCurrentTitle.Text != "")
+            {
+                buttonRipMovie.Enabled = true;
+                textBoxCurrentTitle.Text = Settings.Default.CurrentTitle;
+                dvdDriveID.Text = Settings.Default.DVDDrive;
+            }
+            else
+            {
 
+                buttonRipMovie.Enabled = false;
+            }
         }
 
     
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
+            backgroundWorker1.WorkerSupportsCancellation = true;
+            var destination = e.Argument.ToString();
+            string checkFinalPath = @Properties.Settings.Default.FinalPath + @"\" + Properties.Settings.Default.CurrentTitle;
+            bool DontRip = Ripping.CheckForRecentRip(checkFinalPath);
 
+            if (!DontRip)
+            {
+                Ripping.MakeWorkingDirs();
+                string makeMKVPath = Properties.Settings.Default.MakeMKVPath;
+
+                if (System.IO.File.Exists(makeMKVPath))
+                {
+                    string ripPath = @destination + @"\" + CurrentTitle;
+                    Ripping.UpdateStatusText("Ripping to: " + ripPath);
+                    char[] charsToTrim = { '\\' };
+                    string activeDisc = Properties.Settings.Default.DVDDrive.TrimEnd(charsToTrim);
+                    string minTitleLength = Properties.Settings.Default.MinTitleLength;
+                    var driveID = Ripping.DVDDriveToUse;
+
+                    string MakeMKVOptions = " --robot --messages=\"" + ripPath + "\riplog.txt\" --decrypt --noscan --minlength=" + minTitleLength + " --directio=true mkv disc:0 1 " + @ripPath;
+
+                    string app = makeMKVPath;
+
+                    Ripping.LaunchCommandLineApp(@app, @MakeMKVOptions);
+                }
+                else
+                {
+                    // Initializes the variables to pass to the MessageBox.Show method.
+                    string message = "MakeMKV not found";
+                    string caption = "Error Detected in Input";
+                    MessageBoxButtons buttons = MessageBoxButtons.OK;
+                    DialogResult result;
+
+                    // Displays the MessageBox.
+                    result = MessageBox.Show(message, caption, buttons);
+
+                    if (result == System.Windows.Forms.DialogResult.OK)
+                    {
+                    }
+                }
+            }
+            else
+            {
+                if (Properties.Settings.Default.RipRetry >= 2)
+                {
+                    return;
+                }
+            }
+            Ripping.SaveSettings();
+            return;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
+            buttonRipMovie.Enabled = false;
             ExecuteRipProcess();
         }
 
         private void ExecuteRipProcess()
         {
             Ripping.SaveSettings();
-
+            this.WindowState = FormWindowState.Minimized;
+            List<object> arguments = new List<object>();
             if (textBoxCurrentTitle.Text != "")
             {
                 if (Settings.Default.TempPath != "")
                 {
-                    //this.Hide();
-                    AutoRip2MKV.Ripping.Rip2MKV(Settings.Default.TempPath);
+                    arguments.Add(Settings.Default.TempPath);
                 }
                 else
                 {
-                   // this.Hide();
-                    Ripping.Rip2MKV(Settings.Default.FinalPath);
+                    arguments.Add(Settings.Default.FinalPath);
                 }
-                OpenOrCloseCDDrive.Open();
-                this.Close();
             }
+            if (!backgroundWorker1.IsBusy)
+                backgroundWorker1.RunWorkerAsync(arguments[0].ToString());
+            this.WindowState = FormWindowState.Minimized;
+            return;
         }
 
         /// <summary>
@@ -234,55 +315,55 @@ namespace AutoRip2MKV
             switch (comboBox1.Text)
             {
                 case "Republic Wireless":
-                    AutoRip2MKV.Properties.Settings.Default.CurrentProvider = "@text.republicwireless.com";
+                    Properties.Settings.Default.CurrentProvider = "@text.republicwireless.com";
                     break;
                 case "Metro PCS":
-                    AutoRip2MKV.Properties.Settings.Default.CurrentProvider = "@mymetropcs.com";
+                    Properties.Settings.Default.CurrentProvider = "@mymetropcs.com";
                     break;
                 case "Tracfone":
-                    AutoRip2MKV.Properties.Settings.Default.CurrentProvider = "@mmst5.tracfone.com";
+                    Properties.Settings.Default.CurrentProvider = "@mmst5.tracfone.com";
                     break;
                 case "Virgin Mobile":
-                    AutoRip2MKV.Properties.Settings.Default.CurrentProvider = "@vmobl.com";
+                    Properties.Settings.Default.CurrentProvider = "@vmobl.com";
                     break;
                 case "Sprint":
-                    AutoRip2MKV.Properties.Settings.Default.CurrentProvider = "@messaging.sprintpcs.com";
+                    Properties.Settings.Default.CurrentProvider = "@messaging.sprintpcs.com";
                     break;
                 case "Verizon":
-                    AutoRip2MKV.Properties.Settings.Default.CurrentProvider = "@vtext.com";
+                    Properties.Settings.Default.CurrentProvider = "@vtext.com";
                     break;
                 case "T-Mobile":
-                    AutoRip2MKV.Properties.Settings.Default.CurrentProvider = "@tmomail.net";
+                    Properties.Settings.Default.CurrentProvider = "@tmomail.net";
                     break;
                 case "AT&T":
-                    AutoRip2MKV.Properties.Settings.Default.CurrentProvider = "@txt.att.net";
+                    Properties.Settings.Default.CurrentProvider = "@txt.att.net";
                     break;
                 case "Boost Mobile":
-                    AutoRip2MKV.Properties.Settings.Default.CurrentProvider = "@sms.myboostmobile.com";
+                    Properties.Settings.Default.CurrentProvider = "@sms.myboostmobile.com";
                     break;
                 case "Cricket":
-                    AutoRip2MKV.Properties.Settings.Default.CurrentProvider = "@sms.cricketwireless.net";
+                    Properties.Settings.Default.CurrentProvider = "@sms.cricketwireless.net";
                     break;
                 case "Google Fi (Project Fi)":
-                    AutoRip2MKV.Properties.Settings.Default.CurrentProvider = "@msg.fi.google.com";
+                    Properties.Settings.Default.CurrentProvider = "@msg.fi.google.com";
                     break;
                 case "U.S.Cellular":
-                    AutoRip2MKV.Properties.Settings.Default.CurrentProvider = "@email.uscc.net";
+                    Properties.Settings.Default.CurrentProvider = "@email.uscc.net";
                     break;
                 case "Ting":
-                    AutoRip2MKV.Properties.Settings.Default.CurrentProvider = "@message.ting.com";
+                    Properties.Settings.Default.CurrentProvider = "@message.ting.com";
                     break;
                 case "Consumer Cellular":
-                    AutoRip2MKV.Properties.Settings.Default.CurrentProvider = "@mailmymobile.net";
+                    Properties.Settings.Default.CurrentProvider = "@mailmymobile.net";
                     break;
                 case "C-Spire":
-                    AutoRip2MKV.Properties.Settings.Default.CurrentProvider = "@cspire1.com";
+                    Properties.Settings.Default.CurrentProvider = "@cspire1.com";
                     break;
                 case "Page Plus":
-                    AutoRip2MKV.Properties.Settings.Default.CurrentProvider = "@vtext.com";
+                    Properties.Settings.Default.CurrentProvider = "@vtext.com";
                     break;
                 default:
-                    AutoRip2MKV.Properties.Settings.Default.CurrentProvider = "@txt.att.net";
+                    Properties.Settings.Default.CurrentProvider = "@txt.att.net";
                     break;
             }
         }
@@ -319,6 +400,7 @@ namespace AutoRip2MKV
 
         private void button1_Click_1(object sender, EventArgs e)
         {
+            Ripping.SaveSettings();
             SMTPSender.Main(true);
         }
 
@@ -331,5 +413,68 @@ namespace AutoRip2MKV
         {
             Ripping.SaveSettings();
         }
+
+        private void toolStripExit_Click(object sender, EventArgs e)
+        {
+            //This is where the cancel function should go. all others are a lie.
+            Process[] processes = Process.GetProcessesByName("makemkvcon64");
+            foreach (Process p in processes)
+            {
+                IntPtr windowHandle = p.MainWindowHandle;
+                backgroundWorker1.CancelAsync();
+                p.Kill();
+            }
+            OpenOrCloseCDDrive.Open();
+            this.Close();
+        }
+
+        private void button2_Click_1(object sender, EventArgs e)
+        {
+            var DVDDriveToUse = Ripping.GetDriveInfo("drive");
+            var CurrentTitle = Ripping.GetDriveInfo("label");
+
+            Properties.Settings.Default.CurrentTitle = CurrentTitle;
+            Properties.Settings.Default.DVDDrive = DVDDriveToUse;
+            Ripping.SaveSettings();
+        }
+
+
+        public void testfunction (object sender)
+        {
+
+        }
+
+        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
+        }
+
+        private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
+        {
+            
+        }
+
+        private void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            backgroundWorker.WorkerSupportsCancellation = true;
+
+            while(Properties.Settings.Default.CurrentTitle ==  "")
+            {
+                Thread.Sleep(5000);
+                var DVDDriveToUse = Ripping.GetDriveInfo("drive");
+                var CurrentTitle = Ripping.GetDriveInfo("label");
+
+                Settings.Default.CurrentTitle = CurrentTitle;
+                Settings.Default.DVDDrive = DVDDriveToUse;
+
+                textBoxCurrentTitle.Text = Settings.Default.CurrentTitle;
+                dvdDriveID.Text = Settings.Default.DVDDrive;
+                Ripping.SaveSettings();
+
+            }
+                
+
+        }
     }
 }
+    
