@@ -425,6 +425,8 @@ namespace AutoRip2MKV
                 p.Kill();
             }
             OpenOrCloseCDDrive.Open();
+            Thread.Sleep(5000);
+            this.Close();
         }
 
         private void button2_Click_1(object sender, EventArgs e)
@@ -473,6 +475,10 @@ namespace AutoRip2MKV
             }
                 
 
+        }
+
+        private void toolStripMenuAbout_Click(object sender, EventArgs e)
+        {
         }
     }
 }
