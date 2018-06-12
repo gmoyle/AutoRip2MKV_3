@@ -199,6 +199,7 @@
             this.textBoxCurrentTitle.TabIndex = 0;
             this.textBoxCurrentTitle.Text = global::AutoRip2MKV.Properties.Settings.Default.CurrentTitle;
             this.textBoxCurrentTitle.TextChanged += new System.EventHandler(this.textBoxCurrentTitle_TextChanged);
+            this.textBoxCurrentTitle.Validated += new System.EventHandler(this.textBoxCurrentTitle_TextChanged);
             // 
             // checkBox2
             // 
@@ -285,7 +286,6 @@
             // 
             // buttonRipMovie
             // 
-            this.buttonRipMovie.Enabled = false;
             this.buttonRipMovie.Location = new System.Drawing.Point(56, 331);
             this.buttonRipMovie.Name = "buttonRipMovie";
             this.buttonRipMovie.Size = new System.Drawing.Size(75, 23);

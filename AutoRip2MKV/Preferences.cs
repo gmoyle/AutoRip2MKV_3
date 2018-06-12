@@ -230,11 +230,11 @@ namespace AutoRip2MKV
             {
                 if (Settings.Default.TempPath != "")
                 {
-                    arguments.Add(Settings.Default.TempPath);
+                    arguments.Add(Settings.Default.TempPath +  @"\"  + Settings.Default.CurrentTitle);
                 }
                 else
                 {
-                    arguments.Add(Settings.Default.FinalPath);
+                    arguments.Add(Settings.Default.FinalPath + @"\" + Settings.Default.CurrentTitle);
                 }
             }
             if (!backgroundWorker1.IsBusy)
@@ -425,7 +425,6 @@ namespace AutoRip2MKV
                 p.Kill();
             }
             OpenOrCloseCDDrive.Open();
-            this.Close();
         }
 
         private void button2_Click_1(object sender, EventArgs e)
