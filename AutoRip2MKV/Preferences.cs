@@ -182,7 +182,7 @@ namespace AutoRip2MKV
                     string minTitleLength = Properties.Settings.Default.MinTitleLength;
                     var driveID = Ripping.DVDDriveToUse;
 
-                    string MakeMKVOptions = " --robot --messages=" + @ripPath + "riplog.txt --decrypt --noscan --minlength=" + minTitleLength + " --directio=true mkv disc:0 1 " + @ripPath;
+                    string MakeMKVOptions = " --robot --messages=" + @ripPath + "riplog.txt --decrypt --noscan --minlength=" + minTitleLength + " --directio=true mkv disc:0 all " + @ripPath;
 
                     string app = makeMKVPath;
 
