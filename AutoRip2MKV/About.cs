@@ -19,6 +19,11 @@ namespace AutoRip2MKV
 
         private void About_Load(object sender, EventArgs e)
         {
+            versionlabel.Text = "Version " + Application.ProductVersion;
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
 
         }
     }
