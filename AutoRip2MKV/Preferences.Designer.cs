@@ -627,7 +627,7 @@
             this.cancelToolStripMenuItem,
             this.cancelToolStripMenuItem1});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(111, 48);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(153, 70);
             this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // cancelToolStripMenuItem
@@ -635,11 +635,12 @@
             this.cancelToolStripMenuItem.Name = "cancelToolStripMenuItem";
             this.cancelToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.cancelToolStripMenuItem.Text = "About";
+            this.cancelToolStripMenuItem.Click += new System.EventHandler(this.toolStripMenuAbout_Click);
             // 
             // cancelToolStripMenuItem1
             // 
             this.cancelToolStripMenuItem1.Name = "cancelToolStripMenuItem1";
-            this.cancelToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.cancelToolStripMenuItem1.Size = new System.Drawing.Size(110, 22);
             this.cancelToolStripMenuItem1.Text = "Cancel";
             this.cancelToolStripMenuItem1.Click += new System.EventHandler(this.toolStripExit_Click);
             // 
@@ -666,7 +667,7 @@
             // toolStripExit
             // 
             this.toolStripExit.Name = "toolStripExit";
-            this.toolStripExit.Size = new System.Drawing.Size(92, 22);
+            this.toolStripExit.Size = new System.Drawing.Size(152, 22);
             this.toolStripExit.Text = "E&xit";
             this.toolStripExit.Click += new System.EventHandler(this.toolStripExit_Click);
             // 
@@ -681,7 +682,7 @@
             // toolStripMenuItem4
             // 
             this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(107, 22);
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(152, 22);
             this.toolStripMenuItem4.Text = "About";
             this.toolStripMenuItem4.Click += new System.EventHandler(this.toolStripMenuAbout_Click);
             // 

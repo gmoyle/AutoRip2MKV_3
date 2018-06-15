@@ -174,7 +174,6 @@ namespace AutoRip2MKV
             {
                 DontRip  = false;
             }
-            DontRip = false;
             if (!DontRip)
             {
                 Ripping.MakeWorkingDirs();
