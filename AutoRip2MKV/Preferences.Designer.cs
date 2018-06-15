@@ -195,6 +195,7 @@
             this.textBoxCurrentTitle.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::AutoRip2MKV.Properties.Settings.Default, "CurrentTitle", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.textBoxCurrentTitle.Location = new System.Drawing.Point(124, 25);
             this.textBoxCurrentTitle.Name = "textBoxCurrentTitle";
+            this.textBoxCurrentTitle.ReadOnly = true;
             this.textBoxCurrentTitle.Size = new System.Drawing.Size(333, 20);
             this.textBoxCurrentTitle.TabIndex = 0;
             this.textBoxCurrentTitle.Text = global::AutoRip2MKV.Properties.Settings.Default.CurrentTitle;
@@ -234,9 +235,11 @@
             this.dvdDriveID.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::AutoRip2MKV.Properties.Settings.Default, "DVDDrive", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.dvdDriveID.Location = new System.Drawing.Point(127, 215);
             this.dvdDriveID.Name = "dvdDriveID";
+            this.dvdDriveID.ReadOnly = true;
             this.dvdDriveID.Size = new System.Drawing.Size(333, 20);
             this.dvdDriveID.TabIndex = 70;
             this.dvdDriveID.Text = global::AutoRip2MKV.Properties.Settings.Default.DVDDrive;
+            this.dvdDriveID.TextChanged += new System.EventHandler(this.dvdDriveID_TextChanged);
             // 
             // makeMKVPath
             // 
@@ -678,7 +681,7 @@
             // toolStripMenuItem4
             // 
             this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(107, 22);
             this.toolStripMenuItem4.Text = "About";
             this.toolStripMenuItem4.Click += new System.EventHandler(this.toolStripMenuAbout_Click);
             // 

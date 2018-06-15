@@ -74,5 +74,8 @@
     <Setting Name="SMTPPort" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">587</Value>
     </Setting>
+    <Setting Name="LastRipTitle" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

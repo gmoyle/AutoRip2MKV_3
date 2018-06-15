@@ -49,6 +49,17 @@ namespace AutoRip2MKV
 
         }
 
+        public static void refreshdata()
+        {
+            var DVDDriveToUse = GetDriveInfo("drive");
+            var CurrentTitle = GetDriveInfo("label");
+
+            Properties.Settings.Default.CurrentTitle = CurrentTitle;
+            Properties.Settings.Default.DVDDrive = DVDDriveToUse;
+
+            SaveSettings();
+            return;
+        }
         public static void CheckHandBrakeInstall()
         {
             string myExecutablePath = AppDomain.CurrentDomain.BaseDirectory;
@@ -177,9 +188,9 @@ namespace AutoRip2MKV
                 while (!exeProcess.HasExited)
                 {
 
-                    Properties.Settings.Default.TimerGroup = false;
                     // Discard cached information about the process.
                     exeProcess.Refresh();
+                    Thread.Sleep(2000);
                 }
                 
                 if (exeProcess.ExitCode == 0)
@@ -196,9 +207,11 @@ namespace AutoRip2MKV
                     {
                         MoveFilesToFinalDestination();
                     }
-                    OpenOrCloseCDDrive.Open();
+
+                    Properties.Settings.Default.LastRipTitle = Properties.Settings.Default.CurrentTitle;
                     SMTPSender.Main(true);
                     SaveSettings();
+                    OpenOrCloseCDDrive.Open();
                     Application.Exit();
                     return;
                 }
@@ -211,7 +224,7 @@ namespace AutoRip2MKV
                     return;
                 }
             }
-     
+
             return;
         }
 
@@ -478,6 +491,7 @@ namespace AutoRip2MKV
 
         public static void SaveSettings()
         {
+
             Properties.Settings.Default.Save();
             Properties.Settings.Default.Reload();
 
