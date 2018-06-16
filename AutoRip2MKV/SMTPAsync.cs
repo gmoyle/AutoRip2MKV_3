@@ -44,7 +44,7 @@ namespace AutoRip2MKV
             else
             {
                 message.Body = "Rip of " + Properties.Settings.Default.CurrentTitle + 
-                    " failed. /r/n  Verify you have the latest version of MakeMKV installed."; 
+                    " failed. \r\n  Verify you have the latest version of MakeMKV installed."; 
             }
 
             message.To.Add(usertxtto);
