@@ -103,7 +103,7 @@ jobs:
   release:
     name: Create GitHub Release
     runs-on: windows-latest
-     needs: build-artifacts
+    needs: build-artifacts
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4

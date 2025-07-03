@@ -1,0 +1,164 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version (e.g., v3.1.0)'
+        required: true
+        default: 'v3.1.0'
+
+env:
+  DOTNET_VERSION: '6.0.x'
+  SOLUTION_PATH: 'AutoRip2MKV_3.sln'
+
+jobs:
+  build-and-release:
+    name: Build and Create Release
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+        
+    - name: Restore dependencies
+      run: dotnet restore ${{ env.SOLUTION_PATH }}
+      
+    - name: Build solution
+      run: dotnet build ${{ env.SOLUTION_PATH }} --no-restore --configuration Release
+      
+    - name: Run tests
+      run: dotnet test ${{ env.SOLUTION_PATH }} --no-build --configuration Release --verbosity normal
+      
+    - name: Publish application (Self-contained)
+      run: |
+        dotnet publish AutoRip2MKV/AutoRip2MKV.csproj `
+          --configuration Release `
+          --framework net6.0-windows `
+          --output ./publish/AutoRip2MKV-SelfContained `
+          --self-contained true `
+          --runtime win-x64 `
+          -p:PublishSingleFile=true `
+          -p:IncludeNativeLibrariesForSelfExtract=true
+          
+    - name: Publish application (Framework-dependent)
+      run: |
+        dotnet publish AutoRip2MKV/AutoRip2MKV.csproj `
+          --configuration Release `
+          --framework net6.0-windows `
+          --output ./publish/AutoRip2MKV-FrameworkDependent `
+          --self-contained false `
+          --runtime win-x64
+          
+    - name: Copy installer files
+      run: |
+        Copy-Item -Path "Installer/*" -Destination "./publish/Installer" -Recurse -Force
+        
+    - name: Create release packages
+      run: |
+        # Self-contained release
+        Compress-Archive -Path ./publish/AutoRip2MKV-SelfContained/* -DestinationPath ./AutoRip2MKV-v3.1.0-SelfContained.zip
+        
+        # Framework-dependent release
+        Compress-Archive -Path ./publish/AutoRip2MKV-FrameworkDependent/* -DestinationPath ./AutoRip2MKV-v3.1.0-FrameworkDependent.zip
+        
+        # Installer package
+        Compress-Archive -Path ./publish/Installer/* -DestinationPath ./AutoRip2MKV-v3.1.0-Installer.zip
+        
+        # Combined release with all components
+        New-Item -ItemType Directory -Path "./combined-release" -Force
+        Copy-Item -Path "./publish/AutoRip2MKV-SelfContained/*" -Destination "./combined-release/" -Recurse
+        Copy-Item -Path "./publish/Installer/*" -Destination "./combined-release/Installer/" -Recurse -Force
+        Copy-Item -Path "README.md" -Destination "./combined-release/"
+        Compress-Archive -Path ./combined-release/* -DestinationPath ./AutoRip2MKV-v3.1.0-Complete.zip
+        
+    - name: Get release version
+      id: get_version
+      shell: pwsh
+      run: |
+        if ($env:GITHUB_EVENT_NAME -eq "workflow_dispatch") {
+          $version = "${{ github.event.inputs.version }}"
+        } else {
+          $version = $env:GITHUB_REF -replace 'refs/tags/', ''
+        }
+        echo "version=$version" >> $env:GITHUB_OUTPUT
+        echo "version_name=AutoRip2MKV $version" >> $env:GITHUB_OUTPUT
+        
+    - name: Generate release notes
+      id: release_notes
+      shell: pwsh
+      run: |
+        $releaseNotes = @"
+        # AutoRip2MKV v3.1.0 Release
+        
+        ## What's New in v3.1.0
+        - Enhanced CI/CD pipeline with automated builds
+        - Improved installer packaging
+        - Updated to .NET 6 framework
+        - Comprehensive test coverage
+        - Security vulnerability scanning
+        
+        ## Download Options
+        
+        ### Recommended Downloads
+        - **AutoRip2MKV-v3.1.0-Complete.zip** - Complete package with application and installer
+        - **AutoRip2MKV-v3.1.0-SelfContained.zip** - Standalone executable (no .NET required)
+        
+        ### Additional Downloads
+        - **AutoRip2MKV-v3.1.0-FrameworkDependent.zip** - Requires .NET 6 Runtime
+        - **AutoRip2MKV-v3.1.0-Installer.zip** - MSI installer package only
+        
+        ## System Requirements
+        - Windows 10 or later
+        - .NET 6 Runtime (for framework-dependent version)
+        - MakeMKV installed
+        - HandBrake CLI (included)
+        
+        ## Installation
+        1. Download the Complete package or Self-contained version
+        2. Extract to your preferred location
+        3. Run AutoRip2MKV.exe
+        4. Or use the MSI installer from the Installer folder
+        
+        ## Changelog
+        - Version bump to 3.1.0
+        - Enhanced build and release automation
+        - Improved packaging and distribution
+        
+        "@
+        
+        $releaseNotes | Out-File -FilePath release_notes.md -Encoding utf8
+        echo "notes_file=release_notes.md" >> $env:GITHUB_OUTPUT
+        
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v1
+      with:
+        tag_name: ${{ steps.get_version.outputs.version }}
+        name: ${{ steps.get_version.outputs.version_name }}
+        body_path: ${{ steps.release_notes.outputs.notes_file }}
+        draft: false
+        prerelease: false
+        files: |
+          ./AutoRip2MKV-v3.1.0-Complete.zip
+          ./AutoRip2MKV-v3.1.0-SelfContained.zip
+          ./AutoRip2MKV-v3.1.0-FrameworkDependent.zip
+          ./AutoRip2MKV-v3.1.0-Installer.zip
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
+    - name: Upload artifacts for debugging
+      uses: actions/upload-artifact@v4
+      with:
+        name: release-artifacts
+        path: |
+          ./AutoRip2MKV-v3.1.0-*.zip
+          ./publish/**
+        retention-days: 7
