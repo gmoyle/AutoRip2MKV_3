@@ -1,7 +1,4 @@
-using System;
-using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using AutoRip2MKV;
 
 namespace AutoRip2MKV.Tests
 {
