@@ -10,7 +10,7 @@ using System.Threading;
 
 namespace AutoRip2MKV
 {
-    class Ripping
+    public class Ripping
     {
         static Mutex m;
 
@@ -329,9 +329,12 @@ namespace AutoRip2MKV
         }
         public static string GetVolumeLabel(string fileName)
         {
+            if (string.IsNullOrEmpty(fileName))
+                return string.Empty;
+                
             string driveLabel = Path.GetInvalidFileNameChars().Aggregate(fileName, (current, c) => current.Replace(c.ToString(), string.Empty));
-            string drivelabel = driveLabel.Replace(" ","_");
-            return driveLabel;
+            string cleanedLabel = driveLabel.Replace(" ", "");
+            return cleanedLabel;
 
         }
 

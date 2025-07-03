@@ -1,7 +1,6 @@
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.IO;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using AutoRip2MKV;
 
 namespace AutoRip2MKV.Tests
 {
@@ -28,7 +27,7 @@ namespace AutoRip2MKV.Tests
         }
 
         [TestMethod]
-        public void GetVolumeLabel_ReplacesSpacesWithUnderscores()
+        public void GetVolumeLabel_RemovesSpaces()
         {
             // Arrange
             string inputFileName = "Test Movie Name";
@@ -46,20 +45,11 @@ namespace AutoRip2MKV.Tests
             // Arrange
             string inputFileName = null;
             
-            // Act & Assert
-            try
-            {
-                string result = Ripping.GetVolumeLabel(inputFileName);
-                // If we get here, the method handled null gracefully
-            }
-            catch (ArgumentNullException)
-            {
-                // This is acceptable behavior
-            }
-            catch (Exception ex)
-            {
-                Assert.Fail($"Unexpected exception type: {ex.GetType().Name}");
-            }
+            // Act
+            string result = Ripping.GetVolumeLabel(inputFileName);
+            
+            // Assert
+            Assert.AreEqual(string.Empty, result, "Null input should return empty string");
         }
 
         [TestMethod]

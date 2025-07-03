@@ -35,14 +35,14 @@ namespace AutoRip2MKV
                     {
                         AttributeCount = 0,
                         Attributes = IntPtr.Zero,
-                        Comment = null,
-                        TargetAlias = null,
+                        Comment = IntPtr.Zero,
+                        TargetAlias = IntPtr.Zero,
                         Type = CRED_TYPE.GENERIC,
                         Persist = CRED_PERSIST.LOCAL_MACHINE,
                         CredentialBlobSize = (uint)passwordBytes.Length,
-                        TargetName = credentialName,
+                        TargetName = Marshal.StringToHGlobalUni(credentialName),
                         CredentialBlob = Marshal.AllocHGlobal(passwordBytes.Length),
-                        UserName = username
+                        UserName = Marshal.StringToHGlobalUni(username)
                     };
 
                     Marshal.Copy(passwordBytes, 0, credential.CredentialBlob, passwordBytes.Length);
@@ -127,7 +127,7 @@ namespace AutoRip2MKV
                     _logger.Debug("Successfully retrieved credential for key: {0}", key);
                     return new Credential
                     {
-                        Username = cred.UserName,
+                        Username = Marshal.PtrToStringUni(cred.UserName),
                         Password = securePassword
                     };
                 }
