@@ -41,11 +41,15 @@ namespace AutoRip2MKV
                         var credentialManager = ServiceContainer.Instance.Resolve<ICredentialManager>();
                         credentialManager.MigrateFromPlainText();
                     }
+                    catch (InvalidOperationException ex)
+                    {
+                        Logger.Error(ex, "Operation failed during credential migration");
+                    }
                     catch (Exception ex)
                     {
-                        Logger.Error(ex, "Failed to migrate credentials during startup");
+                        Logger.Error(ex, "Unexpected error during credential migration");
                     }
-                    
+
                     var DVDDriveToUse = GetDriveInfo("drive");
                     var CurrentTitle = GetDriveInfo("label");
 
@@ -64,6 +68,16 @@ namespace AutoRip2MKV
                     Logger.Warn("Another instance is already running.");
                 }
                 Logger.LogOperationComplete("Main", TimeSpan.Zero); // Replace with actual timing logic if needed
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                Logger.Fatal(ex, "Unauthorized access");
+                UpdateStatusText("Application needs proper permissions to run");
+            }
+            catch (IOException ex)
+            {
+                Logger.Fatal(ex, "I/O error occurred");
+                UpdateStatusText("An I/O error occurred");
             }
             catch (Exception ex)
             {
