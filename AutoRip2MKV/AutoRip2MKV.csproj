@@ -116,6 +116,9 @@
     <Compile Include="ProcessManager.cs" />
     <Compile Include="IFileOperations.cs" />
     <Compile Include="FileOperations.cs" />
+    <Compile Include="IConfigurationValidator.cs" />
+    <Compile Include="ConfigurationValidator.cs" />
+    <Compile Include="ConfigurationManager.cs" />
     <Compile Include="ServiceContainer.cs" />
     <Compile Include="OpenOrCloseCDDrive.cs" />
     <Compile Include="Preferences.cs">
