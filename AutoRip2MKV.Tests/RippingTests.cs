@@ -1,4 +1,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.IO;
 
 namespace AutoRip2MKV.Tests
 {
@@ -25,7 +27,7 @@ namespace AutoRip2MKV.Tests
         }
 
         [TestMethod]
-        public void GetVolumeLabel_ReplacesSpacesWithUnderscores()
+        public void GetVolumeLabel_RemovesSpaces()
         {
             // Arrange
             string inputFileName = "Test Movie Name";

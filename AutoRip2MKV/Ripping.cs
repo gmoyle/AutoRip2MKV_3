@@ -330,8 +330,8 @@ namespace AutoRip2MKV
         public static string GetVolumeLabel(string fileName)
         {
             string driveLabel = Path.GetInvalidFileNameChars().Aggregate(fileName, (current, c) => current.Replace(c.ToString(), string.Empty));
-            string drivelabel = driveLabel.Replace(" ","_");
-            return driveLabel;
+            string cleanedLabel = driveLabel.Replace(" ", "");
+            return cleanedLabel;
 
         }
 
