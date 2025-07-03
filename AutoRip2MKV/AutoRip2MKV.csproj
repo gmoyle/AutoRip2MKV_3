@@ -98,6 +98,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="NLog" Version="5.2.8" />
+    <PackageReference Include="NLog.Config" Version="4.7.15" />
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="About.cs">
       <SubType>Form</SubType>
     </Compile>

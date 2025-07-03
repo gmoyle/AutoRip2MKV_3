@@ -25,25 +25,38 @@ namespace AutoRip2MKV
         public static void Main(string[] args)
         {
 
-            bool first = false;
-            m = new Mutex(true, Application.ProductName.ToString(), out first);
-            if ((first))
+            try
             {
+                Logger.LogOperationStart("Main");
+                bool first = false;
+                m = new Mutex(true, Application.ProductName.ToString(), out first);
+                if ((first))
+                {
 
-                var DVDDriveToUse = GetDriveInfo("drive");
-                var CurrentTitle = GetDriveInfo("label");
+                    Logger.Info("First instance running.");
+                    var DVDDriveToUse = GetDriveInfo("drive");
+                    var CurrentTitle = GetDriveInfo("label");
 
-                Properties.Settings.Default.CurrentTitle = CurrentTitle;
-                Properties.Settings.Default.DVDDrive = DVDDriveToUse;
-                UpdateStatusText("Clear");
+                    Logger.Info("Using DVD Drive: {0}, Current Title: {1}", DVDDriveToUse, CurrentTitle);
 
-                SaveSettings();
+                    Properties.Settings.Default.CurrentTitle = CurrentTitle;
+                    Properties.Settings.Default.DVDDrive = DVDDriveToUse;
+                    UpdateStatusText("Clear");
 
-                Application.Run(new Preferences());
+                    SaveSettings();
+
+                    Application.Run(new Preferences());
+                }
+                else
+                {
+                    Logger.Warn("Another instance is already running.");
+                }
+                Logger.LogOperationComplete("Main", TimeSpan.Zero); // Replace with actual timing logic if needed
             }
-            else
+            catch (Exception ex)
             {
-                
+                Logger.LogOperationFailure("Main", ex);
+                throw;
             }
 
 
@@ -62,35 +75,48 @@ namespace AutoRip2MKV
         }
         public static void CheckHandBrakeInstall()
         {
-            string myExecutablePath = AppDomain.CurrentDomain.BaseDirectory;
-            string handbrakePath = myExecutablePath + @"\HandbrakeCLI\HandbrakeCLI.exe";
-            string handbrakeZip = myExecutablePath + @"\HandbrakeCLI.zip";
-
-
-
-            if (File.Exists(handbrakePath))
+            try
             {
-                UpdateStatusText("Handbrake Lives");
-            }
-            else
-            {
-                if (File.Exists(handbrakeZip))
+                Logger.LogOperationStart("CheckHandBrakeInstall");
+                string myExecutablePath = AppDomain.CurrentDomain.BaseDirectory;
+                string handbrakePath = myExecutablePath + @"\HandbrakeCLI\HandbrakeCLI.exe";
+                string handbrakeZip = myExecutablePath + @"\HandbrakeCLI.zip";
+
+                Logger.Debug("Checking for HandBrake at: {0}", handbrakePath);
+
+                if (File.Exists(handbrakePath))
                 {
-                    
-                    // Path to directory of files to compress and decompress.
-                    string dirpath = myExecutablePath;
-                    DirectoryInfo di = new DirectoryInfo(dirpath);
-             
-                    foreach (FileInfo fi in di.GetFiles("HandbrakeCLI.zip"))
+                    Logger.Info("HandBrake CLI found at: {0}", handbrakePath);
+                    UpdateStatusText("Handbrake Lives");
+                }
+                else
+                {
+                    Logger.Warn("HandBrake CLI not found, checking for zip file: {0}", handbrakeZip);
+                    if (File.Exists(handbrakeZip))
                     {
-                        Decompress();
+                        Logger.Info("HandBrake zip file found, extracting...");
+                        // Path to directory of files to compress and decompress.
+                        string dirpath = myExecutablePath;
+                        DirectoryInfo di = new DirectoryInfo(dirpath);
+                 
+                        foreach (FileInfo fi in di.GetFiles("HandbrakeCLI.zip"))
+                        {
+                            Decompress();
+                        }
+                    }
+                    else
+                    {
+                        Logger.Error("HandBrake CLI zip file not found at: {0}", handbrakeZip);
                     }
                 }
-                    
+                UpdateStatusText(myExecutablePath);
+                Logger.LogOperationComplete("CheckHandBrakeInstall", TimeSpan.Zero);
             }
-            UpdateStatusText(myExecutablePath);
-            return;
-
+            catch (Exception ex)
+            {
+                Logger.LogOperationFailure("CheckHandBrakeInstall", ex);
+                throw;
+            }
         }
 
         public static void Decompress()
