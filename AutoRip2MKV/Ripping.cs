@@ -413,48 +413,40 @@ namespace AutoRip2MKV
         public static bool CheckVariables()
         {
             try
-            { 
-            Directory.CreateDirectory(Properties.Settings.Default.FinalPath);
-            Directory.CreateDirectory(Properties.Settings.Default.TempPath);
-            }
-            catch
             {
+                Logger.LogOperationStart("CheckVariables");
+                
+                // Use the new configuration manager for proper validation
+                var configManager = ServiceContainer.Instance.Resolve<IConfigurationManager>();
+                var validationResult = configManager.ValidateAndInitialize();
+                
+                // Log validation results
+                if (!validationResult.IsValid)
+                {
+                    Logger.Error("Configuration validation failed:");
+                    foreach (var error in validationResult.Errors)
+                    {
+                        Logger.Error("  - {0}", error);
+                        UpdateStatusText($"Config Error: {error}");
+                    }
+                }
+                
+                // Log warnings
+                foreach (var warning in validationResult.Warnings)
+                {
+                    Logger.Warn("  - {0}", warning);
+                    UpdateStatusText($"Config Warning: {warning}");
+                }
+                
+                Logger.LogOperationComplete("CheckVariables", TimeSpan.Zero);
+                return validationResult.IsValid;
             }
-
-
-            if (!Directory.Exists(Properties.Settings.Default.TempPath))
+            catch (Exception ex)
             {
-                if (Properties.Settings.Default.TempPath == "" || Properties.Settings.Default.TempPath == null)
-                {
-                    UpdateStatusText(@"TempPath was invalid, Set to C:\temp\Movies");
-                    Properties.Settings.Default.TempPath = @"C:\temp\Movies";
-                }
-                else
-                {
-                    Properties.Settings.Default.TempPath = @"C:\temp\Movies";
-                }
+                Logger.LogOperationFailure("CheckVariables", ex);
+                UpdateStatusText($"Configuration check failed: {ex.Message}");
+                return false;
             }
-
-
-            if (!Directory.Exists(Properties.Settings.Default.FinalPath))
-            {
-                if (Properties.Settings.Default.FinalPath == "" && Properties.Settings.Default.TempPath == "")
-                {
-                    UpdateStatusText(@"FinalPath and TempPath invalid. TempPath Set to C:\temp\Movies");
-                    Properties.Settings.Default.FinalPath = "";
-                }
-                else
-                {
-                    Properties.Settings.Default.FinalPath = "";
-                }
-                if (Properties.Settings.Default.FinalPath == "" && Properties.Settings.Default.TempPath == "")
-                {
-                    Properties.Settings.Default.Timeout = false;
-                    return false;
-                }
-            }
-            SaveSettings();
-            return true;
         }
 
         static void CleanupFailedRip() 
