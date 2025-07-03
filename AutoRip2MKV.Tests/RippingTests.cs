@@ -45,20 +45,11 @@ namespace AutoRip2MKV.Tests
             // Arrange
             string inputFileName = null;
             
-            // Act & Assert
-            try
-            {
-                string result = Ripping.GetVolumeLabel(inputFileName);
-                // If we get here, the method handled null gracefully
-            }
-            catch (ArgumentNullException)
-            {
-                // This is acceptable behavior
-            }
-            catch (Exception ex)
-            {
-                Assert.Fail($"Unexpected exception type: {ex.GetType().Name}");
-            }
+            // Act
+            string result = Ripping.GetVolumeLabel(inputFileName);
+            
+            // Assert
+            Assert.AreEqual(string.Empty, result, "Null input should return empty string");
         }
 
         [TestMethod]
