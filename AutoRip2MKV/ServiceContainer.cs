@@ -81,6 +81,7 @@ namespace AutoRip2MKV
         {
             RegisterSingleton<ILogger>(new NLogLogger());
             RegisterFactory<IProcessManager>(() => new ProcessManager(Resolve<ILogger>()));
+            RegisterFactory<IFileOperations>(() => new FileOperations(Resolve<ILogger>()));
         }
 
         /// <summary>
