@@ -282,32 +282,23 @@ namespace AutoRip2MKV
 
         public static string GetDriveInfo(string results)
         {
-            DriveInfo[] allDrives = DriveInfo.GetDrives();
+            var allDrives = DriveInfo.GetDrives();
 
-            foreach (DriveInfo d in allDrives)
+            foreach (var d in allDrives)
             {
-                if (d.IsReady == true)
+                if (d.IsReady)
                 {
-                    if (d.DriveFormat == "UDF" || d.DriveFormat == "CDRom" || d.DriveFormat == "M-Disc" || d.DriveFormat == "M2TS")
+                    switch (d.DriveFormat)
                     {
-                        if (results == "label")
-                        {
-                            string volumeLabel = GetVolumeLabel(d.VolumeLabel).Replace(" ","_");
-
-                            Properties.Settings.Default.CurrentTitle = volumeLabel;
-                            Properties.Settings.Default.DVDDrive = d.Name;
-
-                            return volumeLabel;
-                        }
-                        else if (results == "drive")
-                        {
-                            string drivePath = d.Name;
-                            Properties.Settings.Default.CurrentTitle = d.VolumeLabel.Replace(" ","_");
-                            Properties.Settings.Default.DVDDrive = drivePath;
-
-                            return drivePath;
-                        }
-                        SaveSettings();
+                        case "UDF" or "CDRom" or "M-Disc" or "M2TS":
+                            return results switch
+                            {
+                                "label" => HandleDriveLabel(d),
+                                "drive" => HandleDrivePath(d),
+                                _ => "Default"
+                            };
+                        default:
+                            return null;
                     }
                 }
                 else
@@ -316,6 +307,25 @@ namespace AutoRip2MKV
                 }
             }
             return "Default";
+        }
+        
+        private static string HandleDriveLabel(DriveInfo d)
+        {
+            string volumeLabel = GetVolumeLabel(d.VolumeLabel).Replace(" ", "_");
+
+            Properties.Settings.Default.CurrentTitle = volumeLabel;
+            Properties.Settings.Default.DVDDrive = d.Name;
+
+            return volumeLabel;
+        }
+
+        private static string HandleDrivePath(DriveInfo d)
+        {
+            string drivePath = d.Name;
+            Properties.Settings.Default.CurrentTitle = d.VolumeLabel.Replace(" ", "_");
+            Properties.Settings.Default.DVDDrive = drivePath;
+
+            return drivePath;
         }
         public static string GetVolumeLabel(string fileName)
         {
