@@ -23,6 +23,8 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Need full history for changelog generation
       
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
@@ -97,43 +99,99 @@ jobs:
       id: release_notes
       shell: pwsh
       run: |
-        $releaseNotes = @"
-        # AutoRip2MKV v3.1.0 Release
+        # Get current version
+        if ($env:GITHUB_EVENT_NAME -eq "workflow_dispatch") {
+          $currentVersion = "${{ github.event.inputs.version }}"
+        } else {
+          $currentVersion = $env:GITHUB_REF -replace 'refs/tags/', ''
+        }
         
-        ## What's New in v3.1.0
-        - Enhanced CI/CD pipeline with automated builds
-        - Improved installer packaging
-        - Updated to .NET 6 framework
-        - Comprehensive test coverage
-        - Security vulnerability scanning
+        # Get previous tag for changelog range (if any)
+        $previousTag = git tag --sort=-version:refname | Where-Object { $_ -ne $currentVersion } | Select-Object -First 1
+        
+        # Generate commit log since last tag or from beginning
+        if ($previousTag) {
+          $commitRange = "$previousTag..HEAD"
+          $changelogHeader = "## Changes since $previousTag"
+        } else {
+          $commitRange = "HEAD"
+          $changelogHeader = "## All Changes in this Release"
+        }
+        
+        # Get commit messages and format them
+        $commits = git log $commitRange --pretty=format:"%h - %s" --no-merges
+        $formattedCommits = ""
+        if ($commits) {
+          $commitLines = $commits -split "`n"
+          foreach ($commit in $commitLines) {
+            if ($commit.Trim()) {
+              $formattedCommits += "- $commit`n"
+            }
+          }
+        } else {
+          $formattedCommits = "- Initial release`n"
+        }
+        
+        # Get merge commits for major features
+        $mergeCommits = git log $commitRange --pretty=format:"%h - %s" --merges
+        $formattedMerges = ""
+        if ($mergeCommits) {
+          $mergeLines = $mergeCommits -split "`n"
+          foreach ($merge in $mergeLines) {
+            if ($merge.Trim() -and $merge -match "Merge pull request") {
+              $formattedMerges += "- $merge`n"
+            }
+          }
+        }
+        
+        $releaseNotes = @"
+        # AutoRip2MKV $currentVersion Release
+        
+        ## What's New in $currentVersion
+        - Enhanced CI/CD pipeline with automated builds and releases
+        - Improved installer packaging and distribution
+        - Updated to .NET 6 framework with modern C# features
+        - Comprehensive test coverage and security scanning
+        - Multiple release formats for different deployment scenarios
         
         ## Download Options
         
         ### Recommended Downloads
-        - **AutoRip2MKV-v3.1.0-Complete.zip** - Complete package with application and installer
-        - **AutoRip2MKV-v3.1.0-SelfContained.zip** - Standalone executable (no .NET required)
+        - **AutoRip2MKV-$($currentVersion.TrimStart('v'))-Complete.zip** - Complete package with application and installer
+        - **AutoRip2MKV-$($currentVersion.TrimStart('v'))-SelfContained.zip** - Standalone executable (no .NET required)
         
         ### Additional Downloads
-        - **AutoRip2MKV-v3.1.0-FrameworkDependent.zip** - Requires .NET 6 Runtime
-        - **AutoRip2MKV-v3.1.0-Installer.zip** - MSI installer package only
+        - **AutoRip2MKV-$($currentVersion.TrimStart('v'))-FrameworkDependent.zip** - Requires .NET 6 Runtime
+        - **AutoRip2MKV-$($currentVersion.TrimStart('v'))-Installer.zip** - MSI installer package only
         
         ## System Requirements
-        - Windows 10 or later
+        - Windows 10 or later (x64)
         - .NET 6 Runtime (for framework-dependent version)
-        - MakeMKV installed
-        - HandBrake CLI (included)
+        - MakeMKV installed and configured
+        - HandBrake CLI (included in package)
         
         ## Installation
         1. Download the Complete package or Self-contained version
         2. Extract to your preferred location
         3. Run AutoRip2MKV.exe
-        4. Or use the MSI installer from the Installer folder
+        4. Alternatively, use the MSI installer from the Installer folder for system-wide installation
         
-        ## Changelog
-        - Version bump to 3.1.0
-        - Enhanced build and release automation
-        - Improved packaging and distribution
+        $changelogHeader
         
+        ### Commits
+        $formattedCommits
+        $(if ($formattedMerges) { "### Major Features (Pull Requests)`n$formattedMerges" })
+        
+        ## Technical Details
+        - Built with .NET 6.0 targeting Windows
+        - Automated CI/CD pipeline with GitHub Actions
+        - Comprehensive test suite with code coverage
+        - Security vulnerability scanning
+        - Multiple deployment formats supported
+        
+        ---
+        
+        For technical support, bug reports, or feature requests, please visit the [GitHub repository](https://github.com/gmoyle/AutoRip2MKV_3).
         "@
         
         $releaseNotes | Out-File -FilePath release_notes.md -Encoding utf8
