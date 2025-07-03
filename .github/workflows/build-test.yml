@@ -1,0 +1,49 @@
+name: Build and Test
+
+on:
+  push:
+    branches: [ '**' ]
+  pull_request:
+    branches: [ master, main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build Application
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '6.0.x'
+        
+    - name: Restore dependencies
+      run: dotnet restore AutoRip2MKV_3.sln
+      
+    - name: Build
+      run: dotnet build AutoRip2MKV_3.sln --no-restore --configuration Release
+      
+    - name: Test
+      run: dotnet test AutoRip2MKV_3.sln --no-build --configuration Release --verbosity normal
+      
+    - name: Package application (Release builds only)
+      if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
+      run: |
+        dotnet publish AutoRip2MKV/AutoRip2MKV.csproj `
+          --configuration Release `
+          --framework net6.0-windows `
+          --output ./dist `
+          --self-contained false `
+          --runtime win-x64
+          
+    - name: Upload build artifacts
+      if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
+      uses: actions/upload-artifact@v3
+      with:
+        name: AutoRip2MKV-Build
+        path: ./dist/**
+        retention-days: 7
