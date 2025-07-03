@@ -34,6 +34,18 @@ namespace AutoRip2MKV
                 {
 
                     Logger.Info("First instance running.");
+                    
+                    // Migrate credentials from plain text storage if needed
+                    try
+                    {
+                        var credentialManager = ServiceContainer.Instance.Resolve<ICredentialManager>();
+                        credentialManager.MigrateFromPlainText();
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.Error(ex, "Failed to migrate credentials during startup");
+                    }
+                    
                     var DVDDriveToUse = GetDriveInfo("drive");
                     var CurrentTitle = GetDriveInfo("label");
 

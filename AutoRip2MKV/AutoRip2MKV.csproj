@@ -119,6 +119,8 @@
     <Compile Include="IConfigurationValidator.cs" />
     <Compile Include="ConfigurationValidator.cs" />
     <Compile Include="ConfigurationManager.cs" />
+    <Compile Include="ICredentialManager.cs" />
+    <Compile Include="WindowsCredentialManager.cs" />
     <Compile Include="ServiceContainer.cs" />
     <Compile Include="OpenOrCloseCDDrive.cs" />
     <Compile Include="Preferences.cs">
