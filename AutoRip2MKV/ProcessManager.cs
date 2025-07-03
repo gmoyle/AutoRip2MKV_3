@@ -106,7 +106,7 @@ namespace AutoRip2MKV
                                 if ((now - lastProgressTime).TotalSeconds >= 5)
                                 {
                                     var elapsed = now - startTime;
-                                    progress?.Report($"Process {fileName} running for {elapsed:mm\:ss}");
+                                    progress?.Report($"Process {fileName} running for {elapsed.ToString(@"mm\:ss")}");
                                     lastProgressTime = now;
                                 }
                             }
@@ -123,7 +123,7 @@ namespace AutoRip2MKV
                             }
                             catch (Exception ex)
                             {
-                                _logger.Warn(ex, "Failed to kill process during cancellation: {0}", fileName);
+                                _logger.Warn("Failed to kill process during cancellation: {0}. Error: {1}", fileName, ex.Message);
                             }
                             
                             result.Exception = new OperationCanceledException("Process was cancelled");
@@ -173,7 +173,7 @@ namespace AutoRip2MKV
                     }
                     catch (Exception ex)
                     {
-                        _logger.Warn(ex, "Failed to kill process: {0} (ID: {1})", process.ProcessName, process.Id);
+                        _logger.Warn("Failed to kill process: {0} (ID: {1}). Error: {2}", process.ProcessName, process.Id, ex.Message);
                     }
                     finally
                     {
@@ -213,7 +213,7 @@ namespace AutoRip2MKV
                         }
                         catch (Exception ex)
                         {
-                            _logger.Warn(ex, "Failed to kill process async: {0} (ID: {1})", process.ProcessName, process.Id);
+                            _logger.Warn("Failed to kill process async: {0} (ID: {1}). Error: {2}", process.ProcessName, process.Id, ex.Message);
                         }
                         finally
                         {

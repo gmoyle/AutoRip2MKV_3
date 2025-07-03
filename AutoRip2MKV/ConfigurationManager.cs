@@ -139,13 +139,14 @@ namespace AutoRip2MKV
                 _logger.Info("Set default Handbrake parameters: {0}", Settings.Default.HandBrakeParameters);
             }
 
-            // Enable timeout by default if not set
-            if (!Settings.Default.HasSetTimeout) // Assume this property exists or add it
-            {
-                Settings.Default.Timeout = true;
-                Settings.Default.TimerValue = 30; // 30 seconds default
-                _logger.Info("Set default timeout: enabled, 30 seconds");
-            }
+            // Enable timeout by default if not explicitly configured
+            // Note: HasSetTimeout property not available in current Settings model
+            // if (!Settings.Default.HasSetTimeout)
+            // {
+            //     Settings.Default.Timeout = true;
+            //     Settings.Default.TimerValue = 30; // 30 seconds default
+            //     _logger.Info("Set default timeout: enabled, 30 seconds");
+            // }
 
             SaveConfiguration();
         }
