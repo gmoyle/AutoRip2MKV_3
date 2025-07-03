@@ -111,6 +111,10 @@
     <Compile Include="SMTPAsync.cs" />
     <Compile Include="Convert.cs" />
     <Compile Include="Logger.cs" />
+    <Compile Include="ILogger.cs" />
+    <Compile Include="IProcessManager.cs" />
+    <Compile Include="ProcessManager.cs" />
+    <Compile Include="ServiceContainer.cs" />
     <Compile Include="OpenOrCloseCDDrive.cs" />
     <Compile Include="Preferences.cs">
       <SubType>Form</SubType>
