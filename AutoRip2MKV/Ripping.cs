@@ -10,7 +10,7 @@ using System.Threading;
 
 namespace AutoRip2MKV
 {
-    class Ripping
+    public class Ripping
     {
         static Mutex m;
 
