@@ -85,6 +85,7 @@ namespace AutoRip2MKV
             RegisterFactory<ICredentialManager>(() => new WindowsCredentialManager(Resolve<ILogger>()));
             RegisterFactory<IConfigurationValidator>(() => new ConfigurationValidator(Resolve<ILogger>(), Resolve<IFileOperations>()));
             RegisterFactory<IConfigurationManager>(() => new ConfigurationManager(Resolve<ILogger>(), Resolve<IConfigurationValidator>(), Resolve<IFileOperations>()));
+            RegisterSingleton<IProgressTracker>(new ProgressTracker(Resolve<ILogger>()));
         }
 
         /// <summary>

@@ -122,6 +122,7 @@
     <Compile Include="ICredentialManager.cs" />
     <Compile Include="WindowsCredentialManager.cs" />
     <Compile Include="CustomExceptions.cs" />
+    <Compile Include="IProgressTracker.cs" />
     <Compile Include="ServiceContainer.cs" />
     <Compile Include="OpenOrCloseCDDrive.cs" />
     <Compile Include="Preferences.cs">
