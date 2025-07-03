@@ -50,7 +50,7 @@ namespace AutoRip2MKV
                     if (!CredWrite(ref credential, 0))
                     {
                         var error = Marshal.GetLastWin32Error();
-                        throw new Win32Exception(error, $"Failed to store credential: {error}");
+                        throw new CredentialException($"Failed to store credential for key '{key}': Win32 Error {error}", key, new Win32Exception(error));
                     }
 
                     Marshal.FreeHGlobal(credential.CredentialBlob);
