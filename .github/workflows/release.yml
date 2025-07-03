@@ -74,9 +74,10 @@ jobs:
         Compress-Archive -Path ./publish/Installer/* -DestinationPath ./AutoRip2MKV-v3.1.0-Installer.zip
         
         # Combined release with all components
-        New-Item -ItemType Directory -Path "./combined-release" -Force
+        Remove-Item -Recurse -Force "./combined-release" -ErrorAction SilentlyContinue
+        New-Item -ItemType Directory -Path "./combined-release/Installer" -Force
         Copy-Item -Path "./publish/AutoRip2MKV-SelfContained/*" -Destination "./combined-release/" -Recurse
-        Copy-Item -Path "./publish/Installer/*" -Destination "./combined-release/Installer/" -Recurse -Force
+        Copy-Item -Path "./publish/Installer/*" -Destination "./combined-release/Installer/" -Recurse
         Copy-Item -Path "README.md" -Destination "./combined-release/"
         Compress-Archive -Path ./combined-release/* -DestinationPath ./AutoRip2MKV-v3.1.0-Complete.zip
         
