@@ -110,6 +110,7 @@
     </Compile>
     <Compile Include="SMTPAsync.cs" />
     <Compile Include="Convert.cs" />
+    <Compile Include="Logger.cs" />
     <Compile Include="OpenOrCloseCDDrive.cs" />
     <Compile Include="Preferences.cs">
       <SubType>Form</SubType>
