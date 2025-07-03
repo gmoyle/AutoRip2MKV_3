@@ -166,10 +166,11 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🙏 Acknowledgments
 
-- **MakeMKV** team for the excellent ripping engine
-- **HandBrake** team for the powerful encoding tools
-- Original **AutoIt** version contributors
+- **[MakeMKV](https://www.makemkv.com/)** team for the excellent ripping engine
+- **[HandBrake](https://handbrake.fr/)** team for the powerful encoding tools
+- Original **[AutoIt](https://www.autoitscript.com/)** version contributors
 - The .NET community for excellent tooling and libraries
+- **Warp 2.0 team** for creating an amazing [Agentic Development Environment](https://www.warp.dev) that revolutionized development workflow
 
 ---
 
