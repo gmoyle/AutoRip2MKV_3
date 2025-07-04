@@ -156,7 +156,7 @@ namespace AutoRip2MKV
                     if (File.Exists(path))
                     {
                         _logger.Info("Deleting file: {0}", path);
-                        FileSystem.DeleteFile(path, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
+                        HeadlessMessageBox.SafeDeleteFile(path, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
                         _logger.Info("Successfully deleted file: {0}", path);
                     }
                 }
@@ -177,7 +177,7 @@ namespace AutoRip2MKV
                     if (Directory.Exists(path))
                     {
                         _logger.Info("Deleting directory: {0} (recursive: {1})", path, recursive);
-                        FileSystem.DeleteDirectory(path, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
+                        HeadlessMessageBox.SafeDeleteDirectory(path, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
                         _logger.Info("Successfully deleted directory: {0}", path);
                     }
                 }

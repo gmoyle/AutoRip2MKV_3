@@ -34,6 +34,7 @@ AutoRip2MKV is a complete rewrite of the original AutoIt-based AutoRip2MKV, now 
 - **Error handling** - Comprehensive exception handling with custom error types
 - **Unit testing** - Full test coverage for core functionality
 - **CI/CD pipeline** - Automated builds, tests, and releases
+- **Headless operation** - Auto-closing dialogs for CI/CD environments
 
 ## 🚀 Quick Start
 
@@ -91,6 +92,28 @@ Recommended MakeMKV selection profile for English content:
 The `MinimumTitleLength` setting (default: ~20 minutes) filters out extras and trailers. Adjust for:
 - **TV Episodes**: Lower value (e.g., 15 minutes)
 - **Movies Only**: Higher value (e.g., 45 minutes)
+
+## 🤖 Headless Operation
+
+AutoRip2MKV includes built-in support for headless operation in CI/CD environments:
+
+### Automatic Dialog Handling
+- **Auto-detection** - Automatically detects CI/CD environments (GitHub Actions, Jenkins, etc.)
+- **Smart defaults** - Returns sensible default responses for all dialog boxes
+- **30-second timeout** - Interactive dialogs auto-close after 30 seconds if no user interaction
+- **No hanging** - Prevents CI/CD pipelines from hanging on user input prompts
+
+### Supported Environments
+The headless mode automatically activates when any of these environment variables are detected:
+- `CI`, `CONTINUOUS_INTEGRATION`, `BUILD_NUMBER`
+- `GITHUB_ACTIONS`, `TRAVIS`, `CIRCLECI`, `APPVEYOR`
+- `GITLAB_CI`, `JENKINS_URL`, `TF_BUILD`
+- `AZURE_HTTP_USER_AGENT`
+
+### File Operations
+- **Safe deletion** - File and directory operations work without UI prompts in headless mode
+- **Fallback handling** - Gracefully handles recycle bin operations when not available
+- **Comprehensive logging** - All operations are logged for debugging
 
 ## 🏗️ Development
 

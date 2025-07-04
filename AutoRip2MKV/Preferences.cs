@@ -196,14 +196,14 @@ namespace AutoRip2MKV
                 }
                 else
                 {
-                    // Initializes the variables to pass to the MessageBox.Show method.
+                    // Initializes the variables to pass to the HeadlessMessageBox.Show method.
                     string message = "MakeMKV not found";
                     string caption = "Error Detected in Input";
                     MessageBoxButtons buttons = MessageBoxButtons.OK;
                     DialogResult result;
 
-                    // Displays the MessageBox.
-                    result = MessageBox.Show(message, caption, buttons);
+                    // Displays the MessageBox with auto-close functionality.
+                    result = HeadlessMessageBox.Show(message, caption, buttons);
 
                     if (result == System.Windows.Forms.DialogResult.OK)
                     {

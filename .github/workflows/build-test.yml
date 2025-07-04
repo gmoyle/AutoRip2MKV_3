@@ -29,6 +29,9 @@ jobs:
       
     - name: Test
       run: dotnet test AutoRip2MKV_3.sln --no-build --configuration Release --verbosity normal
+      env:
+        CI: true
+        GITHUB_ACTIONS: true
       
     - name: Package application (Release builds only)
       if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'

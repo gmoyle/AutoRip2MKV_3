@@ -76,7 +76,7 @@ namespace AutoRip2MKV
                             {
                                 if (File.Exists(convertedFile))
                                 {
-                                    FileSystem.DeleteFile(f.FullName, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
+                                    HeadlessMessageBox.SafeDeleteFile(f.FullName, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
                                 }
                             }
                             
@@ -117,15 +117,15 @@ namespace AutoRip2MKV
 
                 if (exeProcess.ExitCode != 0)
                 {
-                    // Initializes the variables to pass to the MessageBox.Show method.
+                    // Initializes the variables to pass to the HeadlessMessageBox.Show method.
 
                     string message = "Conversion";
                     string caption = "Failed Conversion";
                     MessageBoxButtons buttons = MessageBoxButtons.OK;
                     DialogResult result;
 
-                    // Displays the MessageBox
-                    result = MessageBox.Show(message, caption, buttons);
+                    // Displays the MessageBox with auto-close functionality
+                    result = HeadlessMessageBox.Show(message, caption, buttons);
                 }
                 else
                 {

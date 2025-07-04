@@ -353,7 +353,7 @@ namespace AutoRip2MKV
                     if (File.Exists(newname))
                     {
                         UpdateStatusText("Deleted existing Filename:" + newname);
-                        FileSystem.DeleteFile(newname, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
+                        HeadlessMessageBox.SafeDeleteFile(newname, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
                     }
                     File.Move(f.FullName, newname);
                     UpdateStatusText("Rename:" + f.FullName + " to:" + newname);
@@ -393,7 +393,7 @@ namespace AutoRip2MKV
                     if (Directory.Exists(targetdir))
                     {
                         UpdateStatusText("Movie Directory Already Exists, Deleting: " + targetdir);
-                        FileSystem.DeleteFile(target, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
+                        HeadlessMessageBox.SafeDeleteFile(target, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
                         UpdateStatusText("Deleted existing file: " + target);
                         UpdateStatusText("Copying ... " + source + " ==> " + target);
                         File.Copy(source, target);
@@ -403,13 +403,13 @@ namespace AutoRip2MKV
                 }
                 if (File.Exists(target))
                 {
-                    FileSystem.DeleteFile(source, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
+                    HeadlessMessageBox.SafeDeleteFile(source, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
                     UpdateStatusText("Deleted: " + source);
                 }
             }
              
             UpdateStatusText("Deleting.... " + sourcedir);
-            FileSystem.DeleteDirectory(sourcedir, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
+            HeadlessMessageBox.SafeDeleteDirectory(sourcedir, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
             UpdateStatusText("Deleted: " + sourcedir);
 
             return;
@@ -499,7 +499,7 @@ namespace AutoRip2MKV
                     {
                         var foldertodelete = @Properties.Settings.Default.FinalPath + @"\" + CurrentTitle;
                         UpdateStatusText("Delete: " + foldertodelete);
-                        FileSystem.DeleteDirectory(foldertodelete, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
+                        HeadlessMessageBox.SafeDeleteDirectory(foldertodelete, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
                     }
 
                 }
@@ -513,7 +513,7 @@ namespace AutoRip2MKV
                     {
                         var foldertodelete = @Properties.Settings.Default.TempPath + @"\" + CurrentTitle;
                         UpdateStatusText("Delete: " + foldertodelete);
-                        FileSystem.DeleteDirectory(foldertodelete, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
+                        HeadlessMessageBox.SafeDeleteDirectory(foldertodelete, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
                     }
                 }
             }
